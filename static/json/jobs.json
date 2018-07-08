@@ -1,0 +1,17 @@
+[
+    {
+        "companyId": "net-trading",
+        "position": "Luke Beamish",
+        "company": "President"
+    },
+    {
+        "companyId": "aayush-chadha",
+        "position": "Aayush Chadha",
+        "company": "VP & Treasurer"
+    },
+    {
+        "companyId": "ioana-dumitrescu",
+        "position": "Ioana Dumitrescu",
+        "company": "Event Director"
+    }
+]
