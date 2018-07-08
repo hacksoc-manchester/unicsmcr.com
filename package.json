@@ -21,8 +21,5 @@
     "nodemon": "^1.14.12",
     "eslint": "^4.19.1",
     "eslint-config-eslint": "^4.0.0"
-  },
-  "engines": {
-    "node": "9.4.0"
   }
 }
