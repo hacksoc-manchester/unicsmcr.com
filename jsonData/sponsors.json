@@ -1,0 +1,42 @@
+[
+  {
+    "id": "luke-beamish",
+    "name": "Luke Beamish",
+    "description": "President"
+  },
+  {
+    "id": "aayush-chadha",
+    "name": "Aayush Chadha",
+    "description": "VP & Treasurer"
+  },
+  {
+    "id": "ioana-dumitrescu",
+    "name": "Ioana Dumitrescu",
+    "description": "Event Director"
+  },
+  {
+    "id": "kristijonas-zalys",
+    "name": "Kristijonas Zalys",
+    "description": "Dev Officer"
+  },
+  {
+    "id": "surya-prasad",
+    "name": "Surya Prasad",
+    "description": "PR Officer"
+  },
+  {
+    "id": "sara-cabru",
+    "name": "Sara Cabru",
+    "description": "Graphics Officer"
+  },
+  {
+    "id": "catalina-maria-vlad",
+    "name": "Catalina Maria Vlad",
+    "description": "Hackathon Director"
+  },
+  {
+    "id": "igor-wodiany",
+    "name": "Igor Wodiany",
+    "description": "Hackathon Director"
+  }
+]

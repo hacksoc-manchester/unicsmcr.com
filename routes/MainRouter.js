@@ -10,6 +10,8 @@ const router = express.Router();
 router.get('/', mainController.index);
 // Contact Page
 router.get('/contact', mainController.contact);
+// Team Page
+router.get('/team', mainController.team);
 
 
 module.exports = router;
