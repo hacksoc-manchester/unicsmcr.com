@@ -98,6 +98,25 @@ section h2 {
     color: #fff;
 }
 
+#widescreen-header {
+    padding: 160px 0 130px 0;
+    padding: 17vh 0 14vh 0;
+    text-align: center;
+}
+
+#widescreen-header h1 {
+    font-size: 36px;
+    line-height: 30px;
+    margin: 0 20px 20px 20px;
+    color: #fff;
+}
+
+#widescreen-header h2 {
+    font-size: 25px;
+    margin: 10px;
+    color: #fff;
+}
+
 /* Footer */
 
 #footer {
