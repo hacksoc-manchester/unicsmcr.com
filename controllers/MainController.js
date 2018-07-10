@@ -31,4 +31,3 @@ exports.gallery = (req, res) => {
     res.render('pages/gallery', { galleries });
   });
 };
-

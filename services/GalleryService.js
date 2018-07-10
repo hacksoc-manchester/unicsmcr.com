@@ -1,25 +1,18 @@
 "use strict";
 
-const Flickr = require("flickrapi");
-const flickrOptions = {
-  api_key: process.env.FLICKR_API_KEY,
-  secret: process.env.FLICKR_API_SECRET
-};
+const Flickr = require("flickr-sdk");
 
 exports.getGalleries = (callback) => {
-  Flickr.tokenOnly(flickrOptions, function (error, flickr) {
-    if (error) {
-      return callback("Could not connect to Flickr API!", null);
-    }
-    flickr.photosets.getList({
-      api_key: process.env.FLICKR_API_KEY,
-      user_id: process.env.FLICKR_USER_ID,
-      primary_photo_extras: ["url_m"]
-    }, (err, data) => {
-      if (err) {
-        return callback("Could download gallery from Flickr API!", null);
-      }
-      const galleries = data.photosets.photoset.map(g => {
+  const flickr = new Flickr(process.env.FLICKR_API_KEY);
+
+  flickr.photosets.getList({
+    api_key: process.env.FLICKR_API_KEY,
+    user_id: process.env.FLICKR_USER_ID,
+    primary_photo_extras: ["url_m"]
+  }).then(data => {
+    try {
+      const parsedData = JSON.parse(data.text);
+      const galleries = parsedData.photosets.photoset.map(g => {
         return {
           title: g.title._content,
           description: g.description._content,
@@ -29,6 +22,10 @@ exports.getGalleries = (callback) => {
       });
 
       return callback(null, galleries);
-    });
+    } catch (err) {
+      return callback(`Could not parse Flickr API response: ${err}`, null);
+    }
+  }).catch(err => {
+    return callback(`Could download gallery from Flickr API: ${err}`, null);
   });
 };
