@@ -12,6 +12,8 @@ router.get('/', mainController.index);
 router.get('/contact', mainController.contact);
 // Team Page
 router.get('/team', mainController.team);
+// Partners Page
+router.get('/partners', mainController.partners);
 
 
 module.exports = router;

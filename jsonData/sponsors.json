@@ -1,42 +1,15 @@
 [
   {
-    "id": "luke-beamish",
-    "name": "Luke Beamish",
-    "description": "President"
+      "id": "namebox",
+      "url": "https://www.namebox.ro/"
   },
   {
-    "id": "aayush-chadha",
-    "name": "Aayush Chadha",
-    "description": "VP & Treasurer"
+      "id": "stormforce",
+      "url": "http://www.zoostorm.com/product-category-gaming/stormforce-gaming-pcs/"
   },
   {
-    "id": "ioana-dumitrescu",
-    "name": "Ioana Dumitrescu",
-    "description": "Event Director"
-  },
-  {
-    "id": "kristijonas-zalys",
-    "name": "Kristijonas Zalys",
-    "description": "Dev Officer"
-  },
-  {
-    "id": "surya-prasad",
-    "name": "Surya Prasad",
-    "description": "PR Officer"
-  },
-  {
-    "id": "sara-cabru",
-    "name": "Sara Cabru",
-    "description": "Graphics Officer"
-  },
-  {
-    "id": "catalina-maria-vlad",
-    "name": "Catalina Maria Vlad",
-    "description": "Hackathon Director"
-  },
-  {
-    "id": "igor-wodiany",
-    "name": "Igor Wodiany",
-    "description": "Hackathon Director"
+      "id": "love-pizza",
+      "description": "Pizza provided by",
+      "url": "http://lovepizza.com/"
   }
 ]
