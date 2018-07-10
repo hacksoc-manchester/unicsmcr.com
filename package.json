@@ -10,9 +10,11 @@
   "author": "HackSoc Manchester",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^6.0.0",
     "ejs": "^2.5.6",
     "express": "^4.16.2",
     "express-minify": "^1.0.0",
+    "flickrapi": "^0.6.0",
     "http-errors": "^1.6.3",
     "lodash": "^4.17.10",
     "morgan": "^1.9.0"

@@ -14,6 +14,8 @@ router.get('/contact', mainController.contact);
 router.get('/team', mainController.team);
 // Partners Page
 router.get('/partners', mainController.partners);
+// Gallery Page
+router.get('/gallery', mainController.gallery);
 
 
 module.exports = router;

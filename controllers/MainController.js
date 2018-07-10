@@ -2,6 +2,7 @@
 
 const teamService = require('../services/TeamService');
 const partnersService = require('../services/PartnersService');
+const galleryService = require('../services/GalleryService');
 
 exports.index = (req, res) => {
   res.render('pages/index');
@@ -20,5 +21,14 @@ exports.team = (req, res) => {
 
 exports.partners = (req, res) => {
   res.render('pages/partners', { partners: partnersService.getPartners() });
+};
+
+exports.gallery = (req, res) => {
+  galleryService.getGalleries((err, galleries) => {
+    if (err) {
+      return res.send(err);
+    }
+    res.render('pages/gallery', { galleries });
+  });
 };
 
