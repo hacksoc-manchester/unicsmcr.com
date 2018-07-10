@@ -2,6 +2,8 @@
 
 const Flickr = require("flickr-sdk");
 
+const galleryHelpers = require('../helpers/GalleryHelpers');
+
 exports.getGalleries = (callback) => {
   const flickr = new Flickr(process.env.FLICKR_API_KEY);
 
@@ -12,14 +14,7 @@ exports.getGalleries = (callback) => {
   }).then(data => {
     try {
       const parsedData = JSON.parse(data.text);
-      const galleries = parsedData.photosets.photoset.map(g => {
-        return {
-          title: g.title._content,
-          description: g.description._content,
-          link: `https://www.flickr.com/photos/${process.env.FLICKR_USER_ID}/sets/${g.id}`,
-          thumbUrl: g.primary_photo_extras.url_m
-        };
-      });
+      const galleries = galleryHelpers.mapPhotosetsToGalleries(parsedData.photosets);
 
       return callback(null, galleries);
     } catch (err) {
