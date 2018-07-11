@@ -9,7 +9,7 @@ exports.verifyReCAPTCHA = (req, res, next) => {
   request(verificationUrl, function (error, response, body) {
     body = JSON.parse(body);
     if (body.success !== undefined && !body.success) { // Verification unsucessful
-      return res.json({ error: true, message: "Failed captcha verification" });
+      return res.send({ error: true, message: "Failed captcha verification" });
     }
     next(req, res); // Verification sucessfull
   });

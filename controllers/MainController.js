@@ -3,6 +3,7 @@
 const teamService = require('../services/TeamService');
 const partnersService = require('../services/PartnersService');
 const galleryService = require('../services/GalleryService');
+const contactService = require('../services/ContactService');
 
 exports.index = (req, res) => {
   res.render('pages/index');
@@ -10,6 +11,14 @@ exports.index = (req, res) => {
 
 exports.contact = (req, res) => {
   res.render('pages/contact', { recaptchaKey: process.env.G_RECAPTCHA_KEY });
+};
+
+exports.contactSendMessage = (req, res) => {
+  const { name, email, message } = req.body;
+  const sender = `${name || "Name not specified"}: ${email || "Email not specified"}`;
+
+  contactService.sendEmail(sender, message);
+  res.send("ok");
 };
 
 exports.team = (req, res) => {
