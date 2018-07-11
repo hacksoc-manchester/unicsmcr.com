@@ -11,6 +11,6 @@ exports.verifyReCAPTCHA = (req, res, next) => {
     if (body.success !== undefined && !body.success) { // Verification unsucessful
       return res.send({ error: true, message: "Failed captcha verification" });
     }
-    next(req, res); // Verification sucessfull
+    next(req, res); // Verification sucessful
   });
 };

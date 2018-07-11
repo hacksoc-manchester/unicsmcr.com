@@ -3,7 +3,7 @@
 const teamService = require('../services/TeamService');
 const partnersService = require('../services/PartnersService');
 const galleryService = require('../services/GalleryService');
-const contactService = require('../services/ContactService');
+const emailService = require('../services/EmailService');
 
 exports.index = (req, res) => {
   res.render('pages/index');
@@ -17,7 +17,7 @@ exports.contactSendMessage = (req, res) => {
   const { name, email, message } = req.body;
   const sender = `${name || "Name not specified"}: ${email || "Email not specified"}`;
 
-  contactService.sendEmail(sender, message);
+  emailService.sendEmail(sender, message);
   res.send("ok");
 };
 
