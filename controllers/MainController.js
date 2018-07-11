@@ -9,7 +9,7 @@ exports.index = (req, res) => {
 };
 
 exports.contact = (req, res) => {
-  res.render('pages/contact');
+  res.render('pages/contact', { recaptchaKey: process.env.G_RECAPTCHA_KEY });
 };
 
 exports.team = (req, res) => {

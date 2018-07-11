@@ -3,6 +3,7 @@
 const express = require('express');
 
 const mainController = require('../controllers/MainController');
+const authHelpers = require('../helpers/AuthHelpers');
 
 const router = express.Router();
 
@@ -10,6 +11,8 @@ const router = express.Router();
 router.get('/', mainController.index);
 // Contact Page
 router.get('/contact', mainController.contact);
+// Contact Page
+router.post('/contact', authHelpers.verifyReCAPTCHA, mainController.contact);
 // Team Page
 router.get('/team', mainController.team);
 // Partners Page

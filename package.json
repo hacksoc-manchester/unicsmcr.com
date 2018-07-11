@@ -17,7 +17,8 @@
     "flickr-sdk": "^3.7.0",
     "http-errors": "^1.6.3",
     "lodash": "^4.17.10",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "request": "^2.87.0"
   },
   "devDependencies": {
     "eslint": "5.1.0",
