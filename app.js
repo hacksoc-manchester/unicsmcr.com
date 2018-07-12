@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const path = require('path');
 
 const mainRouter = require('./routes/MainRouter');
+const errorController = require('./controllers/ErrorController');
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -32,6 +33,9 @@ if (process.env.ENVIRONMENT == "dev") { // Disable cache in development environm
 }
 
 // TODO: handle 404 errors
+
+app.use(errorController.handle500);
+app.use(errorController.handle404);
 
 app.listen(port);
 console.log("App started on port: " + port);
