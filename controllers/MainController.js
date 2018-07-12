@@ -18,7 +18,7 @@ exports.contactSendMessage = (req, res) => {
   const sender = `${name || "Name not specified"}: ${email || "Email not specified"}`;
 
   emailService.sendEmail(sender, message);
-  res.send("ok");
+  res.render('pages/message', { title: 'Contact', message: "Thank you! Your message has been received." });
 };
 
 exports.team = (req, res) => {
@@ -35,7 +35,8 @@ exports.partners = (req, res) => {
 exports.gallery = (req, res) => {
   galleryService.getGalleries((err, galleries) => {
     if (err) {
-      return res.send(err);
+      console.log(err);
+      return res.render('pages/message', { title: "Gallery", message: "Could not load the gallery. Sorry!" });
     }
     res.render('pages/gallery', { galleries });
   });

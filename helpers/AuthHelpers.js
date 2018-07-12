@@ -9,7 +9,7 @@ exports.verifyReCAPTCHA = (req, res, next) => {
   request(verificationUrl, function (error, response, body) {
     body = JSON.parse(body);
     if (body.success !== undefined && !body.success) { // Verification unsucessful
-      return res.send({ error: true, message: "Failed captcha verification" });
+      return res.render("pages/message", { title: "Contact", message: "Turing test failed. Please try again." });
     }
     next(req, res); // Verification sucessful
   });

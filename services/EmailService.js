@@ -22,9 +22,9 @@ exports.sendEmail = (sender, body) => {
 
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
-      console.log(err);
+      console.log(`Could not send email: ${err}`);
     } else {
-      console.log('Email sent: ' + info.response);
+      console.log(`Email sent: ${info.response}`);
     }
   });
 };

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include ../partials/head.ejs %>
+  <title><%= title %> | HackSoc</title>
+  <link rel="stylesheet" type="text/css" href="/css/message.min.css" />
+</head>
+
+<body>
+  <div id="container">
+    <% include ../partials/navbar.ejs %>
+      <div id="body">
+          <section id="message">
+              <h1><%= title %></h1>
+              <div class="response">
+                <p><%= message %></p>
+              </div>
+            </section>
+      </div>
+      <% include ../partials/footer.ejs %>
+  </div>
+</body>
+
+</html>
