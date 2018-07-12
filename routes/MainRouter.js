@@ -12,7 +12,7 @@ router.get('/', mainController.index);
 // Contact Page
 router.get('/contact', mainController.contact);
 // Contact Page
-router.post('/contact', authHelpers.verifyReCAPTCHA, mainController.contactSendMessage); // TODO: enable reCAPTCHA verification
+router.post('/contact', authHelpers.verifyReCAPTCHA, mainController.contactHackSoc); // TODO: enable reCAPTCHA verification
 // Team Page
 router.get('/team', mainController.team);
 // Partners Page

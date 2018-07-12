@@ -13,7 +13,7 @@ exports.contact = (req, res) => {
   res.render('pages/contact', { recaptchaKey: process.env.G_RECAPTCHA_KEY });
 };
 
-exports.contactSendMessage = (req, res) => {
+exports.contactHackSoc = (req, res) => {
   const { name, email, message } = req.body;
   const sender = `${name || "Name not specified"}: ${email || "Email not specified"}`;
 
