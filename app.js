@@ -32,8 +32,6 @@ if (process.env.ENVIRONMENT == "dev") { // Disable cache in development environm
   });
 }
 
-// TODO: handle 404 errors
-
 app.use(errorController.handle500);
 app.use(errorController.handle404);
 
