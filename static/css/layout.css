@@ -115,6 +115,10 @@ section h2 {
     color: #fff;
 }
 
+#widescreen-header-container {
+    text-decoration: none;
+}
+
 #widescreen-header h2 {
     font-size: 25px;
     margin: 10px;
