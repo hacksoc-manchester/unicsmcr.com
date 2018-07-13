@@ -6,7 +6,6 @@
     font-size: 0;
 }
 
-
 .member {
     display: inline-block;
     width: 200px;
@@ -41,15 +40,14 @@
         text-align: left;
         font-size: 14px;
         overflow: hidden;
-        height: 19px;
-        line-height: 19px;
+        height: 24px;
+        line-height: 24px;
     }
 
 
 .separator {
     padding: 15px 0px;
 }
-
 
 /* Mobile */
 @media screen and (max-width: 736px) {

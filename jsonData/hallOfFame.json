@@ -1,92 +1,96 @@
-[
-  {
-      "id": "sami-alabed",
-      "name": "Sami Alabed",
-      "description": "Eternal Leader"
-  },
-  {
-      "id": "cristian-bodnar",
-      "name": "Cristian Bodnar",
-      "description": "President"
-  },
-  {
-      "id": "robert-ihnatisin",
-      "name": "Robert Ihnatisin",
-      "description": "President"
-  },
-  {
-      "id": "hendrik-molder",
-      "name": "Hendrik Molder",
-      "description": "Event Director"
-  },
-  {
-      "id": "miruna-pislar",
-      "name": "Miruna Pislar",
-      "description": "Event Director"
-  },
-  {
-      "id": "andrei-muntean",
-      "name": "Andrei Muntean",
-      "description": "Dev Officer"
-  },
-  {
-      "id": "raul-ignatus",
-      "name": "Raul Ignatus",
-      "description": "Dev Officer"
-  },
-  {
-      "id": "maria-revenco",
-      "name": "Maria Revenco",
-      "description": "PR Officer"
-  },
-  {
-      "id": "martina-catizone",
-      "name": "Martina Catizone",
-      "description": "Graphics Officer"
-  },
-  {
-      "id": "ana-simon",
-      "name": "Ana Simon",
-      "description": "Hackathon Director"
-  },
-  {
-      "id": "cornelia-secelean",
-      "name": "Cornelia Secelean",
-      "description": "Hackathon Director"
-  },
-  {
-      "id": "hamza-ghani",
-      "name": "Hamza Ghani",
-      "description": "Hackathon Director"
-  },
-  {
-      "id": "mihai-bujanca",
-      "name": "Mihai Bujanca",
-      "description": "Hackathon Director"
-  },
-  {
-      "id": "teo-stoleru",
-      "name": "Teo Stoleru",
-      "description": "Hackathon Director"
-  },
-  {
-      "id": "andrei-belcin",
-      "name": "Andrei Belcin",
-      "description": "Hackathon Organizer"
-  },
-  {
-      "id": "ben-possible",
-      "name": "Ben Possible",
-      "description": "Hackathon Organizer"
-  },
-  {
-      "id": "julio-evega",
-      "name": "Julio EVega",
-      "description": "Hackathon Organizer"
-  },
-  {
-      "id": "preslav-venkov",
-      "name": "Preslav Venkov",
-      "description": "Hackathon Organizer"
-  }
-]
+{
+    "presidents": [
+        {
+            "id": "mihai-bujanca",
+            "name": "Mihai Bujanca",
+            "description": "Co-Founder"
+        },
+        {
+            "id": "sami-alabed",
+            "name": "Sami Alabed",
+            "description": "Co-Founder"
+        },
+        {
+            "id": "teo-stoleru",
+            "name": "Teo Stoleru",
+            "description": "President 2017-2018"
+        },
+        {
+            "id": "robert-ihnatisin",
+            "name": "Robert Ihnatisin",
+            "description": "President 2017-2018"
+        },
+        {
+            "id": "cristian-bodnar",
+            "name": "Cristian Bodnar",
+            "description": "President 2016-2017"
+        }
+    ],
+    "other": [
+        {
+            "id": "hendrik-molder",
+            "name": "Hendrik Molder",
+            "description": "Event Director"
+        },
+        {
+            "id": "miruna-pislar",
+            "name": "Miruna Pislar",
+            "description": "Event Director"
+        },
+        {
+            "id": "andrei-muntean",
+            "name": "Andrei Muntean",
+            "description": "Dev Officer"
+        },
+        {
+            "id": "raul-ignatus",
+            "name": "Raul Ignatus",
+            "description": "Dev Officer"
+        },
+        {
+            "id": "maria-revenco",
+            "name": "Maria Revenco",
+            "description": "PR Officer"
+        },
+        {
+            "id": "martina-catizone",
+            "name": "Martina Catizone",
+            "description": "Graphics Officer"
+        },
+        {
+            "id": "ana-simon",
+            "name": "Ana Simon",
+            "description": "Hackathon Director"
+        },
+        {
+            "id": "cornelia-secelean",
+            "name": "Cornelia Secelean",
+            "description": "Hackathon Director"
+        },
+        {
+            "id": "hamza-ghani",
+            "name": "Hamza Ghani",
+            "description": "Hackathon Director"
+        },
+        {
+            "id": "andrei-belcin",
+            "name": "Andrei Belcin",
+            "description": "Hackathon Organizer"
+        },
+        {
+            "id": "ben-possible",
+            "name": "Ben Possible",
+            "description": "Hackathon Organizer"
+        },
+        {
+            "id": "julio-evega",
+            "name": "Julio EVega",
+            "description": "Hackathon Organizer"
+        },
+        {
+            "id": "preslav-venkov",
+            "name": "Preslav Venkov",
+            "description": "Hackathon Organizer"
+        }
+    ]
+}
