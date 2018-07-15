@@ -5,12 +5,16 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 
-const mainRouter = require('./routes/MainRouter');
 const errorController = require('./controllers/ErrorController');
+const mainRouter = require('./routes/MainRouter');
+const dbConnection = require('./db/Sequelize');
 
 const port = process.env.PORT || 5000;
 const app = express();
+const database = dbConnection.init();
 
+// Syncing database with current database schema
+database.sequelize.sync();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,7 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '/static')));
 app.use(morgan(process.env.ENVIRONMENT));
 
-app.use('/', mainRouter);
+app.use('/', mainRouter(database));
 
 if (process.env.ENVIRONMENT == "dev") { // Disable cache in development environment
   app.use(function (req, res, next) {
