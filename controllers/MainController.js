@@ -83,5 +83,11 @@ module.exports = (database) => {
     });
   };
 
+  this.listSubscriptions = async (req, res) => {
+    const subscribers = await subscriptionsService.subscribersList(database);
+
+    res.send(subscribers);
+  };
+
   return this;
 };

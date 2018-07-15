@@ -33,3 +33,9 @@ exports.removeSubscriber = (database, subscriptionId) => {
     }
   });
 };
+
+exports.getSubscribers = (database) => {
+  return database.Subscriber.findAll({
+    attributes: ['firstName', 'lastName', 'email', 'subscriptionId']
+  }).then(data => data);
+};

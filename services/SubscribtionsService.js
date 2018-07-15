@@ -17,3 +17,7 @@ exports.removeSubscriber = (database, subscriptionId) => {
     return { err: false, message: "Subscription removed successfully!" };
   });
 };
+
+exports.subscribersList = (database) => {
+  return dbHelpers.getSubscribers(database).then(list => list.map(s => s.dataValues));
+};

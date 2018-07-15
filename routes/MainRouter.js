@@ -27,6 +27,8 @@ const MainRouter = (database) => {
   router.get('/subscription/create', mainController.createSubscription);
   // Removing a subscription
   router.get('/subscription/remove', mainController.removeSubscription);
+  // All subscriptions
+  router.get('/subscription/list', mainController.listSubscriptions);
 
   return router;
 };
