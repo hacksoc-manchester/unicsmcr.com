@@ -2,7 +2,7 @@
 
 const nodemailer = require('nodemailer');
 
-exports.sendEmail = (sender, body) => {
+exports.contactHackSoc = (sender, body) => {
   const transporter = nodemailer.createTransport({
     host: 'server102.web-hosting.com',
     port: 465,
@@ -27,4 +27,8 @@ exports.sendEmail = (sender, body) => {
       console.log(`Email sent: ${info.response}`);
     }
   });
+};
+
+exports.sendGreetingEmail = ({ recipient: { firstName, lastName, email } }) => {
+  console.log({ firstName, lastName, email });
 };

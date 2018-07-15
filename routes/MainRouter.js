@@ -2,25 +2,31 @@
 
 const express = require('express');
 
-const mainController = require('../controllers/MainController');
 const authHelpers = require('../helpers/AuthHelpers');
-
 
 const MainRouter = (database) => {
   const router = express.Router();
+
+  const mainController = require('../controllers/MainController')(database);
   
   // Home Page
   router.get('/', mainController.index);
   // Contact Page
   router.get('/contact', mainController.contact);
-  // Contact Page
+  // Contacting HackSoc
   router.post('/contact', authHelpers.verifyReCAPTCHA, mainController.contactHackSoc); // TODO: enable reCAPTCHA verification
+  // Message Page
+  router.get('/message', mainController.message);
   // Team Page
   router.get('/team', mainController.team);
   // Partners Page
   router.get('/partners', mainController.partners);
   // Gallery Page
   router.get('/gallery', mainController.gallery);
+  // Creating a new subscription
+  router.get('/subscription/create', mainController.createSubscription);
+  // Removing a subscription
+  router.get('/subscription/remove', mainController.removeSubscription);
 
   return router;
 };

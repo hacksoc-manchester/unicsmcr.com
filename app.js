@@ -14,7 +14,13 @@ const app = express();
 const database = dbConnection.init();
 
 // Syncing database with current database schema
-database.sequelize.sync();
+database.sequelize.sync().then(() => {
+  database.Subscriber.destroy({
+    where: {
+      email: 'kzalys@gmail.com'
+    }
+  });
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
