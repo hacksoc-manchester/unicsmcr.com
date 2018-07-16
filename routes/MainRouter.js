@@ -8,13 +8,13 @@ const MainRouter = (database) => {
   const router = express.Router();
 
   const mainController = require('../controllers/MainController')(database);
-  
+
   // Home Page
   router.get('/', mainController.index);
   // Contact Page
   router.get('/contact', mainController.contact);
   // Contacting HackSoc
-  router.post('/contact', authHelpers.verifyReCAPTCHA, mainController.contactHackSoc); // TODO: enable reCAPTCHA verification
+  router.post('/contact', authHelpers.verifyReCAPTCHA, mainController.contactHackSoc);
   // Message Page
   router.get('/message', mainController.message);
   // Team Page
@@ -28,7 +28,7 @@ const MainRouter = (database) => {
   // Removing a subscription
   router.get('/subscription/remove', mainController.removeSubscription);
   // All subscriptions
-  router.get('/subscription/list', mainController.listSubscriptions);
+  //router.get('/subscription/list', mainController.listSubscriptions);
 
   return router;
 };

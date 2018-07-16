@@ -21,3 +21,24 @@ exports.removeSubscriber = (database, subscriptionId) => {
 exports.subscribersList = (database) => {
   return dbHelpers.getSubscribers(database).then(list => list.map(s => s.dataValues));
 };
+
+exports.confirmSubscription = async (database, { firstName, lastName, email, subscriptionId }) => {
+  const confirmation = await dbHelpers.confirmSubscriptionRequest(database, {
+    subscriptionId,
+    email
+  });
+
+  if (confirmation.err) {
+    console.log(confirmation.err);
+    return { err: true, message: "Could not confirm subscription request!" };
+  }
+  const newSubscriber = await dbHelpers.createSubscriber(database, {
+    firstName,
+    lastName,
+    email,
+    subscriptionId
+  });
+
+  //TODO: send greeting email
+  return { err: false, message: "Subscription confirmed successfully!" };
+};

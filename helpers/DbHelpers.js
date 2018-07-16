@@ -1,6 +1,11 @@
 "use strict";
 
-exports.createSubscriber = (database, { firstName, lastName, email }) => {
+const miscHelpers = require('../helpers/MiscHelpers');
+
+exports.createSubscriber = (database, { firstName, lastName, email, subscriptionId }) => {
+  if (!subscriptionId) {
+    subscriptionId = miscHelpers.MakeRandomString(process.env.SUBSCRIPTION_ID_LENGTH);
+  }
   return database.Subscriber.findOne({
     where: {
       email
@@ -14,7 +19,7 @@ exports.createSubscriber = (database, { firstName, lastName, email }) => {
       firstName,
       lastName,
       email,
-      subscriptionId: Math.random().toString(36).slice(2, 15) + Math.random().toString(36).slice(2, 15)
+      subscriptionId
     }).then(newSubscriber => {
       if (!newSubscriber) {
         console.log(`Could not create subscriber ${email}: unkown error`);
@@ -38,4 +43,19 @@ exports.getSubscribers = (database) => {
   return database.Subscriber.findAll({
     attributes: ['firstName', 'lastName', 'email', 'subscriptionId']
   }).then(data => data);
+};
+
+exports.confirmSubscriptionRequest = (database, { subscriptionId, subscriberEmail }) => {
+  return database.SubscriptionRequest.findOne({
+    where: {
+      subscriptionId,
+      subscriberEmail
+    }
+  }).then(request => {
+    if (!request) {
+      return { err: true, message: "SubscriptionRequest not found!" };
+    }
+    request.destroy();
+    return { err: false, message: "SubscriptionRequest confirmed successfully!" };
+  });
 };

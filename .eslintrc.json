@@ -30,6 +30,7 @@
         "object-shorthand": "off",
         "prefer-template": "off",
         "camelcase": "off",
-        "no-underscore-dangle": "off"
+        "no-underscore-dangle": "off",
+        "no-new": "off"
     }
 }
