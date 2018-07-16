@@ -41,6 +41,7 @@ exports.sendGDPREmail = async ({ recipient: { firstName, lastName, email }}) => 
     senderUsername: process.env.NOREPLY_EMAIL,
     senderPassoword: process.env.NOREPLY_EMAIL_PASSWORD
   }, email, "Stick with us!", emailGen.email);
+  return { err: false, message: "Email send request issued successfully!" };
 };
 
 const sendEmail = ({ senderHost, senderPort, senderUsername, senderPassoword }, recipient, subject, content) => {
