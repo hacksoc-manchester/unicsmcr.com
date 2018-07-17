@@ -1,5 +1,7 @@
 "use strict";
 
+const fs = require('fs');
+
 const dbHelpers = require('../helpers/DbHelpers');
 
 exports.createSubscriber = (database, subscriber) => {
@@ -23,7 +25,13 @@ exports.subscribersList = (database) => {
 };
 
 exports.confirmSubscription = async (database, { firstName, lastName, email, subscriptionId }) => {
-  // TODO: write out confirmation to external file
+  fs.appendFile('./logs/GDPRConfirmations.csv', `\n${firstName},${lastName},${email}`, err => {
+    if (err) {
+      console.log("ERROR: Could not write confirmation to backup file!");
+      console.log(err);
+    }
+  });
+
   const confirmation = await dbHelpers.confirmSubscriptionRequest(database, {
     subscriptionId,
     subscriberEmail: email
