@@ -84,11 +84,24 @@ module.exports = (database) => {
   };
 
   this.confirmSubscription = async (req, res) => {
-    const { firstName, lastName, subscriptionId } = req.query;
+    const { firstName, lastName, email, subscriptionId } = req.query;
 
-    if (!firstName || !lastName || !subscriptionId) {
+    if (!firstName || !lastName || !email || !subscriptionId) {
       return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=Invalid parameters provided. Please try again`);
     }
+
+    const confirmation = await subscriptionsService.confirmSubscription(database, {
+      firstName,
+      lastName,
+      email,
+      subscriptionId
+    });
+
+    if (confirmation.err) {
+      console.log(confirmation.message);
+      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=Invalid parameters provided. Please try again`);
+    }
+    return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Thank you for subscribing to our mailing list!`);
   };
 
   this.listSubscriptions = async (req, res) => {

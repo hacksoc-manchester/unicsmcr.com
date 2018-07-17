@@ -25,6 +25,8 @@ const MainRouter = (database) => {
   router.get('/gallery', mainController.gallery);
   // Creating a new subscription
   router.get('/subscription/create', mainController.createSubscription);
+  // Confirming a subscription
+  router.get('/subscription/confirm', mainController.confirmSubscription);
   // Removing a subscription
   router.get('/subscription/remove', mainController.removeSubscription);
   // All subscriptions

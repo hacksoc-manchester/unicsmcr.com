@@ -7,7 +7,7 @@ exports.createSubscriber = (database, subscriber) => {
     if (data.err) {
       return { err: true, message: data.message };
     }
-    // TODO: send confirmation email
+    // TODO: send greeting email
     return { err: false, message: "Subscription created successfully!" };
   });
 };
@@ -23,9 +23,10 @@ exports.subscribersList = (database) => {
 };
 
 exports.confirmSubscription = async (database, { firstName, lastName, email, subscriptionId }) => {
+  // TODO: write out confirmation to external file
   const confirmation = await dbHelpers.confirmSubscriptionRequest(database, {
     subscriptionId,
-    email
+    subscriberEmail: email
   });
 
   if (confirmation.err) {

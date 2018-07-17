@@ -45,6 +45,13 @@ exports.getSubscribers = (database) => {
   }).then(data => data);
 };
 
+exports.createSubscriptionRequest = (database, { subscriberEmail, subscriptionId }) => {
+  return database.SubscriptionRequest.create({
+    subscriberEmail,
+    subscriptionId
+  });
+};
+
 exports.confirmSubscriptionRequest = (database, { subscriptionId, subscriberEmail }) => {
   return database.SubscriptionRequest.findOne({
     where: {
