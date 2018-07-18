@@ -13,7 +13,7 @@ exports.verifyReCAPTCHA = (req, res, next) => {
 
   request(verificationUrl, (error, verResponse, body) => { // Send verification request
     body = JSON.parse(body);
-    if (error || body.success !== undefined && !body.success) { // Verification unsucessful
+    if (error || body.success !== null && !body.success) { // Verification unsucessful
       if (error) {
         response.error(`Could not verify reCAPTCHA: ${error}`);
       }
