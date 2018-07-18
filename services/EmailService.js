@@ -34,7 +34,7 @@ exports.sendGreetingEmail = async ({ recipient: { firstName, lastName, email, su
     senderPort: process.env.EMAIL_PORT,
     senderUsername: process.env.NOREPLY_EMAIL,
     senderPassword: process.env.NOREPLY_EMAIL_PASSWORD
-  }, email, "Welcome!", emailGen.email);
+  }, email, "Welcome!", emailGen.data);
   return { err: false, message: "Email send request issued successfully!" };
 };
 
@@ -62,11 +62,12 @@ exports.sendGDPREmail = async (database, { recipient: { firstName, lastName, ema
     senderPort: process.env.EMAIL_PORT,
     senderUsername: process.env.NOREPLY_EMAIL,
     senderPassword: process.env.NOREPLY_EMAIL_PASSWORD
-  }, email, "Stick with us!", emailGen.email);
+  }, email, "Stick with us!", emailGen.data);
   return { err: false, message: "Email send request issued successfully!" };
 };
 
 const sendEmail = ({ senderHost, senderPort, senderUsername, senderPassword }, recipient, subject, content) => {
+  // TODO: change the name of the sender
   const transporter = nodemailer.createTransport({
     host: senderHost,
     port: senderPort,

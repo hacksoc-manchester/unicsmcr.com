@@ -2,7 +2,7 @@
 "use strict";
 
 const miscHelpers = require('../helpers/MiscHelpers');
-const response = require('../helpers/ReponseHelper');
+const response = require('../helpers/ReponseHelpers');
 
 // Creates a new subscriber
 exports.createSubscriber = async (database, { firstName, lastName, email, subscriptionId }) => {

@@ -1,23 +1,38 @@
+// Helper functions for the Email service
 "use strict";
 
 const fs = require('fs');
 
-exports.generateEmail = (template, placeholderReplacements) => {
-  return new Promise(resolve => {
-    fs.readFile(template, 'utf8', (err, html) => {
-      if (err) {
-        return resolve({ err: true, message: "Could not read template file!" });
-      }
-      let email = html;
+const response = require('./ReponseHelpers');
 
-      for (const key in placeholderReplacements) {
-        if (placeholderReplacements.hasOwnProperty(key)) {
-          const replacement = placeholderReplacements[key];
-
-          email = email.replace(new RegExp(key, "g"), replacement);
+// Generates email string from given template with give placeholder replacements
+// placeholderReplacements lookup table structure: key: {placeholderName}, value: {placeholderValue}
+exports.generateEmail = async (template, placeholderReplacements) => {
+  try {
+    const emailGen = await new Promise(resolve => { // REVIEW: code cleanup needed
+      fs.readFile(template, 'utf8', (err, html) => { // Read the temaplate
+        if (err) {
+          return resolve(response.error(err));
         }
-      }
-      return resolve({ err: false, message: "Generated email succesfully!", email });
+
+        for (const placeholderName in placeholderReplacements) { // Replace placeholders
+          if (placeholderReplacements.hasOwnProperty(placeholderName)) {
+            const replacement = placeholderReplacements[placeholderName];
+
+            html = html.replace(new RegExp(placeholderName, "g"), replacement);
+          }
+        }
+        // Email generated
+        return resolve(response.success("Generated email succesfully!", html));
+      });
     });
-  });
+
+    if (emailGen.err) {
+      throw new Error(emailGen.message);
+    }
+    // Email generated, returning response
+    return response.success(emailGen.message, emailGen.data);
+  } catch (err) {
+    return response.error(`Could not generate email: ${err}`);
+  }
 };

@@ -14,7 +14,7 @@ exports.getGalleries = (callback) => {
   }).then(data => {
     try {
       const parsedData = JSON.parse(data.text);
-      const galleries = galleryHelpers.mapPhotosetsToGalleries(parsedData.photosets);
+      const galleries = galleryHelpers.mapPhotosetsToGalleries(parsedData.photosets).data;
 
       return callback(null, galleries);
     } catch (err) {
