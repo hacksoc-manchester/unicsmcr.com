@@ -71,12 +71,12 @@ module.exports = (database) => {
   };
 
   this.removeSubscription = (req, res) => {
-    const { subscriptionId } = req.query;
+    const { email, subscriptionId } = req.query;
 
-    if (!subscriptionId) { // TODO: make the removal also require the email of the subscriber
+    if (!subscriptionId || !email) {
       return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=Invalid parameters provided. Please try again`);
     }
-    subscriptionsService.removeSubscriber(database, subscriptionId).then(() => {
+    subscriptionsService.removeSubscriber(database, { email, subscriptionId }).then(() => {
       return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Your subscription has been removed successfully!`);
     }).catch(() => {
       errorController.handle500(req, res);

@@ -5,14 +5,23 @@ const fs = require('fs');
 const emailService = require('./EmailService');
 const dbHelpers = require('../helpers/DbHelpers');
 
-exports.createSubscriber = (database, subscriber) => { // REVIEW: refactor to use await instead of then
+exports.createSubscriber = async (database, subscriber, sendGreetingEmail = true) => { // REVIEW: refactor to use await instead of then
   return dbHelpers.createSubscriber(database, subscriber).then(data => {
     if (data.err) {
       return { err: true, message: data.message };
     }
     // TODO: send greeting email
+    if (sendGreetingEmail) {
+      
+    }
     return { err: false, message: "Subscription created successfully!" };
   });
+  try {
+    const response = dbHelpers.createSubscriber(database, subscriber);
+
+  } catch (err) {
+    
+  }
 };
 
 exports.removeSubscriber = (database, subscriptionId) => { // REVIEW: refactor to use await instead of then
