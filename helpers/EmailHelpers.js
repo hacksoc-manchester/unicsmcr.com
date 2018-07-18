@@ -6,7 +6,7 @@ exports.generateEmail = (template, placeholderReplacements) => {
   return new Promise(resolve => {
     fs.readFile(template, 'utf8', (err, html) => {
       if (err) {
-        return resolve({ err: true, message: "Could not read teamplate file!" });
+        return resolve({ err: true, message: "Could not read template file!" });
       }
       let email = html;
 

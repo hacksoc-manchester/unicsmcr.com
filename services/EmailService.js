@@ -15,8 +15,27 @@ exports.contactHackSoc = (sender, body) => {
   }, process.env.CONTACT_EMAIL, sender, body);
 };
 
-exports.sendGreetingEmail = ({ recipient: { firstName, lastName, email } }) => {
-  console.log({ firstName, lastName, email });
+exports.sendGreetingEmail = async ({ recipient: { firstName, lastName, email, subscriptionId } }) => {
+  const unsubscribeLink = `http://www.hacksoc.com/subscription/remove?email=${email}&subscriptionId=${subscriptionId}`;
+
+  const emailGen = await emailHelpers.generateEmail("./emailer/templates/GreetingEmail.html", {
+    "#firstName": firstName,
+    "#lastName": lastName,
+    "#email": email,
+    "#unsubscribeLink": unsubscribeLink
+  });
+
+  if (emailGen.err) {
+    console.log(emailGen.message);
+    return { err: true, message: "Could not generate email!" };
+  }
+  await sendEmail({
+    senderHost: process.env.EMAIL_HOST,
+    senderPort: process.env.EMAIL_PORT,
+    senderUsername: process.env.NOREPLY_EMAIL,
+    senderPassword: process.env.NOREPLY_EMAIL_PASSWORD
+  }, email, "Welcome!", emailGen.email);
+  return { err: false, message: "Email send request issued successfully!" };
 };
 
 exports.sendGDPREmail = async (database, { recipient: { firstName, lastName, email } }, templateFile) => {

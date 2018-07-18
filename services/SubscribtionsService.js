@@ -2,9 +2,10 @@
 
 const fs = require('fs');
 
+const emailService = require('./EmailService');
 const dbHelpers = require('../helpers/DbHelpers');
 
-exports.createSubscriber = (database, subscriber) => {
+exports.createSubscriber = (database, subscriber) => { // REVIEW: refactor to use await instead of then
   return dbHelpers.createSubscriber(database, subscriber).then(data => {
     if (data.err) {
       return { err: true, message: data.message };
@@ -14,13 +15,13 @@ exports.createSubscriber = (database, subscriber) => {
   });
 };
 
-exports.removeSubscriber = (database, subscriptionId) => {
+exports.removeSubscriber = (database, subscriptionId) => { // REVIEW: refactor to use await instead of then
   return dbHelpers.removeSubscriber(database, subscriptionId).then(() => {
     return { err: false, message: "Subscription removed successfully!" };
   });
 };
 
-exports.subscribersList = (database) => {
+exports.subscribersList = (database) => { // REVIEW: refactor to use await instead of then
   return dbHelpers.getSubscribers(database).then(list => list.map(s => s.dataValues));
 };
 
@@ -41,13 +42,24 @@ exports.confirmSubscription = async (database, { firstName, lastName, email, sub
     console.log(confirmation.err);
     return { err: true, message: "Could not confirm subscription request!" };
   }
-  const newSubscriber = await dbHelpers.createSubscriber(database, {
+  const response = await dbHelpers.createSubscriber(database, { // REVIEW: refactor to use the createSubscriber method in SubscriptionsService
     firstName,
     lastName,
     email,
     subscriptionId
   });
 
-  //TODO: send greeting email
+  if (response.err) {
+    console.log(response.message);
+    return { err: true, message: "Could not create new subscription!" };
+  }
+  emailService.sendGreetingEmail({
+    recipient: {
+      firstName,
+      lastName,
+      email,
+      subscriptionId
+    }
+  });
   return { err: false, message: "Subscription confirmed successfully!" };
 };
