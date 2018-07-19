@@ -14,6 +14,6 @@ exports.success = (message, data, messageToLog) => {
 // Returns an error object and logs the message
 exports.error = (message, data) => {
   console.error(message);
-  loggingService.logMessage(loggingService.error, message);
+  loggingService.logMessage(loggingService.error, `${new Date().toUTCString()}\n${message}`);
   return { err: true, message, data };
 };

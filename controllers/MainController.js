@@ -6,7 +6,7 @@ const teamService = require('../services/TeamService');
 const partnersService = require('../services/PartnersService');
 const galleryService = require('../services/GalleryService');
 const emailService = require('../services/EmailService');
-const subscriptionsService = require('../services/SubscribtionsService');
+const subscriptionsService = require('../services/SubscriptionsService');
 
 
 module.exports = (database) => {
