@@ -16,7 +16,7 @@ exports.getGalleries = (callback) => {
       const parsedData = JSON.parse(data.text);
       const galleries = galleryHelpers.mapPhotosetsToGalleries(parsedData.photosets).data;
 
-      return callback(null, galleries);
+      return callback(null, galleries.data);
     } catch (err) {
       return callback(`Could not parse Flickr API response: ${err}`, null);
     }

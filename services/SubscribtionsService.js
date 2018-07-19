@@ -3,6 +3,7 @@
 const fs = require('fs');
 
 const emailService = require('./EmailService');
+const loggingService = require('./LoggingService');
 const dbHelpers = require('../helpers/DbHelpers');
 
 exports.createSubscriber = async (database, subscriber, sendGreetingEmail = true) => { // REVIEW: refactor to use await instead of then
@@ -15,7 +16,7 @@ exports.createSubscriber = async (database, subscriber, sendGreetingEmail = true
       
     }
     return { err: false, message: "Subscription created successfully!" };
-  });
+});
   try {
     const response = dbHelpers.createSubscriber(database, subscriber);
 
@@ -35,12 +36,8 @@ exports.subscribersList = (database) => { // REVIEW: refactor to use await inste
 };
 
 exports.confirmSubscription = async (database, { firstName, lastName, email, subscriptionId }) => {
-  fs.appendFile('./logs/GDPRConfirmations.csv', `\n${firstName},${lastName},${email}`, err => {
-    if (err) {
-      console.log("ERROR: Could not write confirmation to backup file!");
-      console.log(err);
-    }
-  });
+
+  loggingService.logMessage(loggingService.subscriptionConfirmation, `\n${firstName},${lastName},${email},${new Date().toUTCString()}`);
 
   const confirmation = await dbHelpers.confirmSubscriptionRequest(database, {
     subscriptionId,

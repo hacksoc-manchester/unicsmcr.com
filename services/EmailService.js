@@ -79,7 +79,7 @@ const sendEmail = ({ senderHost, senderPort, senderUsername, senderPassword }, r
   });
 
   const mailOptions = {
-    from: senderUsername,
+    from: `The Hacksoc Team <${senderUsername}>`,
     to: recipient,
     subject,
     html: content

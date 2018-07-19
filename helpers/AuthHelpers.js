@@ -11,11 +11,11 @@ exports.verifyReCAPTCHA = (req, res, next) => {
   // Verification URL for the verification request
   const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body['g-recaptcha-response']}&remoteip=${req.connection.remoteAddress}`;
 
-  request(verificationUrl, (error, verResponse, body) => { // Send verification request
+  request(verificationUrl, (err, verResponse, body) => { // Send verification request
     body = JSON.parse(body);
-    if (error || body.success !== null && !body.success) { // Verification unsucessful
-      if (error) {
-        response.error(`Could not verify reCAPTCHA: ${error}`);
+    if (err || body.success !== null && !body.success) { // Verification unsucessful
+      if (err) {
+        response.error(`Could not verify reCAPTCHA: ${err}`);
       }
       // REVIEW: helper should not render response
       return res.render("pages/message", { title: "Contact", message: "Turing test failed. Please try again." });

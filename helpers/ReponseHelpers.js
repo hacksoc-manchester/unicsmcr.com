@@ -1,7 +1,7 @@
 // Helper functions used to universalize the transfer of data between functions
 "use strict";
 
-// TODO: implement a LogService to log messages to an external file
+const loggingService = require('../services/LoggingService');
 
 // Returns a success object and optionally logs a message
 exports.success = (message, data, messageToLog) => {
@@ -13,6 +13,7 @@ exports.success = (message, data, messageToLog) => {
 
 // Returns an error object and logs the message
 exports.error = (message, data) => {
-  console.log(message);
+  console.error(message);
+  loggingService.logMessage(loggingService.error, message);
   return { err: true, message, data };
 };
