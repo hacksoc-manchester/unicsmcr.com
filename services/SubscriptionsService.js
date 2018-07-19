@@ -5,15 +5,17 @@ const loggingService = require('./LoggingService');
 const dbHelpers = require('../helpers/DbHelpers');
 const response = require('../helpers/ReponseHelpers');
 
+// Createss a new subscriber
 exports.createSubscriber = async (database, subscriber, sendGreetingEmail = true) => {
   try {
+    // Create subscriber in database
     const createdSubscriber = await dbHelpers.createSubscriber(database, subscriber);
 
     if (createdSubscriber.err) {
       return response.error(createdSubscriber.message);
     }
 
-    if (sendGreetingEmail) {
+    if (sendGreetingEmail) { // Optionally send a greeting email
       emailService.sendGreetingEmail({ recipient: { ...createdSubscriber.data } });
     }
     return response.success(`Subscription for ${createdSubscriber.email} created successfully!`, createdSubscriber.data);
@@ -22,8 +24,10 @@ exports.createSubscriber = async (database, subscriber, sendGreetingEmail = true
   }
 };
 
+// Removes a subscriber
 exports.removeSubscriber = async (database, subscriptionId) => {
   try {
+    // Remove the subscriber from the database
     const result = await dbHelpers.removeSubscriber(database, subscriptionId);
 
     if (result.err) {
@@ -35,14 +39,22 @@ exports.removeSubscriber = async (database, subscriptionId) => {
   }
 };
 
-exports.subscribersList = (database) => {
-  return dbHelpers.getSubscribers(database).then(list => list.map(s => s.dataValues));
+// Returns a list of all subscribers (admin use only)
+exports.subscribersList = async (database) => {
+  const result = await dbHelpers.getSubscribers(database);
+
+  if (result.err) {
+    return; // REVIEW: refactor make ResponseHelper be used only in services
+  }
+  return response.success(`Subscriber list fetched successfully!`, result.data);
 };
 
+// Confirms a subscription request
 exports.confirmSubscription = async (database, { firstName, lastName, email, subscriptionId }) => {
-
+  // Backing up the confirmation in an external file
   loggingService.logMessage(loggingService.subscriptionConfirmation, `\n${firstName},${lastName},${email},${new Date().toUTCString()}`);
 
+  // Confirming the subscription request
   const confirmation = await dbHelpers.confirmSubscriptionRequest(database, {
     subscriptionId,
     subscriberEmail: email
@@ -51,6 +63,7 @@ exports.confirmSubscription = async (database, { firstName, lastName, email, sub
   if (confirmation.err) {
     return response.error(`Could not confirm subscription request for ${email}`);
   }
+  // Creating a new subscriber
   const createdSubscriber = await exports.createSubscriber(database, { firstName, lastName, email, subscriptionId }, false);
 
   if (createdSubscriber.err) {

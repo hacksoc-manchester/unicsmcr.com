@@ -67,7 +67,6 @@ exports.sendGDPREmail = async (database, { recipient: { firstName, lastName, ema
 };
 
 const sendEmail = ({ senderHost, senderPort, senderUsername, senderPassword }, recipient, subject, content) => {
-  // TODO: change the name of the sender
   const transporter = nodemailer.createTransport({
     host: senderHost,
     port: senderPort,

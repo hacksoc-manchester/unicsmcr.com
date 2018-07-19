@@ -65,7 +65,7 @@ exports.getSubscribers = async (database) => {
     // List of all subscribers received, returning response
     return response.success(`Subscriber list fetched successfully!`, subscribers.map(s => s.dataValues));
   } catch (err) {
-    return response.error(`Could not list subscribers: ${err.message}`);
+    return response.error(`Could not list subscribers: ${err}`, err);
   }
 };
 
