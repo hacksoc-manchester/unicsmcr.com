@@ -12,6 +12,7 @@ exports.subscriptionConfirmation = {
   logFile: "./logs/subscriptionConfirmationLog.csv"
 };
 
+// Logs a message to the file specified in logType.logFile
 exports.logMessage = (logType, message) => {
   if (!process.env.LOGGING_ENABLED) {
     return;
