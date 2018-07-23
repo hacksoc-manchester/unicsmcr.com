@@ -70,8 +70,34 @@ exports.getSubscribers = async (database) => {
 };
 
 // Creates a new subscription request
-exports.createSubscriptionRequest = async (database, { subscriberEmail, subscriptionId }) => {
+// FIXME: function doesn't get properly awaited
+exports.createSubscriptionRequest = async (database, { subscriberEmail }) => {
   try {
+    // Check if a subscription/subscription request already exist for the given email
+    // if it does, use the existing subscriptionId
+    const existingSubscriptionRequest = await database.SubscriptionRequest.findOne({
+      where: {
+        subscriberEmail
+      }
+    });
+
+    if (existingSubscriptionRequest) {
+      return response.success(`Subscriber ${subscriberEmail} already exists. No subscription request created`, existingSubscriptionRequest.dataValues);
+    }
+    // REVIEW: probably unnecessary for purposes other than the GDPR email
+    const existingSubscriber = await database.Subscriber.findOne({
+      where: {
+        email: subscriberEmail
+      }
+    });
+
+    // No form of preexisting subscription found, creating new subscription request
+    if (existingSubscriber) {
+      return response.success(`Subscriber ${subscriberEmail} already exists. No subscription request created`, existingSubscriber.dataValues);
+    }
+
+    const subscriptionId = miscHelpers.MakeRandomString(process.env.SUBSCRIPTION_ID_LENGTH);
+
     // Create subscription request
     const subRequest = await database.SubscriptionRequest.create({
       subscriberEmail,
@@ -79,7 +105,7 @@ exports.createSubscriptionRequest = async (database, { subscriberEmail, subscrip
     });
 
     // Subscription request created, returning response
-    return response.success(`Subscriber request fo ${subscriberEmail} created succesfully!`, subRequest.dataValues);
+    return response.success(`Subscriber request for ${subscriberEmail} created succesfully!`, subRequest.dataValues);
   } catch (err) {
     return response.error(`Could not create subscription request: ${err.message}`);
   }

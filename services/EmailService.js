@@ -7,7 +7,6 @@ const loggingService = require('./LoggingService');
 const emailHelpers = require('../helpers/EmailHelpers');
 const dbHelpers = require('../helpers/DbHelpers');
 const response = require('../helpers/ReponseHelpers');
-const miscHelpers = require('../helpers/MiscHelpers');
 
 // Sends an email to info@hacksoc
 exports.contactHackSoc = (sender, body) => {
@@ -50,13 +49,19 @@ exports.sendGreetingEmail = async ({ recipient: { firstName, lastName, email, su
 
 // Sends a GDPR email to the provided recipient and creates a subscription request on the database
 exports.sendGDPREmail = async (database, { recipient: { firstName, lastName, email } }, templateFile) => {
+  // Create the subscription request on the database
+  const subscriptionRequest = await dbHelpers.createSubscriptionRequest(database, { subscriberEmail: email });
+
+  if (subscriptionRequest.err) {
+    loggingService.logMessage(loggingService.error, subscriptionRequest.err);
+    return;
+  }
+
   // Generate data to replace the placeholdders on the template
-  const subscriptionId = miscHelpers.MakeRandomString(process.env.SUBSCRIPTION_ID_LENGTH);
+  const subscriptionId = subscriptionRequest.data.subscriptionId;
   const subscribeLink = `http://www.hacksoc.com/subscription/confirm?firstName=${firstName}&lastName=${lastName}&email=${email}&subscriptionId=${subscriptionId}`;
   const unsubscribeLink = `http://www.hacksoc.com/subscription/remove?email=${email}&subscriptionId=${subscriptionId}`;
 
-  // Cerate the subscription request on the database
-  dbHelpers.createSubscriptionRequest(database, { subscriberEmail: email, subscriptionId });
 
   // Generate the HTML for the email to be sent to the recipient
   const emailGen = await emailHelpers.generateEmail(templateFile, {
