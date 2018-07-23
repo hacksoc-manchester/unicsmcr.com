@@ -35,7 +35,7 @@ class GDPREmailer {
 
   async sendEmails(database, templateFile) {
     console.log("Sending emails to contacts");
-    this.contacts.forEach(async (contact) => {
+    for (const contact of this.contacts) {
       console.log(`Sending email to ${contact.firstName} ${contact.lastName} ${contact.email}`);
       try {
         await emailService.sendGDPREmail(database, { recipient: contact }, templateFile);
@@ -45,7 +45,7 @@ class GDPREmailer {
         console.log(`ERROR: Could not send email to ${contact.firstName} ${contact.lastName} ${contact.email} : CATCH`);
         console.log(err);
       }
-    });
+    }
   }
 }
 
