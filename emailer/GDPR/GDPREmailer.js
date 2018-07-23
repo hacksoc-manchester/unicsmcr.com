@@ -5,6 +5,7 @@ const fs = require('fs');
 const parse = require('csv-parse/lib/sync');
 
 const emailService = require("../../services/EmailService");
+const loggingService = require('../../services/LoggingService');
 
 // Sends GDPR confirmation emails to specified contacts
 // Example csv file:
@@ -32,12 +33,13 @@ class GDPREmailer {
     });
   }
 
-  sendEmails(database, templateFile) {
+  async sendEmails(database, templateFile) {
     console.log("Sending emails to contacts");
     this.contacts.forEach(async (contact) => {
       console.log(`Sending email to ${contact.firstName} ${contact.lastName} ${contact.email}`);
       try {
         await emailService.sendGDPREmail(database, { recipient: contact }, templateFile);
+        loggingService.logMessage(loggingService.emailRequestIssued, `${contact.firstName},${contact.lastName},${contact.email}\n`);
         console.log(`Email to ${contact.firstName} ${contact.lastName} ${contact.email} sent successfully!`);
       } catch (err) {
         console.log(`ERROR: Could not send email to ${contact.firstName} ${contact.lastName} ${contact.email} : CATCH`);
@@ -60,6 +62,7 @@ const SendEmails = async (contactsFile, templateFile) => {
   console.log("Successfully connected to database");
 
   await emailer.sendEmails(database, templateFile);
+  console.log("Completed sending emails. Ctrl^C to exit.");
 };
 
 SendEmails('./emailer/GDPR/contacts.csv', "./emailer/templates/GDPRemail.html");

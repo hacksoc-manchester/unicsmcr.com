@@ -12,6 +12,21 @@ exports.subscriptionConfirmation = {
   logFile: "./logs/subscriptionConfirmationLog.csv"
 };
 
+exports.emailRequestIssued = {
+  type: "Email request issued",
+  logFile: "./logs/emailRequests.csv"
+};
+
+exports.emailSent = {
+  type: "Email sent",
+  logFile: "./logs/sentEmails.csv"
+};
+
+exports.emailRequestFailed = {
+  type: "Sending email failed",
+  logFile: "./logs/failedEmails.csv"
+};
+
 // Logs a message to the file specified in logType.logFile
 exports.logMessage = (logType, message) => {
   if (!process.env.LOGGING_ENABLED) {

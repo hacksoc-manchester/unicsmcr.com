@@ -2,6 +2,8 @@
 
 const nodemailer = require('nodemailer');
 
+const loggingService = require('./LoggingService');
+
 const emailHelpers = require('../helpers/EmailHelpers');
 const dbHelpers = require('../helpers/DbHelpers');
 const response = require('../helpers/ReponseHelpers');
@@ -70,12 +72,18 @@ exports.sendGDPREmail = async (database, { recipient: { firstName, lastName, ema
   }
 
   // Send the email to the recipient
-  await sendEmail({
+  const result = await sendEmail({
     senderHost: process.env.EMAIL_HOST,
     senderPort: process.env.EMAIL_PORT,
     senderUsername: process.env.NOREPLY_EMAIL,
     senderPassword: process.env.NOREPLY_EMAIL_PASSWORD
   }, email, "Stick with us!", emailGen.data);
+
+  if (result.err) {
+    loggingService.logMessage(loggingService.emailRequestFailed, `${firstName},${lastName},${email}\n`);
+    return response.error(result.err);
+  }
+  loggingService.logMessage(loggingService.emailSent, `${firstName},${lastName},${email}\n`);
   return { err: false, message: "Email send request issued successfully!" };
 };
 

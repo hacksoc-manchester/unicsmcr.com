@@ -52,7 +52,7 @@ exports.subscribersList = async (database) => {
 // Confirms a subscription request
 exports.confirmSubscription = async (database, { firstName, lastName, email, subscriptionId }) => {
   // Backing up the confirmation in an external file
-  loggingService.logMessage(loggingService.subscriptionConfirmation, `\n${firstName},${lastName},${email},${new Date().toUTCString()}`);
+  loggingService.logMessage(loggingService.subscriptionConfirmation, `${firstName},${lastName},${email},${new Date().toUTCString()}\n`);
 
   // Confirming the subscription request
   const confirmation = await dbHelpers.confirmSubscriptionRequest(database, {
