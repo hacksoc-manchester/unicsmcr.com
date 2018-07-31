@@ -60,7 +60,7 @@ module.exports = (database) => {
     const { firstName, lastName, email } = req.query;
 
     if (!firstName || !lastName || !email) {
-      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=Invalid parameters provided. Please try again`);
+      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com`);
     }
     subscriptionsService.createSubscriber(database, { firstName, lastName, email }).then(data => {
       if (data.err) {
@@ -74,7 +74,7 @@ module.exports = (database) => {
     const { email, subscriptionId } = req.query;
 
     if (!subscriptionId || !email) {
-      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=Invalid parameters provided. Please try again`);
+      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com`);
     }
     subscriptionsService.removeSubscriber(database, { email, subscriptionId }).then(() => {
       return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Your subscription has been removed successfully!`);
@@ -87,7 +87,7 @@ module.exports = (database) => {
     const { firstName, lastName, email, subscriptionId } = req.query;
 
     if (!firstName || !lastName || !email || !subscriptionId) {
-      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=Invalid parameters provided. Please try again`);
+      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com`);
     }
 
     const confirmation = await subscriptionsService.confirmSubscription(database, {
@@ -98,8 +98,7 @@ module.exports = (database) => {
     });
 
     if (confirmation.err) {
-      console.log(confirmation.message);
-      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=Invalid parameters provided. Please try again`);
+      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com`);
     }
     return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Thank you for subscribing to our mailing list!`);
   };

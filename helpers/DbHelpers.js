@@ -70,7 +70,6 @@ exports.getSubscribers = async (database) => {
 };
 
 // Creates a new subscription request
-// FIXME: function doesn't get properly awaited
 exports.createSubscriptionRequest = async (database, { subscriberEmail }) => {
   try {
     // Check if a subscription/subscription request already exist for the given email
