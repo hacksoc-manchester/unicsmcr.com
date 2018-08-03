@@ -52,7 +52,7 @@ module.exports = (database) => {
         console.log(err);
         return res.render('pages/message', { title: "Gallery", message: "Could not load the gallery. Sorry!" });
       }
-      res.render('pages/gallery', { galleries });
+      res.render('pages/gallery', { galleries: galleries || [] });
     });
   };
 
