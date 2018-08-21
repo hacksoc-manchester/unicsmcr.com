@@ -3,16 +3,14 @@
 
 const fs = require('fs');
 
-const response = require('./ReponseHelpers');
-
 // Generates email string from given template with give placeholder replacements
 // placeholderReplacements lookup table structure: key: {placeholderName}, value: {placeholderValue}
 exports.generateEmail = async (template, placeholderReplacements) => {
   try {
-    const emailGen = await new Promise(resolve => { // REVIEW: code cleanup needed
+    const emailGen = await new Promise((resolve, reject) => {
       fs.readFile(template, 'utf8', (err, html) => { // Read the temaplate
         if (err) {
-          return resolve(response.error(err));
+          return reject(err);
         }
 
         for (const placeholderName in placeholderReplacements) { // Replace placeholders
@@ -23,16 +21,13 @@ exports.generateEmail = async (template, placeholderReplacements) => {
           }
         }
         // Email generated
-        return resolve(response.success("Generated email succesfully!", html));
+        return resolve(html);
       });
     });
 
-    if (emailGen.err) {
-      throw new Error(emailGen.message);
-    }
-    // Email generated, returning response
-    return response.success(emailGen.message, emailGen.data);
+    // Email generated
+    return emailGen;
   } catch (err) {
-    return response.error(`Could not generate email: ${err}`);
+    throw new Error(`Could not generate email: ${err}`);
   }
 };

@@ -13,14 +13,7 @@ const port = process.env.PORT || 5000;
 const app = express();
 const database = dbConnection.init();
 
-// Syncing database with current database schema
-database.sequelize.sync().then(() => {
-  database.Subscriber.destroy({
-    where: {
-      email: 'kzalys@gmail.com'
-    }
-  });
-});
+database.sequelize.sync();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,8 +24,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '/static')));
 app.use(morgan(process.env.ENVIRONMENT));
 
-app.use('/', mainRouter(database));
-
 if (process.env.ENVIRONMENT == "dev") { // Disable cache in development environment
   app.use(function (req, res, next) {
     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
@@ -42,8 +33,11 @@ if (process.env.ENVIRONMENT == "dev") { // Disable cache in development environm
   });
 }
 
-app.use(errorController.handle500);
-app.use(errorController.handle404);
+app.use('/', mainRouter(database));
+
+app.use(errorController.handle404); // 404 Handler
+app.use(errorController.handleOther); // Error handler for expected errors
+app.use(errorController.handle500); // Error handler for unexpected errors
 
 app.listen(port);
 console.log("App started on port: " + port);

@@ -1,7 +1,5 @@
 "use strict";
 
-const errorController = require('./ErrorController');
-
 const teamService = require('../services/TeamService');
 const partnersService = require('../services/PartnersService');
 const galleryService = require('../services/GalleryService');
@@ -10,103 +8,187 @@ const subscriptionsService = require('../services/SubscriptionsService');
 
 
 module.exports = (database) => {
-  this.index = (req, res) => {
-    res.render('pages/index');
-  };
-
-  this.contact = (req, res) => {
-    res.render('pages/contact', { recaptchaKey: process.env.G_RECAPTCHA_KEY });
-  };
-
-  this.message = (req, res) => {
-    const { title, message } = req.query;
-
-    if (!title || !message) {
-      return errorController.handle404(req, res);
+  this.index = (req, res, next) => {
+    try {
+      res.render('pages/index');
+    } catch (err) {
+      console.log(err);
+      return next(err);
     }
-    return res.render('pages/message', { title, message });
   };
 
-  this.contactHackSoc = (req, res) => {
-    const { name, email, message } = req.body;
-    const sender = `${name || "Name not specified"}: ${email || "Email not specified"}`;
-
-    emailService.contactHackSoc(sender, message);
-    res.render('pages/message', { title: 'Contact', message: "Thank you! Your message has been received." });
-  };
-
-  this.team = (req, res) => {
-    res.render('pages/team', {
-      team: teamService.getCurrentTeam(),
-      hallOfFame: teamService.getHallOfFame()
-    });
-  };
-
-  this.partners = (req, res) => {
-    res.render('pages/partners', { partners: partnersService.getPartners() });
-  };
-
-  this.gallery = (req, res) => {
-    galleryService.getGalleries((err, galleries) => {
-      if (err) {
-        console.log(err);
-        return res.render('pages/message', { title: "Gallery", message: "Could not load the gallery. Sorry!" });
-      }
-      res.render('pages/gallery', { galleries: galleries || [] });
-    });
-  };
-
-  this.createSubscription = (req, res) => {
-    const { firstName, lastName, email } = req.query;
-
-    if (!firstName || !lastName || !email) {
-      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com`);
+  this.contact = (req, res, next) => {
+    try {
+      res.render('pages/contact', { recaptchaKey: process.env.G_RECAPTCHA_KEY });
+    } catch (err) {
+      console.log(err);
+      return next(err);
     }
-    subscriptionsService.createSubscriber(database, { firstName, lastName, email }).then(data => {
-      if (data.err) {
-        return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=${data.message}`);
+  };
+
+  this.message = (req, res, next) => {
+    try {
+      const { title, message } = req.query;
+
+      if (!title || !message) {
+        return next({
+          type: "message",
+          title: "Error",
+          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+        });
       }
+      return res.render('pages/message', { title, message });
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
+  this.contactHackSoc = (req, res, next) => {
+    try {
+      const { name, email, message } = req.body;
+      const sender = `${name || "Name not specified"}: ${email || "Email not specified"}`;
+
+      emailService.contactHackSoc(sender, message);
+      res.render('pages/message', { title: 'Contact', message: "Thank you! Your message has been received." });
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
+  this.team = (req, res, next) => {
+    try {
+      res.render('pages/team', {
+        team: teamService.getCurrentTeam(),
+        hallOfFame: teamService.getHallOfFame()
+      });
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
+  this.partners = (req, res, next) => {
+    try {
+      res.render('pages/partners', { partners: partnersService.getPartners() });
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
+  this.gallery = (req, res, next) => {
+    try {
+      galleryService.getGalleries((err, galleries) => {
+        if (err) {
+          console.log(err);
+          return next({
+            type: "message",
+            title: "Gallery",
+            message: "Could not load the gallery. Sorry!"
+          });
+        }
+        res.render('pages/gallery', { galleries: galleries || [] });
+      });
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
+  this.signUp = (req, res, next) => {
+    try {
+      res.render('pages/sign-up');
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
+  this.createSubscription = (req, res, next) => {
+    try {
+      const { firstName, lastName, email } = req.query;
+
+      if (!firstName || !lastName || !email) {
+        return next({
+          type: "message",
+          title: "Error",
+          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+        });
+      }
+      subscriptionsService.createSubscriber(database, { firstName, lastName, email }).then(() => {
+        return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Thank you for subscribing to our mailing list!`);
+      });
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
+  this.removeSubscription = (req, res, next) => {
+    try {
+      const { email, subscriptionId } = req.query;
+
+      if (!subscriptionId || !email) {
+        return next({
+          type: "message",
+          title: "Error",
+          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+        });
+      }
+      subscriptionsService.removeSubscriber(database, { email, subscriptionId }).then(() => {
+        return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Your subscription has been removed successfully!`);
+      });
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
+  this.confirmSubscription = async (req, res, next) => {
+    try {
+      const { firstName, lastName, email, subscriptionId } = req.query;
+
+      if (!firstName || !lastName || !email || !subscriptionId) {
+        return next({
+          type: "message",
+          title: "Error",
+          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+        });
+      }
+
+      try {
+        await subscriptionsService.confirmSubscription(database, {
+          firstName,
+          lastName,
+          email,
+          subscriptionId
+        });
+      } catch (err) {
+        return next({
+          type: "message",
+          title: "Error",
+          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+        });
+      }
+
       return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Thank you for subscribing to our mailing list!`);
-    });
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
   };
 
-  this.removeSubscription = (req, res) => {
-    const { email, subscriptionId } = req.query;
+  this.listSubscriptions = async (req, res, next) => {
+    try {
+      const subscribers = await subscriptionsService.subscribersList(database);
 
-    if (!subscriptionId || !email) {
-      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com`);
+      res.send(subscribers);
+    } catch (err) {
+      console.log(err);
+      return next(err);
     }
-    subscriptionsService.removeSubscriber(database, { email, subscriptionId }).then(() => {
-      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Your subscription has been removed successfully!`);
-    }).catch(() => {
-      errorController.handle500(req, res);
-    });
-  };
-
-  this.confirmSubscription = async (req, res) => {
-    const { firstName, lastName, email, subscriptionId } = req.query;
-
-    if (!firstName || !lastName || !email || !subscriptionId) {
-      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com`);
-    }
-
-    const confirmation = await subscriptionsService.confirmSubscription(database, {
-      firstName,
-      lastName,
-      email,
-      subscriptionId
-    });
-
-    if (confirmation.err) {
-      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Error&message=Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com`);
-    }
-    return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Thank you for subscribing to our mailing list!`);
-  };
-
-  this.listSubscriptions = async (req, res) => {
-    const subscribers = await subscriptionsService.subscribersList(database);
-
-    res.send(subscribers);
   };
 
   return this;

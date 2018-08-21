@@ -2,7 +2,6 @@
 "use strict";
 
 const miscHelpers = require('../helpers/MiscHelpers');
-const response = require('../helpers/ReponseHelpers');
 
 // Creates a new subscriber
 exports.createSubscriber = async (database, { firstName, lastName, email, subscriptionId }) => {
@@ -30,9 +29,9 @@ exports.createSubscriber = async (database, { firstName, lastName, email, subscr
     });
 
     // Subscriber created, returning response
-    return response.success(`Subscriber ${email} created succesfully!`, newSubscriber.dataValues);
+    return newSubscriber.dataValues;
   } catch (err) {
-    return response.error(`Could not create subscriber: ${err.message}`);
+    throw new Error(`Could not create subscriber: ${err}`);
   }
 };
 
@@ -48,9 +47,9 @@ exports.removeSubscriber = async (database, { email, subscriptionId }) => {
     });
 
     // Subscriber removed, returning response
-    return response.success(`Subscriber ${email} removed succesfully!`);
+    return { err: false };
   } catch (err) {
-    return response.error(`Could not remove subscriber: ${err.message}`);
+    throw new Error(`Could not remove subscriber: ${err}`);
   }
 };
 
@@ -63,9 +62,9 @@ exports.getSubscribers = async (database) => {
     });
 
     // List of all subscribers received, returning response
-    return response.success(`Subscriber list fetched successfully!`, subscribers.map(s => s.dataValues));
+    return subscribers.map(s => s.dataValues);
   } catch (err) {
-    return response.error(`Could not list subscribers: ${err}`, err);
+    throw new Error(`Could not list subscribers: ${err}`);
   }
 };
 
@@ -81,20 +80,19 @@ exports.createSubscriptionRequest = async (database, { subscriberEmail }) => {
     });
 
     if (existingSubscriptionRequest) {
-      return response.success(`Subscriber ${subscriberEmail} already exists. No subscription request created`, existingSubscriptionRequest.dataValues);
+      // Subsription request already exists, returning
+      return existingSubscriptionRequest.dataValues;
     }
-    // REVIEW: probably unnecessary for purposes other than the GDPR email
     const existingSubscriber = await database.Subscriber.findOne({
       where: {
         email: subscriberEmail
       }
     });
 
-    // No form of preexisting subscription found, creating new subscription request
     if (existingSubscriber) {
-      return response.success(`Subscriber ${subscriberEmail} already exists. No subscription request created`, existingSubscriber.dataValues);
+      throw new Error(`User ${subscriberEmail} already exists!`);
     }
-
+    // No form of preexisting subscription found, creating new subscription request
     const subscriptionId = miscHelpers.MakeRandomString(process.env.SUBSCRIPTION_ID_LENGTH);
 
     // Create subscription request
@@ -104,9 +102,9 @@ exports.createSubscriptionRequest = async (database, { subscriberEmail }) => {
     });
 
     // Subscription request created, returning response
-    return response.success(`Subscriber request for ${subscriberEmail} created succesfully!`, subRequest.dataValues);
+    return subRequest.dataValues;
   } catch (err) {
-    return response.error(`Could not create subscription request: ${err.message}`);
+    throw new Error(`Could not create subscription request: ${err}`);
   }
 };
 
@@ -127,8 +125,8 @@ exports.confirmSubscriptionRequest = async (database, { subscriptionId, subscrib
     // Subscrition request has been confirmed and can now be removed from the database
     subRequest.destroy();
     // Subscription request confirmed, returning response
-    return response.success(`Subscription request for ${subscriberEmail} confirmed!`);
+    return { err: false };
   } catch (err) {
-    return response.error(`Could not confirm subscription request: ${err.message}`);
+    throw new Error(`Could not confirm subscription request: ${err}`);
   }
 };

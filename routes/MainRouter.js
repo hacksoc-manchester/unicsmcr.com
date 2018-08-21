@@ -23,14 +23,14 @@ const MainRouter = (database) => {
   router.get('/partners', mainController.partners);
   // Gallery Page
   router.get('/gallery', mainController.gallery);
+  // Sign up page Page
+  router.get('/signup', mainController.signUp);
   // Creating a new subscription
   router.get('/subscription/create', mainController.createSubscription);
   // Confirming a subscription
   router.get('/subscription/confirm', mainController.confirmSubscription);
   // Removing a subscription
   router.get('/subscription/remove', mainController.removeSubscription);
-  // All subscriptions
-  //router.get('/subscription/list', mainController.listSubscriptions);
 
   return router;
 };

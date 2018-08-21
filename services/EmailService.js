@@ -2,11 +2,7 @@
 
 const nodemailer = require('nodemailer');
 
-const loggingService = require('./LoggingService');
-
 const emailHelpers = require('../helpers/EmailHelpers');
-const dbHelpers = require('../helpers/DbHelpers');
-const response = require('../helpers/ReponseHelpers');
 
 // Sends an email to info@hacksoc
 exports.contactHackSoc = (sender, body) => {
@@ -32,64 +28,13 @@ exports.sendGreetingEmail = async ({ recipient: { firstName, lastName, email, su
     "#unsubscribeLink": unsubscribeLink
   });
 
-  if (emailGen.err) {
-    return response.error(`Could not generate email: ${emailGen.message}`);
-  }
-
   // Send the email to the recipient
   await sendEmail({
     senderHost: process.env.EMAIL_HOST,
     senderPort: process.env.EMAIL_PORT,
     senderUsername: process.env.NOREPLY_EMAIL,
     senderPassword: process.env.NOREPLY_EMAIL_PASSWORD
-  }, email, "Welcome!", emailGen.data);
-  return { err: false, message: "Email send request issued successfully!" };
-};
-
-
-// Sends a GDPR email to the provided recipient and creates a subscription request on the database
-exports.sendGDPREmail = async (database, { recipient: { firstName, lastName, email } }, templateFile) => {
-  // Create the subscription request on the database
-  const subscriptionRequest = await dbHelpers.createSubscriptionRequest(database, { subscriberEmail: email });
-
-  if (subscriptionRequest.err) {
-    loggingService.logMessage(loggingService.error, subscriptionRequest.err);
-    return;
-  }
-
-  // Generate data to replace the placeholdders on the template
-  const subscriptionId = subscriptionRequest.data.subscriptionId;
-  const subscribeLink = `http://www.hacksoc.com/subscription/confirm?firstName=${firstName}&lastName=${lastName}&email=${email}&subscriptionId=${subscriptionId}`;
-  const unsubscribeLink = `http://www.hacksoc.com/subscription/remove?email=${email}&subscriptionId=${subscriptionId}`;
-
-
-  // Generate the HTML for the email to be sent to the recipient
-  const emailGen = await emailHelpers.generateEmail(templateFile, {
-    "#firstName": firstName,
-    "#lastName": lastName,
-    "#email": email,
-    "#subscribeLink": subscribeLink,
-    "#unsubscribeLink": unsubscribeLink
-  });
-
-  if (emailGen.err) {
-    return response.error(`Could not generate email: ${emailGen.message}`);
-  }
-
-  // Send the email to the recipient
-  const result = await sendEmail({
-    senderHost: process.env.EMAIL_HOST,
-    senderPort: process.env.EMAIL_PORT,
-    senderUsername: process.env.NOREPLY_EMAIL,
-    senderPassword: process.env.NOREPLY_EMAIL_PASSWORD
-  }, email, "Stick with us!", emailGen.data);
-
-  if (result.err) {
-    loggingService.logMessage(loggingService.emailRequestFailed, `${firstName},${lastName},${email}\n`);
-    return response.error(result.err);
-  }
-  loggingService.logMessage(loggingService.emailSent, `${firstName},${lastName},${email}\n`);
-  return { err: false, message: "Email send request issued successfully!" };
+  }, email, "Welcome!", emailGen);
 };
 
 // Sends an email to specified recipient with specified sender credentials and specified content

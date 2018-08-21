@@ -1,8 +1,6 @@
 // Helper functions for the Gallery page
 "use strict";
 
-const response = require('./ReponseHelpers');
-
 // Maps Flickr photosets to gallery objects that can be displayed on the page
 exports.mapPhotosetsToGalleries = (photosets) => {
   try {
@@ -15,8 +13,8 @@ exports.mapPhotosetsToGalleries = (photosets) => {
       };
     });
 
-    return response.success('Mapped photosets to galleries', galleries);
+    return galleries;
   } catch (err) {
-    return response.error(`Could not convert photosets to galleries: ${err}`);
+    throw new Error(`Could not convert photosets to galleries: ${err}`);
   }
 };

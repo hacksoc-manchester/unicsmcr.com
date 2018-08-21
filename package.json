@@ -7,7 +7,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --timeout 15000 tests",
     "dev": "nodemon app.js"
   },
   "author": "HackSoc Manchester",
@@ -28,9 +28,11 @@
     "sequelize": "^4.38.0"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
     "eslint": "5.1.0",
     "eslint-config-eslint": "5.0.0",
     "eslint-plugin-node": "^6.0.1",
-    "nodemon": "^1.18.3"
+    "nodemon": "^1.18.3",
+    "mocha": "^5.2.0"
   }
 }
