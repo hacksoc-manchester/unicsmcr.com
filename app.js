@@ -9,6 +9,7 @@ const errorController = require('./controllers/ErrorController');
 const mainRouter = require('./routes/MainRouter');
 const dbConnection = require('./db/Sequelize');
 
+
 const port = process.env.PORT || 5000;
 const app = express();
 const database = dbConnection.init();
@@ -39,5 +40,9 @@ app.use(errorController.handle404); // 404 Handler
 app.use(errorController.handleOther); // Error handler for expected errors
 app.use(errorController.handle500); // Error handler for unexpected errors
 
-app.listen(port);
-console.log("App started on port: " + port);
+
+const server = app.listen(port, () => {
+  console.log(`App listening on port: ${port}`);
+});
+
+module.exports = server;
