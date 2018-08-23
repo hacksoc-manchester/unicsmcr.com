@@ -9,7 +9,6 @@ const errorController = require('./controllers/ErrorController');
 const mainRouter = require('./routes/MainRouter');
 const dbConnection = require('./db/Sequelize');
 
-
 const port = process.env.PORT || 5000;
 const app = express();
 const database = dbConnection.init();
@@ -26,7 +25,7 @@ app.use(express.static(path.join(__dirname, '/static')));
 app.use(morgan(process.env.ENVIRONMENT));
 
 if (process.env.ENVIRONMENT == "dev") { // Disable cache in development environment
-  app.use(function (req, res, next) {
+  app.use((req, res, next) => {
     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
     res.header('Expires', '-1');
     res.header('Pragma', 'no-cache');

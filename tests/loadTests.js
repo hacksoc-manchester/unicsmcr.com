@@ -1,46 +1,74 @@
 // Tests to check if pages get served properly
 "use strict";
 
-const runTests = require('./testHelpers').runTests;
+const chai = require('chai');
+const expect = chai.expect;
+
+const HTTP_OK = 200;
 
 module.exports = (mocha, app) => {
-  // Array of tests to be run
-  const tests = [
-    {
-      title: "Should serve Home page", // The title of the page (only required for the name of the test, does not affect the result of the test)
-      url: "/", // The url of the page to test
-      // (optional) The number of redirects that are expected to happen
-      // will be set to 0 if field is not provided
-      noOfRedirects: 0,
-      // (optional) The url the user should end up in after the test (used to check if redirects were carried out correctly)
-      // will be set to the value of url if field is not provided
-      finalUrl: "/"
-    },
-    {
-      title: "Should serve Team page",
-      url: "/team"
-    },
-    {
-      title: "Should serve Gallery page",
-      url: "/gallery"
-    },
-    {
-      title: "Should serve Contact page",
-      url: "/contact"
-    },
-    {
-      title: "Should serve Signup page",
-      url: "/signup"
-    },
-    {
-      title: "Should serve Events page",
-      url: "/events"
-    },
-    {
-      title: "Should serve Jobs page",
-      url: "/jobs"
-    }
-  ];
+  mocha.it("Should serve Home page", (done) => {
+    chai.request(app)
+      .get("/")
+      .end((err, res) => {
+        return pageLoadedSuccessfully(err, res, done, "/");
+      });
+  });
 
-  runTests(tests, mocha, app);
+  mocha.it("Should serve Team page", (done) => {
+    chai.request(app)
+      .get("/team")
+      .end((err, res) => {
+        return pageLoadedSuccessfully(err, res, done, "/team");
+      });
+  });
+
+  mocha.it("Should serve Gallery page", (done) => {
+    chai.request(app)
+      .get("/gallery")
+      .end((err, res) => {
+        return pageLoadedSuccessfully(err, res, done, "/gallery");
+      });
+  });
+
+  mocha.it("Should serve Contact page", (done) => {
+    chai.request(app)
+      .get("/contact")
+      .end((err, res) => {
+        return pageLoadedSuccessfully(err, res, done, "/contact");
+      });
+  });
+
+  mocha.it("Should serve Signup page", (done) => {
+    chai.request(app)
+      .get("/signup")
+      .end((err, res) => {
+        return pageLoadedSuccessfully(err, res, done, "/signup");
+      });
+  });
+
+  mocha.it("Should serve Events page", (done) => {
+    chai.request(app)
+      .get("/events")
+      .end((err, res) => {
+        return pageLoadedSuccessfully(err, res, done, "/events");
+      });
+  });
+
+  mocha.it("Should serve Jobs page", (done) => {
+    chai.request(app)
+      .get("/jobs")
+      .end((err, res) => {
+        return pageLoadedSuccessfully(err, res, done, "/jobs");
+      });
+  });
+};
+
+// Basic test to check if a route works as expected
+const pageLoadedSuccessfully = (err, res, done, finalUrl = "", noOfRedirects = 0) => {
+  expect(err, "Error").to.be.null; // No errors encountered
+  expect(res.redirects.length, "Number of Redirects").to.be.equal(noOfRedirects); // The required number of redirects happened
+  expect(res.req.path, "Returned URL").to.contain(finalUrl); // The required page was returned
+  expect(res.status, "Response Status").to.be.equal(HTTP_OK); // Response status is HTTP_OK
+  return done();
 };
