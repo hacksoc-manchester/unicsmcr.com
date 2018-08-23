@@ -18,6 +18,5 @@ process.on("unhandledRejection", (reason, p) => {
   console.log(reason);
 });
 
-mocha.describe("Serve tests:", () => {
-  require('./loadTests')(mocha, app);
-});
+require('./LoadTests')(mocha, app);
+require('./DbTests')(mocha);

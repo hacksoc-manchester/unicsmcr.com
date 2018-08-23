@@ -5,7 +5,7 @@ const Sequelize = require('sequelize');
 module.exports.init = () => {
 
   // Database connection
-  const sequelize = new Sequelize(
+  const connection = new Sequelize(
     process.env.DB_DATABASE,
     process.env.DB_USER,
     process.env.DB_PASSWORD,
@@ -23,8 +23,8 @@ module.exports.init = () => {
 
   // load database schema
   const schema = require("./Schema");
-  var models = schema(sequelize, Sequelize);
 
-  models.sequelize = sequelize;
-  return models;
+  schema(connection, Sequelize);
+
+  return connection;
 };

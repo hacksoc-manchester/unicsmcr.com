@@ -13,7 +13,7 @@ const port = process.env.PORT || 5000;
 const app = express();
 const database = dbConnection.init();
 
-database.sequelize.sync();
+database.sync();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
