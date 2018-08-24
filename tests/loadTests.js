@@ -48,29 +48,29 @@ module.exports = (mocha, app) => {
         });
     });
 
-    // mocha.it("Should serve Sponsors page", (done) => {
-    //   chai.request(app)
-    //     .get("/sponsors")
-    //     .end((err, res) => {
-    //       return pageLoadedSuccessfully(err, res, done, "/sponsors");
-    //     });
-    // });
+    mocha.it("Should serve Sponsors page", (done) => {
+      chai.request(app)
+        .get("/sponsors")
+        .end((err, res) => {
+          return pageLoadedSuccessfully(err, res, done, "/sponsors");
+        });
+    });
 
-    // mocha.it("Should serve Events page", (done) => {
-    //   chai.request(app)
-    //     .get("/events")
-    //     .end((err, res) => {
-    //       return pageLoadedSuccessfully(err, res, done, "/events");
-    //     });
-    // });
+    mocha.it("Should serve Events page", (done) => {
+      chai.request(app)
+        .get("/events")
+        .end((err, res) => {
+          return pageLoadedSuccessfully(err, res, done, "/events");
+        });
+    });
 
-    // mocha.it("Should serve Jobs page", (done) => {
-    //   chai.request(app)
-    //     .get("/jobs")
-    //     .end((err, res) => {
-    //       return pageLoadedSuccessfully(err, res, done, "/jobs");
-    //     });
-    // });
+    mocha.it("Should serve Jobs page", (done) => {
+      chai.request(app)
+        .get("/jobs")
+        .end((err, res) => {
+          return pageLoadedSuccessfully(err, res, done, "/jobs");
+        });
+    });
   });
 };
 
