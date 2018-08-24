@@ -104,7 +104,7 @@ exports.createSubscriptionRequest = async (database, { subscriberEmail }) => {
     });
 
     if (existingSubscriber) {
-      throw new Error(`User ${subscriberEmail} already exists!`);
+      throw new Error(`Subscriber ${subscriberEmail} already exists!`);
     }
     // No form of preexisting subscription found, creating new subscription request
     const subscriptionId = miscHelpers.MakeRandomString(process.env.SUBSCRIPTION_ID_LENGTH);
@@ -137,7 +137,7 @@ exports.confirmSubscriptionRequest = async (database, { subscriptionId, subscrib
       throw new Error(`Subscription request for ${subscriberEmail} not found!`);
     }
     // Subscrition request has been confirmed and can now be removed from the database
-    subRequest.destroy();
+    await subRequest.destroy();
     // Subscription request confirmed, returning response
     return { err: false };
   } catch (err) {

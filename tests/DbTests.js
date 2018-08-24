@@ -15,95 +15,123 @@ module.exports = (mocha) => {
     email: "johndoe@email.com"
   };
 
-  mocha.describe("Database methods tests:", () => {
-    mocha.it("Should create a new Subscriber", (done) => {
-      new Promise(async (resolve) => {
-        // Removing test subscriber if it is left over from previous tests
-        await database.query(`DELETE FROM subscribers WHERE email = '${testSubscriber.email}'`);
+  mocha.describe("Database tests:", () => {
+    mocha.it("Should create a new Subscriber", async () => {
+      // Removing test subscriber if it is left over from previous tests
+      await database.query(`DELETE FROM subscribers WHERE email = '${testSubscriber.email}'`);
+      // Create new test subscriber
+      const createdSubscriber = await dbHelpers.createSubscriber(database, testSubscriber);
+      const foundSubscriber = (await database.query(`SELECT * FROM subscribers WHERE email = '${testSubscriber.email}'`))[0][0];
+
+      testSubscriber.id = createdSubscriber.id;
+      testSubscriber.subscriptionId = createdSubscriber.subscriptionId;
+
+      expect(
+        subscribersAreEqual(createdSubscriber, foundSubscriber),
+        "Subscribers should be equal"
+      ).to.be.true;
+      expect(
+        subscribersAreEqual(createdSubscriber, testSubscriber),
+        "New Subscriber should be equal to test subscriber data"
+      ).to.be.true;
+    });
+
+    mocha.it("Should not create a new Subscriber if given email already exists", async () => {
+      try {
         // Create new test subscriber
-        const createdSubscriber = await dbHelpers.createSubscriber(database, testSubscriber);
-        const foundSubscriber = (await database.query(`SELECT * FROM subscribers WHERE email = '${testSubscriber.email}'`))[0][0];
+        await dbHelpers.createSubscriber(database, {
+          firstName: "John",
+          lastName: "Doe",
+          email: "johndoe@email.com"
+        });
 
-        resolve({ createdSubscriber, foundSubscriber });
-      }).then((data) => {
-        const { createdSubscriber, foundSubscriber } = data;
-
-        expect(createdSubscriber).to.be.not.null;
-        expect(foundSubscriber).to.be.not.null;
-        expect(createdSubscriber.id).to.equal(foundSubscriber.id);
-        expect(createdSubscriber.firstName)
-          .to.equal(foundSubscriber.firstName)
-          .to.equal(testSubscriber.firstName);
-        expect(createdSubscriber.lastName)
-          .to.equal(foundSubscriber.lastName)
-          .to.equal(testSubscriber.lastName);
-        expect(createdSubscriber.email)
-          .to.equal(foundSubscriber.email)
-          .to.equal(testSubscriber.email);
-        expect(createdSubscriber.subscriptionId).to.equal(foundSubscriber.subscriptionId);
-
-        testSubscriber.id = createdSubscriber.id;
-        testSubscriber.subscriptionId = createdSubscriber.subscriptionId;
-
-        done();
-      }).catch((err) => {
-        expect(err).to.be.null;
-      });
-    });
-
-    mocha.it("Should not create a new Subscriber if given email already exists", (done) => {
-      new Promise(async (resolve) => {
-        try {
-          // Create new test subscriber
-          await dbHelpers.createSubscriber(database, {
-            firstName: "John",
-            lastName: "Doe",
-            email: "johndoe@email.com"
-          });
-
-          resolve("A user with a duplicate email got created");
-        } catch (err) {
-          resolve(err);
-        }
-      }).then((err) => {
+        expect(false).to.be.true; // A new subscriber was created
+      } catch (err) {
         expect(String(err)).to.include(`${testSubscriber.email} is already taken`);
-
-        done();
-      });
+      }
     });
 
-    mocha.it("Should find an existing subscriber by email", (done) => {
-      new Promise(async (resolve) => {
-        const foundSubscriber = await dbHelpers.findSubscriberByEmail(database, testSubscriber.email);
+    mocha.it("Should find an existing Subscriber by email", async () => {
+      const foundSubscriber = await dbHelpers.findSubscriberByEmail(database, testSubscriber.email);
 
-        resolve(foundSubscriber);
-      }).then((subscriber) => {
-        expect(subscriber).to.be.not.null;
-        expect(subscriber.id).to.equal(testSubscriber.id);
-        expect(subscriber.email).to.equal(testSubscriber.email);
-        expect(subscriber.firstName).to.equal(testSubscriber.firstName);
-        expect(subscriber.lastName).to.equal(testSubscriber.lastName);
-        expect(subscriber.subscriptionId).to.equal(testSubscriber.subscriptionId);
-
-        done();
-      }).catch((err) => {
-        expect(err).to.be.null;
-      });
+      expect(foundSubscriber).to.be.not.null;
+      expect(
+        subscribersAreEqual(foundSubscriber, testSubscriber),
+        "Subscribers should be equal"
+      ).to.be.true;
     });
 
-    mocha.it("Should remove an existing subscriber", (done) => {
-      new Promise(async (resolve) => {
-        await dbHelpers.removeSubscriber(database, testSubscriber);
-        const subscriberAfterRemoval = await dbHelpers.findSubscriberByEmail(database, testSubscriber.email);
+    mocha.it("Should remove an existing Subscriber", async () => {
+      await dbHelpers.removeSubscriber(database, testSubscriber);
+      const subscriberAfterRemoval = await dbHelpers.findSubscriberByEmail(database, testSubscriber.email);
 
-        resolve(subscriberAfterRemoval);
-      }).then((subscriber) => {
-        expect(subscriber).to.be.null;
+      expect(subscriberAfterRemoval).to.be.null;
+    });
 
-        done();
-      }).catch((err) => {
-        expect(err).to.be.null;
+    mocha.it("Should create a new SubscriptionRequest", async () => {
+      await database.query(`DELETE FROM subscriptionrequests WHERE subscriberEmail = '${testSubscriber.email}'`);
+      const createdSubRequest = await dbHelpers.createSubscriptionRequest(database, { subscriberEmail: testSubscriber.email });
+      const foundSubRequest = (await database.query(`SELECT * FROM subscriptionrequests WHERE subscriberEmail = '${testSubscriber.email}'`))[0][0];
+
+      expect(createdSubRequest).to.be.not.null;
+      expect(foundSubRequest).to.be.not.null;
+      expect(
+        subscriptionRequestsAreEqual(createdSubRequest, foundSubRequest),
+        "Subscription requests should be equal"
+      ).to.be.true;
+      testSubscriber.subsciptionId = createdSubRequest.subsciptionId;
+    });
+
+    mocha.it("Should not create a new SubscriptionRequest for an email with an existing SubscriptionRequest", async () => {
+      const createdSubRequest = await dbHelpers.createSubscriptionRequest(database, { subscriberEmail: testSubscriber.email });
+
+      expect(createdSubRequest).to.be.not.null;
+      expect(
+        createdSubRequest.subscriberEmail == testSubscriber.email &&
+        createdSubRequest.subsciptionId == testSubscriber.subsciptionId,
+        "Returned sub request should be equal to the sub request created earlier"
+      ).to.be.true;
+    });
+
+    mocha.it("Should not create a new SubscriptionRequest for an existing Subscriber", async () => {
+      await database.query(`DELETE FROM subscribers WHERE email = '${testSubscriber.email}'`);
+      await database.query(`DELETE FROM subscriptionrequests WHERE subscriberEmail = '${testSubscriber.email}'`);
+      const newSubscriber = await dbHelpers.createSubscriber(database, testSubscriber);
+
+      try {
+        await dbHelpers.createSubscriptionRequest(database, { subscriberEmail: testSubscriber.email });
+
+        expect(false, "Should throw an error").to.be.true;
+      } catch (err) {
+        expect(String(err)).to.include(`Subscriber ${testSubscriber.email} already exists!`);
+      }
+      await dbHelpers.removeSubscriber(database, newSubscriber);
+    });
+
+    mocha.it("Should confirm an existing SubscriptionRequest", async () => {
+      const newSubRequest = await dbHelpers.createSubscriptionRequest(database, { subscriberEmail: testSubscriber.email });
+
+      await dbHelpers.confirmSubscriptionRequest(database, {
+        subscriptionId: newSubRequest.subscriptionId,
+        subscriberEmail: testSubscriber.email
       });
+      const foundSubRequest = (await database.query(`SELECT * FROM subscriptionrequests WHERE subscriberEmail = '${testSubscriber.email}'`))[0][0];
+
+      expect(foundSubRequest, "Subscription request should get deleted").to.be.undefined;
     });
   });
+};
+
+const subscribersAreEqual = (subscriberA, subscriberB) => {
+  return subscriberA.id == subscriberB.id &&
+    subscriberA.email == subscriberB.email &&
+    subscriberA.firstName == subscriberB.firstName &&
+    subscriberA.lastName == subscriberB.lastName &&
+    subscriberA.subscriptionId == subscriberB.subscriptionId;
+};
+
+const subscriptionRequestsAreEqual = (requestA, requestB) => {
+  return requestA.id == requestB.id &&
+    requestA.email == requestB.email &&
+    requestA.subsciptionId == requestB.subsciptionId;
 };
