@@ -15,7 +15,6 @@ process.on("unhandledRejection", (reason, p) => {
   console.log("Possibly Unhandled Rejection at: Promise ");
   console.log(p);
   console.log(" reason: ", reason);
-  console.log(reason);
 });
 
 require('./LoadTests')(mocha, app);
