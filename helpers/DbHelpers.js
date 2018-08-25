@@ -10,7 +10,7 @@ exports.createSubscriber = async (database, { firstName, lastName, email, subscr
       subscriptionId = miscHelpers.MakeRandomString(process.env.SUBSCRIPTION_ID_LENGTH);
     }
     // Check if a subscriber with given email exists
-    const existingSubscriber = await database.Subscriber.findOne({
+    const existingSubscriber = await database.models.subscriber.findOne({
       where: {
         email
       }
@@ -21,7 +21,7 @@ exports.createSubscriber = async (database, { firstName, lastName, email, subscr
     }
 
     // Creating a new subscriber
-    const newSubscriber = await database.Subscriber.create({
+    const newSubscriber = await database.models.subscriber.create({
       firstName,
       lastName,
       email,
@@ -35,11 +35,25 @@ exports.createSubscriber = async (database, { firstName, lastName, email, subscr
   }
 };
 
+exports.findSubscriberByEmail = async (database, email) => {
+  try {
+    // Fetch the subscriber from the database
+    const subscriber = await database.models.subscriber.findOne({
+      where: { email }
+    });
+
+    // Returning subscriber's data values or null if subscriber could not be found
+    return subscriber ? subscriber.dataValues : null;
+  } catch (err) {
+    throw new Error(`Could not find subscriber ${err}`);
+  }
+};
+
 // Removes an existing subscriber
 exports.removeSubscriber = async (database, { email, subscriptionId }) => {
   try {
     // Remove the subscriber from the database
-    await database.Subscriber.destroy({
+    await database.models.subscriber.destroy({
       where: {
         email,
         subscriptionId
@@ -57,7 +71,7 @@ exports.removeSubscriber = async (database, { email, subscriptionId }) => {
 exports.getSubscribers = async (database) => {
   try {
     // Get the list of all subscribers
-    const subscribers = await database.Subscriber.findAll({
+    const subscribers = await database.models.subscriber.findAll({
       attributes: ['firstName', 'lastName', 'email', 'subscriptionId']
     });
 
@@ -73,7 +87,7 @@ exports.createSubscriptionRequest = async (database, { subscriberEmail }) => {
   try {
     // Check if a subscription/subscription request already exist for the given email
     // if it does, use the existing subscriptionId
-    const existingSubscriptionRequest = await database.SubscriptionRequest.findOne({
+    const existingSubscriptionRequest = await database.models.subscriptionrequest.findOne({
       where: {
         subscriberEmail
       }
@@ -83,20 +97,20 @@ exports.createSubscriptionRequest = async (database, { subscriberEmail }) => {
       // Subsription request already exists, returning
       return existingSubscriptionRequest.dataValues;
     }
-    const existingSubscriber = await database.Subscriber.findOne({
+    const existingSubscriber = await database.models.subscriber.findOne({
       where: {
         email: subscriberEmail
       }
     });
 
     if (existingSubscriber) {
-      throw new Error(`User ${subscriberEmail} already exists!`);
+      throw new Error(`Subscriber ${subscriberEmail} already exists!`);
     }
     // No form of preexisting subscription found, creating new subscription request
     const subscriptionId = miscHelpers.MakeRandomString(process.env.SUBSCRIPTION_ID_LENGTH);
 
     // Create subscription request
-    const subRequest = await database.SubscriptionRequest.create({
+    const subRequest = await database.models.subscriptionrequest.create({
       subscriberEmail,
       subscriptionId
     });
@@ -112,7 +126,7 @@ exports.createSubscriptionRequest = async (database, { subscriberEmail }) => {
 exports.confirmSubscriptionRequest = async (database, { subscriptionId, subscriberEmail }) => {
   try {
     // Find the subscription request in question
-    const subRequest = await database.SubscriptionRequest.findOne({
+    const subRequest = await database.models.subscriptionrequest.findOne({
       where: {
         subscriptionId,
         subscriberEmail
@@ -123,7 +137,7 @@ exports.confirmSubscriptionRequest = async (database, { subscriptionId, subscrib
       throw new Error(`Subscription request for ${subscriberEmail} not found!`);
     }
     // Subscrition request has been confirmed and can now be removed from the database
-    subRequest.destroy();
+    await subRequest.destroy();
     // Subscription request confirmed, returning response
     return { err: false };
   } catch (err) {
