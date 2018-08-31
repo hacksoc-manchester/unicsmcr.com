@@ -24,6 +24,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '/static')));
 app.use(morgan(process.env.ENVIRONMENT));
 
+// middleware to parse the requests
+app.use(express.json());
+app.use(express.urlencoded());
+
 if (process.env.ENVIRONMENT == "dev") { // Disable cache in development environment
   app.use((req, res, next) => {
     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');

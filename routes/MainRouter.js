@@ -28,11 +28,13 @@ const MainRouter = (database) => {
   // Events Page
   router.get('/events', mainController.events);
   // Creating a new subscription
-  router.get('/subscription/create', mainController.createSubscription);
+  router.post('/subscription/create', mainController.createSubscription);
   // Confirming a subscription
   router.get('/subscription/confirm', mainController.confirmSubscription);
   // Removing a subscription
-  router.get('/subscription/remove', mainController.removeSubscription);
+  router.delete('/subscription/remove', mainController.deleteRemoveSubscription);
+  // Route for unsubscribe links in emails
+  router.get('/subscription/remove', mainController.getRemoveSubscription);
 
   return router;
 };

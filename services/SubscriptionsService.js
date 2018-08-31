@@ -5,7 +5,7 @@ const loggingService = require('./LoggingService');
 const dbHelpers = require('../helpers/DbHelpers');
 
 // Createss a new subscriber
-exports.createSubscriber = async (database, subscriber, sendGreetingEmail = true) => {
+exports.createSubscriber = async (database, subscriber, sendGreetingEmail = false) => {
   // Create subscriber in database
   const createdSubscriber = await dbHelpers.createSubscriber(database, subscriber);
 

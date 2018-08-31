@@ -100,7 +100,7 @@ module.exports = (database) => {
 
   this.signUp = (req, res, next) => {
     try {
-      res.render('pages/sign-up');
+      res.render('pages/signup');
     } catch (err) {
       console.log(err);
       return next(err);
@@ -109,7 +109,7 @@ module.exports = (database) => {
 
   this.createSubscription = (req, res, next) => {
     try {
-      const { firstName, lastName, email } = req.query;
+      const { firstName, lastName, email } = req.body;
 
       if (!firstName || !lastName || !email) {
         return next({
@@ -127,9 +127,29 @@ module.exports = (database) => {
     }
   };
 
-  this.removeSubscription = (req, res, next) => {
+  this.getRemoveSubscription = (req, res, next) => {
     try {
       const { email, subscriptionId } = req.query;
+
+      if (!subscriptionId || !email) {
+        return next({
+          type: "message",
+          title: "Error",
+          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+        });
+      }
+      subscriptionsService.removeSubscriber(database, { email, subscriptionId }).then(() => {
+        return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Your subscription has been removed successfully!`);
+      });
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
+  this.deleteRemoveSubscription = (req, res, next) => { // REVIEW: code repetition
+    try {
+      const { email, subscriptionId } = req.body;
 
       if (!subscriptionId || !email) {
         return next({
