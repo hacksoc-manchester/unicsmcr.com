@@ -25,8 +25,6 @@ const MainRouter = (database) => {
   router.get('/gallery', mainController.gallery);
   // Sign up Page
   router.get('/signup', mainController.signUp);
-  // Events Page
-  router.get('/events', mainController.events);
   // Privacy Page
   router.get('/privacy', mainController.privacy);
   // Creating a new subscription
