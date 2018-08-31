@@ -27,6 +27,8 @@ const MainRouter = (database) => {
   router.get('/signup', mainController.signUp);
   // Events Page
   router.get('/events', mainController.events);
+  // Privacy Page
+  router.get('/privacy', mainController.privacy);
   // Creating a new subscription
   router.post('/subscription/create', mainController.createSubscription);
   // Confirming a subscription

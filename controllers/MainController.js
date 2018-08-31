@@ -212,9 +212,18 @@ module.exports = (database) => {
     }
   };
 
-  this.events = async (req, res, next) => {
+  this.events = (req, res, next) => {
     try {
       eventsService.getEvents(req, res);
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
+  this.privacy = (req, res, next) => {
+    try {
+      res.render("pages/privacy");
     } catch (err) {
       console.log(err);
       return next(err);

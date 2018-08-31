@@ -64,6 +64,15 @@ module.exports = (mocha, app) => {
         });
     });
 
+    mocha.it("Should serve Privacy page", (done) => {
+      chai.request(app)
+        .get("/privacy")
+        .end((err, res) => {
+          return pageLoadedSuccessfully(err, res, done, "/privacy");
+        });
+    });
+
+
     mocha.it("Should serve Jobs page", (done) => {
       chai.request(app)
         .get("/jobs")
