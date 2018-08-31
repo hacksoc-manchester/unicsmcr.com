@@ -5,6 +5,7 @@ const partnersService = require('../services/PartnersService');
 const galleryService = require('../services/GalleryService');
 const emailService = require('../services/EmailService');
 const subscriptionsService = require('../services/SubscriptionsService');
+const eventsService = require('../services/EventsService');
 
 
 module.exports = (database) => {
@@ -185,6 +186,15 @@ module.exports = (database) => {
       const subscribers = await subscriptionsService.subscribersList(database);
 
       res.send(subscribers);
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
+  this.events = async (req, res, next) => {
+    try {
+      eventsService.getEvents(req, res);
     } catch (err) {
       console.log(err);
       return next(err);

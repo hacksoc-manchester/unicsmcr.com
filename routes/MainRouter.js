@@ -23,8 +23,10 @@ const MainRouter = (database) => {
   router.get('/partners', mainController.partners);
   // Gallery Page
   router.get('/gallery', mainController.gallery);
-  // Sign up page Page
+  // Sign up Page
   router.get('/signup', mainController.signUp);
+  // Events Page
+  router.get('/events', mainController.events);
   // Creating a new subscription
   router.get('/subscription/create', mainController.createSubscription);
   // Confirming a subscription
