@@ -122,7 +122,8 @@ section h2 {
 }
 
 #body {
-    padding-bottom: 50px; /* The height of the footer */
+    padding-bottom: 50px;
+    /* The height of the footer */
 }
 
 /* Footer */
@@ -156,4 +157,30 @@ footer #social-media img {
     border-radius: 50%;
     width: 37px;
     height: 37px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.smooth-transitions {
+    -webkit-transition: all 0.25s ease;
+    -moz-transition: all 0.25s ease;
+    -o-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+}
+
+.subscript {
+    margin-top: 0.5em;
+    font-size: 0.8em;
+    color: #c2c2c2;
+}
+
+.top-bottom-buffer-20 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.align-left {
+    text-align: left;
 }

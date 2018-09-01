@@ -28,7 +28,7 @@ const MainRouter = (database) => {
   // Privacy Page
   router.get('/privacy', mainController.privacy);
   // Creating a new subscription
-  router.post('/subscription/create', mainController.createSubscription);
+  router.post('/subscription/create', authHelpers.verifyReCAPTCHA, mainController.createSubscription);
   // Confirming a subscription
   router.get('/subscription/confirm', mainController.confirmSubscription);
   // Removing a subscription

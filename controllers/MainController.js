@@ -98,7 +98,7 @@ module.exports = (database) => {
 
   this.signUp = (req, res, next) => {
     try {
-      res.render('pages/signup');
+      res.render('pages/signup', { recaptchaKey: process.env.G_RECAPTCHA_KEY });
     } catch (err) {
       console.log(err);
       return next(err);

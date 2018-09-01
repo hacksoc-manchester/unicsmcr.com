@@ -1,0 +1,49 @@
+<form method="post" action="/subscription/create" class="needs-validation" novalidate>
+  <p>Help us organise our events by volunteering.<br>Just fill in this form and we'll contact you when we need help</p>
+  <% if (locals.volunteerError) { %>
+    <div class="alert alert-danger">
+      <%= volunteerError %>
+    </div>
+    <% } %>
+      <div class="user-details">
+        <div class="input-group user-first-name full-width">
+          <input class="form-control" type="text" name="first-name" placeholder="Your First Name" required>
+          <div class="invalid-feedback">
+            Please enter your first name.
+          </div>
+        </div>
+        <div class="input-group user-last-name full-width">
+          <input class="form-control" type="text" name="last-name" placeholder="Your Last Name" required>
+          <div class="invalid-feedback">
+            Please enter your last name.
+          </div>
+        </div>
+        <div class="input-group user-email full-width">
+          <input class="form-control" type="text" name="email" placeholder="Your Email" required>
+          <div class="invalid-feedback">
+            Please enter your email.
+          </div>
+        </div>
+
+      </div>
+      <div class="checkboxes">
+        <div class="checkbox" onclick="toggleCheckbox('privacy-checkbox')">
+          <div class="input-group">
+            <input class="form-check-input" id="privacy-checkbox" type="checkbox" name="agreeToPrivacyPolicy" checked onclick="toggleCheckbox('privacy-checkbox')"
+              required>
+            <div class="form-check-label">I agree to the <a href="/privacy">privacy policy</a></div>
+            <div class="invalid-feedback">
+              Please agree to our privacy policy.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="g-recaptcha" data-sitekey="<%= recaptchaKey %>"></div>
+        <ul>
+          <li>
+            <input class="submit-button" type="submit" value="Subscribe">
+          </li>
+        </ul>
+      </div>
+</form>

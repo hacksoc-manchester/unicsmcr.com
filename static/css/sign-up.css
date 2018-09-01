@@ -1,4 +1,5 @@
 /* Widescreen */
+
 .sign-up-form {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -9,13 +10,11 @@
     max-width: 1000px;
 }
 
-
 form {
     display: inline-block;
     max-width: 400px;
     width: 100%;
 }
-
 
 .user-details input {
     -moz-box-sizing: border-box;
@@ -31,28 +30,23 @@ form {
     line-height: 1.25em;
 }
 
-
 .user-details .user-first-name {
     padding: 0 0 2.5px 0;
 }
-
 
 .user-details .user-last-name {
     padding: 2.5px 0;
 }
 
-
 .user-details .user-email {
     padding: 2.5px 0 0 0;
 }
-
 
 .user-details input:focus {
     outline: 0;
     box-shadow: inset 0 0 0 1px #afd9e0;
     background: #fff;
 }
-
 
 .checkbox {
     margin: 5px 0;
@@ -64,52 +58,73 @@ form {
     font-weight: 400;
 }
 
-    .checkbox > div {
-        display: inline-block;
-    }
-
+.checkbox>div {
+    display: inline-block;
+}
 
 .actions {
     margin-top: 20px;
 }
 
-    .actions .g-recaptcha {
-        display: inline-block;
-        margin-bottom: 21px;
-    }
+.actions .g-recaptcha {
+    display: inline-block;
+    margin-bottom: 21px;
+}
 
-    .actions ul {
-        padding: 0;
-        margin: 0;
-    }
+.actions ul {
+    padding: 0;
+    margin: 0;
+}
 
-    .actions li {
-        display: inline-block;
-        margin: 0px 20px;
-    }
+.actions li {
+    display: inline-block;
+    margin: 0px 20px;
+}
 
-    .actions input {
-        position: relative;
-        background: #3d3d3d;
-        padding: 0.85em 3em;
-        border-radius: 0.25em;
-        cursor: pointer;
-        border: 0;
-        color: #fff;
-        font-size: 13px;
-    }
+.actions input {
+    position: relative;
+    background: #3d3d3d;
+    padding: 0.85em 3em;
+    border-radius: 0.25em;
+    cursor: pointer;
+    border: 0;
+    color: #fff;
+    font-size: 13px;
+}
 
-    .actions input:hover {
-        background: #4f4f4f;
-    }
+.actions input:hover {
+    background: #4f4f4f;
+}
 
+.form-check-input {
+    position: relative;
+    margin: 0;
+    display: inline;
+}
+
+.form-check-label {
+    display: inline;
+}
+
+.form-selector {
+    width: 100%;
+    height: 100%;
+    padding-top: 1vh;
+    color: #c0c0c0;
+    cursor: pointer;
+}
+
+.form-selector:hover {
+    background: #9b9b9b;
+    color: #dedede
+}
 
 /* Mobile */
+
 @media screen and (max-width: 736px) {
     .sign-up-form {
         padding: 30px 16px;
     }
-
     .actions input {
         font-size: 12px;
         padding: 0.85em 2.5em;
