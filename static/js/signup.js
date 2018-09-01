@@ -23,10 +23,10 @@ var currentFormKey = "newsletter";
 var currentForm = forms[currentFormKey];
 
 function showForm(formKey) {
-  $(currentForm.id).fadeOut("fast", function() {
+  $(currentForm.id).fadeOut("fast", function () {
     $(forms[formKey].id).fadeIn("fast");
   });
-  $("#formSelectors").fadeOut("fast", function() {
+  $("#formSelectors").fadeOut("fast", function () {
     $(currentForm.selectorId).html("<h1>" + forms[formKey].name + "</h1>");
     $(currentForm.selectorId).attr("onclick", "");
     $(forms[formKey].selectorId).html("<h3>" + currentForm.name + "</h3>");
@@ -38,4 +38,10 @@ function showForm(formKey) {
     currentFormKey = formKey;
     currentForm = forms[currentFormKey];
   });
+}
+
+function toggleCheckbox(checkboxId) {
+  var checkbox = $("#" + checkboxId);
+
+  checkbox.prop("checked", !checkbox.prop("checked"));
 }

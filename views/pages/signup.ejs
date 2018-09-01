@@ -6,6 +6,7 @@
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <title>Sign up | HackSoc</title>
     <link rel="stylesheet" type="text/css" href="/css/sign-up.css" />
+    <script src="js/signup.js"></script>
 </head>
 
 <body>
@@ -14,27 +15,32 @@
       <div id="body">
         <section id="sign-up">
           <div class="container">
+            <% if(locals.selectedForm) { %>
+              <script>
+                showForm(<%= selectedForm %>);
+              </script>
+            <% } %>
             <div id="formSelectors" class="row justify-content-center">
-              <div id="volunteerFormSelector" class="col-md-2 form-selector smooth-transitions"  onclick="showForm('volunteer')">
+              <div id="volunteerFormSelector" class="col-md-3 form-selector smooth-transitions" onclick="showForm('volunteer')">
                 <h3>Volunteer</h3>
-              </div>
+              </div>  
               <div id="newsletterFormSelector" class="col-md-4" onclick="showForm('newsletter')">
                 <h1>Newsletter</h1>
               </div>
-              <div id="committeeFormSelector" class="col-md-2 form-selector smooth-transitions"  onclick="showForm('committee')">
+              <div id="committeeFormSelector" class="col-md-3 form-selector smooth-transitions" onclick="showForm('committee')">
                 <h3>Committee</h3>
               </div>
             </div>
           </div>
           <br>
           <div class="row justify-content-center">
-            <div id="volunteer-form" style="display:none">
+            <div id="volunteer-form" class="row justify-content-center" style="display:none">
               <% include ../partials/volunteerForm.ejs %>
             </div>
-            <div id="newsletter-form">
+            <div id="newsletter-form" class="row justify-content-center">
               <% include ../partials/newsletterForm.ejs %>
             </div>
-            <div id="committee-form" style="display:none">
+            <div id="committee-form" class="row justify-content-center" style="display:none">
               <% include ../partials/committeeForm.ejs %>
             </div>
           </div>
@@ -45,10 +51,7 @@
 </body>
 <footer>
   <script>
-    function toggleCheckbox(checkboxId) {
-      var checkbox = $("#" + checkboxId);
-      checkbox.prop("checked", !checkbox.prop("checked"));
-    }
+    // Form validation
     (function () {
       'use strict';
       window.addEventListener('load', function () {
@@ -67,7 +70,6 @@
       }, false);
     })();
   </script>
-  <script src="js/signup.js"></script>
 </footer>
 
 </html>

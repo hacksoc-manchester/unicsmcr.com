@@ -1,90 +1,105 @@
-<link rel="stylesheet" href="css/committeeForm.css">
-<form method="post" action="/subscription/create" class="needs-validation" novalidate>
-  <p>Become a part of our committee.<br>Just fill in this form and we'll contact you when a position becomes available</p>
-  <% if (locals.volunteerError) { %>
-    <div class="alert alert-danger">
-      <%= volunteerError %>
-    </div>
-    <% } %>
-      <div class="user-details">
-        <div class="input-group user-first-name full-width">
-          <input class="form-control" type="text" name="first-name" placeholder="Your First Name" required>
-          <div class="invalid-feedback">
-            Please enter your first name.
-          </div>
-        </div>
-        <div class="input-group user-last-name full-width">
-          <input class="form-control" type="text" name="last-name" placeholder="Your Last Name" required>
-          <div class="invalid-feedback">
-            Please enter your last name.
-          </div>
-        </div>
-        <div class="input-group user-email full-width">
-          <input class="form-control" type="text" name="email" placeholder="Your Email" required>
-          <div class="invalid-feedback">
-            Please enter your email.
-          </div>
-        </div>
-        <div class="input-group user-subject full-width">
-          <input class="form-control" type="text" name="subject-of-study" placeholder="Your Subject of Study" required>
-          <div class="invalid-feedback">
-            Please enter your subject of study.
-          </div>
-        </div>
-        <p class="subscript">Collected only for demographic purposes</p>
-        <h6 class="align-left">Please specify your gender:</h6>
-        <input id="gender-input" hidden class="form-control" type="text" name="gender" required>
-        <div class="invalid-feedback">
-          Please specify your gender.
-        </div>
-        <div class="container">
-          <div class="row justify-content-center top-bottom-buffer-20">
-            <div id="male-gender-selector" class="col-3 gender-button smooth-transitions" onclick="chooseGender('male')">Male</div>
-            <div id="female-gender-selector" class="col-3 gender-button offset-1 smooth-transitions" onclick="chooseGender('female')">Female</div>
-            <div id="other-gender-selector" class="col-3 gender-button offset-1 smooth-transitions" onclick="chooseGender('other')">Other</div>
-          </div>
-          <input id="other-gender-input" placeholder="Please enter your gender" style="display:none" id="other-gender-input" type="text"
-            onkeyup="$('#gender-input').val(this.value)">
-        </div>
-        <p class="subscript">Collected only for demographic purposes</p>
-        <h6 class="align-left">Please specify why you want to join our committee</h6>
-        <textarea class="form-control" name="reason-to-join" id="reason-textarea" cols="30" rows="5" required onkeyup="updateReasonToJoin()"></textarea>
-        <div class="invalid-feedback">
-          Please specify why you want to join our committee.
-        </div>
-        <p class="subscript">Max characters: 500</p>
-        <h6 class="align-left">Please select the teams you are interested in joining</h6>
-        <input id="teams-input" hidden class="form-control" type="text" name="teams" required>
-        <div class="invalid-feedback">
-          Please select at least one team to join.
-        </div>
-        <div class="btn-group-vertical" style="width: 100%">
-          <div id="enterntainment-team-selector" class="team-button smooth-transitions" onclick="selectTeam('enterntainment')">Enterntainment</div>
-          <div id="events-team-selector" class="team-button smooth-transitions" onclick="selectTeam('events')">Events</div>
-          <div id="dev-team-selector" class="team-button smooth-transitions" onclick="selectTeam('dev')">Dev</div>
-          <div id="graphics-team-selector" class="team-button smooth-transitions" onclick="selectTeam('graphics')">Graphics</div>
-          <div id="pr-team-selector" class="team-button smooth-transitions" onclick="selectTeam('pr')">PR</div>
-        </div>
+<div class="col-lg-12">
+  <link rel="stylesheet" href="css/committeeForm.css">
+  <form method="post" action="/subscription/create" class="needs-validation" novalidate>
+    <p><b>Become a part of our committee.<br>Just fill in this form and we'll contact you when a position becomes available</b></p>
+    <br>
+    <% if (locals.committeeError) { %>
+      <div class="alert alert-danger">
+        <%= committeeError %>
       </div>
-      <div class="checkboxes">
-        <div class="checkbox" onclick="toggleCheckbox('privacy-checkbox')">
-          <div class="input-group">
-            <input class="form-check-input" id="privacy-checkbox" type="checkbox" name="agreeToPrivacyPolicy" checked onclick="toggleCheckbox('privacy-checkbox')"
-              required>
-            <div class="form-check-label">I agree to the <a href="/privacy">privacy policy</a></div>
-            <div class="invalid-feedback">
-              Please agree to our privacy policy.
+      <% } %>
+        <div class="user-details container">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="input-group user-first-name full-width">
+                <input class="form-control" type="text" name="first-name" placeholder="Your First Name" required>
+                <div class="invalid-feedback">
+                  Please enter your first name.
+                </div>
+              </div>
+              <div class="input-group user-last-name full-width">
+                <input class="form-control" type="text" name="last-name" placeholder="Your Last Name" required>
+                <div class="invalid-feedback">
+                  Please enter your last name.
+                </div>
+              </div>
+              <div class="input-group user-email full-width">
+                <input class="form-control" type="text" name="email" placeholder="Your Email" required>
+                <div class="invalid-feedback">
+                  Please enter your email.
+                </div>
+              </div>
+              <div class="input-group user-subject full-width">
+                <input class="form-control" type="text" name="subject-of-study" placeholder="Your Subject of Study" required>
+                <div class="invalid-feedback">
+                  Please enter your subject of study.
+                </div>
+              </div>
+              <p class="subscript">Collected only for demographic purposes</p>
+            </div>
+            <div class="col-sm-6">
+              <h6 class="align-left">Please select the teams you are interested in joining</h6>
+              <input id="teams-input" hidden class="form-control" type="text" name="teams" required>
+              <div class="invalid-feedback">
+                Please select at least one team to join.
+              </div>
+              <div class="btn-group-vertical" style="width: 100%">
+                <div id="enterntainment-team-selector" class="team-button smooth-transitions" onclick="selectTeam('enterntainment')">Enterntainment</div>
+                <div id="events-team-selector" class="team-button smooth-transitions" onclick="selectTeam('events')">Events</div>
+                <div id="dev-team-selector" class="team-button smooth-transitions" onclick="selectTeam('dev')">Dev</div>
+                <div id="graphics-team-selector" class="team-button smooth-transitions" onclick="selectTeam('graphics')">Graphics</div>
+                <div id="pr-team-selector" class="team-button smooth-transitions" onclick="selectTeam('pr')">PR</div>
+              </div>
+            </div>
+          </div>
+          <div class="row top-buffer-20">
+            <div class="col-sm-6">
+              <h6 class="align-left">Please specify your gender:</h6>
+              <input id="gender-input" hidden class="form-control" type="text" name="gender" required>
+              <div class="invalid-feedback">
+                Please specify your gender.
+              </div>
+              <div class="container">
+                <div class="row justify-content-center top-bottom-buffer-20">
+                  <div id="male-gender-selector" class="col-3 gender-button smooth-transitions" onclick="chooseGender('male')">Male</div>
+                  <div id="female-gender-selector" class="col-3 gender-button offset-1 smooth-transitions" onclick="chooseGender('female')">Female</div>
+                  <div id="other-gender-selector" class="col-3 gender-button offset-1 smooth-transitions" onclick="chooseGender('other')">Other</div>
+                </div>
+                <input class="form-control" id="other-gender-input" placeholder="Please enter your gender" style="display:none" id="other-gender-input" type="text"
+                  onkeyup="$('#gender-input').val(this.value)" required>
+              </div>
+              <p class="subscript">Collected only for demographic purposes</p>
+            </div>
+            <div class="col-sm-6">
+              <h6 class="align-left">Please specify why you want to join our committee</h6>
+              <textarea class="form-control" name="reason-to-join" id="reason-textarea" cols="30" rows="5" required onkeyup="updateReasonToJoin()"></textarea>
+              <div class="invalid-feedback">
+                Please specify why you want to join our committee.
+              </div>
+              <p class="subscript">Max characters: 500</p>
             </div>
           </div>
         </div>
-      </div>
-      <div class="actions">
-        <div class="g-recaptcha" data-sitekey="<%= recaptchaKey %>"></div>
-        <ul>
-          <li>
-            <input class="submit-button" type="submit" value="Subscribe">
-          </li>
-        </ul>
-      </div>
-</form>
-<script src="js/committeeForm.js"></script>
+        <div class="checkboxes">
+          <div class="checkbox" onclick="toggleCheckbox('privacy-checkbox')">
+            <div class="input-group">
+              <input class="form-check-input" id="privacy-checkbox" type="checkbox" name="agreeToPrivacyPolicy" checked onclick="toggleCheckbox('privacy-checkbox')"
+                required>
+              <div class="form-check-label">I agree to the <a href="/privacy">privacy policy</a></div>
+              <div class="invalid-feedback">
+                Please agree to our privacy policy.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <div class="g-recaptcha" data-sitekey="<%= recaptchaKey %>"></div>
+          <ul>
+            <li>
+              <input class="submit-button" type="submit" value="Apply">
+            </li>
+          </ul>
+        </div>
+  </form>
+  <script src="js/committeeForm.js"></script>
+</div>
