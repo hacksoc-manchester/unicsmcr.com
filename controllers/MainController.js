@@ -219,5 +219,14 @@ module.exports = (database) => {
     }
   };
 
+  this.committeeApply = (req, res, next) => {
+    console.log("hellow");
+    return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Thank you for subscribing to our mailing list!`);
+  };
+
+  this.volunteerApply = (req, res, next) => {
+    return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Thank you for subscribing to our mailing list!`);
+  };
+
   return this;
 };

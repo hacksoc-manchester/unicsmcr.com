@@ -35,6 +35,10 @@ const MainRouter = (database) => {
   router.delete('/subscription/remove', mainController.deleteRemoveSubscription);
   // Route for unsubscribe links in emails
   router.get('/subscription/remove', mainController.getRemoveSubscription);
+  // Route for applying to the committee
+  router.post('/committee/application/create', authHelpers.verifyReCAPTCHA, mainController.committeeApply);
+  // Route for applying to volunteer
+  router.post('/volunteer/application/create', authHelpers.verifyReCAPTCHA, mainController.volunteerApply);
 
   return router;
 };
