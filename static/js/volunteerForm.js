@@ -22,9 +22,12 @@ function volunteerChooseGender(gender) {
   $(volunteerGenderSelectors[gender]).addClass("selected-gender-button");
   if (gender == "other") {
     $("#volunteer-gender-input").val($("#volunteer-other-gender-input").val());
+    $("#volunteer-other-gender-input").val("");
     $("#volunteer-other-gender-input").show("fast");
   } else {
-    $("#volunteer-other-gender-input").hide("fast");
+    $("#volunteer-other-gender-input").hide("fast", function() {
+      $("#volunteer-other-gender-input").val(gender);
+    });
     $("#volunteer-gender-input").val(gender);
   }
 }

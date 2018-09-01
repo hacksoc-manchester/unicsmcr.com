@@ -17,14 +17,18 @@ var teamSelectors = {
   pr: "#pr-team-selector"
 };
 
+// REVIEW: refactor to use only one input field
 function chooseGender(gender) {
   $(".selected-gender-button").removeClass("selected-gender-button");
   $(genderSelectors[gender]).addClass("selected-gender-button");
   if (gender == "other") {
     $("#gender-input").val($("#other-gender-input").val());
+    $("#other-gender-input").val("");
     $("#other-gender-input").show("fast");
   } else {
-    $("#other-gender-input").hide("fast");
+    $("#other-gender-input").hide("fast", function() {
+      $("#other-gender-input").val(gender);
+    });
     $("#gender-input").val(gender);
   }
 }
