@@ -247,8 +247,6 @@ module.exports = (database) => {
   this.volunteerApply = async (req, res) => {
     try {
       const { firstName, lastName, email, subjectOfStudy, gender, teams, reasonToJoin, agreeToPrivacyPolicy, captchaMessage } = req.body;
-      console.log(req.body);
-      
 
       if (!firstName || !lastName || !email || !subjectOfStudy || !gender || !teams || !reasonToJoin) {
         return res.render("pages/signup", { volunteerError: "Please fill in all fields!", selectedForm: "volunteer", recaptchaKey: process.env.G_RECAPTCHA_KEY });
