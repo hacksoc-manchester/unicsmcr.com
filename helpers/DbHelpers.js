@@ -144,3 +144,26 @@ exports.confirmSubscriptionRequest = async (database, { subscriptionId, subscrib
     throw new Error(`Could not confirm subscription request: ${err}`);
   }
 };
+
+exports.createCommitteeApplication = async (database, application) => {
+  const existingApplication = await database.models.committeeapplication.findOne({
+    where: {
+      email: application.email
+    }
+  });
+
+  if (existingApplication) {
+    throw new Error(`${application.email} is already taken`);
+  }
+  const newApplication = await database.models.committeeapplication.create({
+    firstName: application.firstName,
+    lastName: application.lastName,
+    email: application.email,
+    subjectOfStudy: application.subjectOfStudy,
+    gender: application.gender,
+    teams: application.teams,
+    reasonToJoin: application.reasonToJoin
+  });
+
+  return newApplication;
+};
