@@ -23,9 +23,9 @@ function volunteerChooseGender(gender) {
   if (gender == "other") {
     $("#volunteer-gender-input").val($("#volunteer-other-gender-input").val());
     $("#volunteer-other-gender-input").val("");
-    $("#volunteer-other-gender-input").show("fast");
+    $("#volunteer-other-gender-input").fadeIn("fast");
   } else {
-    $("#volunteer-other-gender-input").hide("fast", function() {
+    $("#volunteer-other-gender-input").fadeOut("fast", function() {
       $("#volunteer-other-gender-input").val(gender);
     });
     $("#volunteer-gender-input").val(gender);

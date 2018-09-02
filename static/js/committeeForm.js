@@ -24,9 +24,9 @@ function chooseGender(gender) {
   if (gender == "other") {
     $("#gender-input").val($("#other-gender-input").val());
     $("#other-gender-input").val("");
-    $("#other-gender-input").show("fast");
+    $("#other-gender-input").fadeIn("fast");
   } else {
-    $("#other-gender-input").hide("fast", function() {
+    $("#other-gender-input").fadeOut("fast", function() {
       $("#other-gender-input").val(gender);
     });
     $("#gender-input").val(gender);
