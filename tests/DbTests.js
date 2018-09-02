@@ -135,24 +135,34 @@ module.exports = (mocha) => {
     });
 
     mocha.it("Should create a new CommitteeApplication", async () => {
+      // Cleaning up database from previous tests
       await database.query(`DELETE FROM committeeapplications WHERE email = '${testSubscriber.email}'`);
+      // Creating new application
       const newApplication = await dbHelpers.createCommitteeApplication(database, testSubscriber);
+      // Finding the created application
       const foundApplication = (await database.query(`SELECT * FROM committeeapplications WHERE email = '${testSubscriber.email}'`))[0][0];
 
+      // Checking if a correct application was created
       expect(applicationsAreEqual(newApplication, testSubscriber), "Equal to original value").to.be.true;
       expect(applicationsAreEqual(newApplication, foundApplication), "Equal to found value").to.be.true;
 
+      // Cleaning up
       await database.query(`DELETE FROM committeeapplications WHERE email = '${testSubscriber.email}'`);
     });
 
     mocha.it("Should create a new VolunteerApplication", async () => {
+      // Cleaning up database from previous tests
       await database.query(`DELETE FROM volunteerapplications WHERE email = '${testSubscriber.email}'`);
+      // Creating new application
       const newApplication = await dbHelpers.createVolunteerApplication(database, testSubscriber);
+      // Finding the created application
       const foundApplication = (await database.query(`SELECT * FROM volunteerapplications WHERE email = '${testSubscriber.email}'`))[0][0];
 
+      // Checking if a correct application was created
       expect(applicationsAreEqual(newApplication, testSubscriber), "Equal to original value").to.be.true;
       expect(applicationsAreEqual(newApplication, foundApplication), "Equal to found value").to.be.true;
 
+      // Cleaning up
       await database.query(`DELETE FROM volunteerapplications WHERE email = '${testSubscriber.email}'`);
     });
   });
