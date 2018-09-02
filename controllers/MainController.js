@@ -35,7 +35,7 @@ module.exports = (database) => {
         return next({
           type: "message",
           title: "Error",
-          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+          message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
         });
       }
       return res.render('pages/message', { title, message });
@@ -140,7 +140,7 @@ module.exports = (database) => {
         return next({
           type: "message",
           title: "Error",
-          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+          message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
         });
       }
       await subscriptionsService.removeSubscriber(database, { email, subscriptionId });
@@ -159,7 +159,7 @@ module.exports = (database) => {
         return next({
           type: "message",
           title: "Error",
-          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+          message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
         });
       }
       await subscriptionsService.removeSubscriber(database, { email, subscriptionId });
@@ -178,7 +178,7 @@ module.exports = (database) => {
         return next({
           type: "message",
           title: "Error",
-          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+          message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
         });
       }
 
@@ -193,7 +193,7 @@ module.exports = (database) => {
         return next({
           type: "message",
           title: "Error",
-          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+          message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
         });
       }
       return res.render("pages/message", { title: "Success", message: "Thank you for subscribing to our mailing list!" });
@@ -237,7 +237,7 @@ module.exports = (database) => {
         return res.render("pages/signup", { committeeError: captchaMessage, selectedForm: "committee" });
       }
       await dbHelpers.createCommitteeApplication(database, req.body);
-      return res.render("pages/message", { title: "Success", message: "You have successfully applied to join our committee!\nWe will contact you as soon as a position becomes available." });
+      return res.render("pages/message", { title: "Success", message: "You have successfully applied to join our committee!<br>We will contact you as soon as a position becomes available." });
     } catch (err) {
       console.log(err);
       return res.render("pages/signup", { committeeError: err, selectedForm: "committee" });
@@ -258,7 +258,7 @@ module.exports = (database) => {
         return res.render("pages/signup", { volunteerError: captchaMessage, selectedForm: "volunteer" });
       }
       await dbHelpers.createVolunteerApplication(database, req.body);
-      return res.render("pages/message", { title: "Success", message: "You have successfully applied to volunteer!\nWe will contact you as soon as we need the help." });
+      return res.render("pages/message", { title: "Success", message: "You have successfully applied to volunteer!<br>We will contact you as soon as we need your help." });
     } catch (err) {
       console.log(err);
       return res.render("pages/signup", { volunteerError: err, selectedForm: "volunteer" });
