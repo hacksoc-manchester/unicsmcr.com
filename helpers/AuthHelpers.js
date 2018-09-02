@@ -17,3 +17,8 @@ exports.verifyReCAPTCHA = (req, res, next) => {
     next();
   });
 };
+
+exports.attachReCAPTCHAKey = (req, res, next) => {
+  res.locals.recaptchaKey = process.env.G_RECAPTCHA_KEY;
+  next();
+};

@@ -20,7 +20,7 @@ module.exports = (database) => {
 
   this.contact = (req, res, next) => {
     try {
-      res.render('pages/contact', { recaptchaKey: process.env.G_RECAPTCHA_KEY });
+      res.render('pages/contact');
     } catch (err) {
       console.log(err);
       return next(err);
@@ -50,7 +50,7 @@ module.exports = (database) => {
       const { name, email, message, captchaMessage } = req.body;
 
       if (captchaMessage) {
-        return res.render("pages/contact", { error: captchaMessage, recaptchaKey: process.env.G_RECAPTCHA_KEY });
+        return res.render("pages/contact", { error: captchaMessage });
       }
       const sender = `${name || "Name not specified"}: ${email || "Email not specified"}`;
 
@@ -104,7 +104,7 @@ module.exports = (database) => {
 
   this.signUp = (req, res, next) => {
     try {
-      res.render('pages/signup', { recaptchaKey: process.env.G_RECAPTCHA_KEY });
+      res.render('pages/signup');
     } catch (err) {
       console.log(err);
       return next(err);
@@ -116,19 +116,19 @@ module.exports = (database) => {
       const { firstName, lastName, email, agreeToPrivacyPolicy, captchaMessage } = req.body;
 
       if (!firstName || !lastName || !email) {
-        return res.render("pages/signup", { newsletterError: "Please fill in all fields!", selectedForm: "newsletter", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+        return res.render("pages/signup", { newsletterError: "Please fill in all fields!", selectedForm: "newsletter" });
       }
       if (!agreeToPrivacyPolicy) {
-        return res.render("pages/signup", { newsletterError: "Please agree to the privacy policy.", selectedForm: "newsletter", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+        return res.render("pages/signup", { newsletterError: "Please agree to the privacy policy.", selectedForm: "newsletter" });
       }
       if (captchaMessage) {
-        return res.render("pages/signup", { newsletterError: captchaMessage, selectedForm: "newsletter", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+        return res.render("pages/signup", { newsletterError: captchaMessage, selectedForm: "newsletter" });
       }
       await subscriptionsService.createSubscriber(database, { firstName, lastName, email });
       return res.render("pages/message", { title: "Success", message: "Thank you for subscribing to our mailing list!" });
     } catch (err) {
       console.log(err);
-      return res.render("pages/signup", { newsletterError: err, selectedForm: "newsletter", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+      return res.render("pages/signup", { newsletterError: err, selectedForm: "newsletter" });
     }
   };
 
@@ -228,19 +228,19 @@ module.exports = (database) => {
       const { firstName, lastName, email, subjectOfStudy, gender, teams, reasonToJoin, agreeToPrivacyPolicy, captchaMessage } = req.body;
 
       if (!firstName || !lastName || !email || !subjectOfStudy || !gender || !teams || !reasonToJoin) {
-        return res.render("pages/signup", { committeeError: "Please fill in all fields!", selectedForm: "committee", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+        return res.render("pages/signup", { committeeError: "Please fill in all fields!", selectedForm: "committee" });
       }
       if (!agreeToPrivacyPolicy) {
-        return res.render("pages/signup", { committeeError: "Please agree to the privacy policy.", selectedForm: "committee", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+        return res.render("pages/signup", { committeeError: "Please agree to the privacy policy.", selectedForm: "committee" });
       }
       if (captchaMessage) {
-        return res.render("pages/signup", { committeeError: captchaMessage, selectedForm: "committee", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+        return res.render("pages/signup", { committeeError: captchaMessage, selectedForm: "committee" });
       }
       await dbHelpers.createCommitteeApplication(database, req.body);
       return res.render("pages/message", { title: "Success", message: "You have successfully applied to join our committee!\nWe will contact you as soon as a position becomes available." });
     } catch (err) {
       console.log(err);
-      return res.render("pages/signup", { committeeError: err, selectedForm: "committee", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+      return res.render("pages/signup", { committeeError: err, selectedForm: "committee" });
     }
   };
 
@@ -249,19 +249,19 @@ module.exports = (database) => {
       const { firstName, lastName, email, subjectOfStudy, gender, teams, reasonToJoin, agreeToPrivacyPolicy, captchaMessage } = req.body;
 
       if (!firstName || !lastName || !email || !subjectOfStudy || !gender || !teams || !reasonToJoin) {
-        return res.render("pages/signup", { volunteerError: "Please fill in all fields!", selectedForm: "volunteer", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+        return res.render("pages/signup", { volunteerError: "Please fill in all fields!", selectedForm: "volunteer" });
       }
       if (!agreeToPrivacyPolicy) {
-        return res.render("pages/signup", { volunteerError: "Please agree to the privacy policy.", selectedForm: "volunteer", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+        return res.render("pages/signup", { volunteerError: "Please agree to the privacy policy.", selectedForm: "volunteer" });
       }
       if (captchaMessage) {
-        return res.render("pages/signup", { volunteerError: captchaMessage, selectedForm: "volunteer", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+        return res.render("pages/signup", { volunteerError: captchaMessage, selectedForm: "volunteer" });
       }
       await dbHelpers.createVolunteerApplication(database, req.body);
       return res.render("pages/message", { title: "Success", message: "You have successfully applied to volunteer!\nWe will contact you as soon as we need the help." });
     } catch (err) {
       console.log(err);
-      return res.render("pages/signup", { volunteerError: err, selectedForm: "volunteer", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+      return res.render("pages/signup", { volunteerError: err, selectedForm: "volunteer" });
     }
   };
 
