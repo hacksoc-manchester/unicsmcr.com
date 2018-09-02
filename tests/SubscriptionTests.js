@@ -17,41 +17,14 @@ module.exports = (mocha, app) => {
   };
 
   mocha.describe("Subscription tests:", () => {
-    const { firstName, lastName, email } = testSubscriber;
-
-    mocha.it("Should create a new Subscriber", async () => {
-      // Removing test subscriber if it was created in previous tests
-      const oldSubscriber = await dbHelpers.findSubscriberByEmail(database, email);
-
-      if (oldSubscriber) {
-        await dbHelpers.removeSubscriber(database, { email, subscriptionId: oldSubscriber.subscriptionId });
-      }
-
-      try {
-        await chai.request(app)
-          .post('/subscription/create')
-          .type('urlencoded')
-          .send({
-            _method: 'post',
-            firstName,
-            lastName,
-            email
-          });
-        const newSubscriber = await dbHelpers.findSubscriberByEmail(database, email);
-
-        expect(subscribersAreEqual(testSubscriber, newSubscriber)).to.be.true;
-        testSubscriber.subscriptionId = newSubscriber.subscriptionId;
-      } catch (err) {
-        expect(err).to.be.null;
-      }
-    });
-
     mocha.it("Should remove Subscriber with GET request", async () => {
       try {
+        const newSubscriber = await dbHelpers.createSubscriber(database, testSubscriber);
+
         await chai.request(app)
           .get('/subscription/remove')
-          .query({ email: testSubscriber.email, subscriptionId: testSubscriber.subscriptionId });
-        const foundSubscriber = await dbHelpers.findSubscriberByEmail(database, email);
+          .query({ email: newSubscriber.email, subscriptionId: newSubscriber.subscriptionId });
+        const foundSubscriber = await dbHelpers.findSubscriberByEmail(database, testSubscriber.email);
 
         expect(foundSubscriber).to.be.null;
       } catch (err) {
@@ -61,16 +34,17 @@ module.exports = (mocha, app) => {
 
     mocha.it("Should remove Subscriber with DELETE request", async () => {
       try {
-        await dbHelpers.createSubscriber(database, testSubscriber);
+        const newSubscriber = await dbHelpers.createSubscriber(database, testSubscriber);
+
         await chai.request(app)
           .del("/subscription/remove")
           .type('urlencoded')
           .send({
             _method: "delete",
-            email: testSubscriber.email,
-            subscriptionId: testSubscriber.subscriptionId
+            email: newSubscriber.email,
+            subscriptionId: newSubscriber.subscriptionId
           });
-        const foundSubscriber = await dbHelpers.findSubscriberByEmail(database, email);
+        const foundSubscriber = await dbHelpers.findSubscriberByEmail(database, testSubscriber.email);
 
         expect(foundSubscriber).to.be.null;
       } catch (err) {
@@ -78,10 +52,4 @@ module.exports = (mocha, app) => {
       }
     });
   });
-};
-
-const subscribersAreEqual = (subscriberA, subscriberB) => {
-  return subscriberA.email == subscriberB.email &&
-    subscriberA.firstName == subscriberB.firstName &&
-    subscriberA.lastName == subscriberB.lastName;
 };
