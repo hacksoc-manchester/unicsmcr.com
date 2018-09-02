@@ -1,7 +1,7 @@
 /* globals $ */
 'use strict';
 
-var reasonToJoinMaxLength = 500;
+var reasonToJoinMaxLength = 256;
 
 var genderSelectors = {
   male: "#male-gender-selector",
