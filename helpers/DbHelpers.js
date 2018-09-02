@@ -165,7 +165,7 @@ exports.createCommitteeApplication = async (database, application) => {
     reasonToJoin: application.reasonToJoin
   });
 
-  return newApplication;
+  return newApplication.dataValues;
 };
 
 exports.createVolunteerApplication = async (database, application) => {
@@ -188,5 +188,5 @@ exports.createVolunteerApplication = async (database, application) => {
     reasonToJoin: application.reasonToJoin
   });
 
-  return newApplication;
+  return newApplication.dataValues;
 };
