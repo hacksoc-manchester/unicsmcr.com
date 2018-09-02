@@ -223,7 +223,7 @@ module.exports = (database) => {
     }
   };
 
-  this.committeeApply = async (req, res, next) => {
+  this.committeeApply = async (req, res) => {
     try {
       const { firstName, lastName, email, subjectOfStudy, gender, teams, reasonToJoin, agreeToPrivacyPolicy, captchaMessage } = req.body;
 
@@ -244,8 +244,27 @@ module.exports = (database) => {
     }
   };
 
-  this.volunteerApply = (req, res, next) => {
-    return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Thank you for subscribing to our mailing list!`);
+  this.volunteerApply = async (req, res) => {
+    try {
+      const { firstName, lastName, email, subjectOfStudy, gender, teams, reasonToJoin, agreeToPrivacyPolicy, captchaMessage } = req.body;
+      console.log(req.body);
+      
+
+      if (!firstName || !lastName || !email || !subjectOfStudy || !gender || !teams || !reasonToJoin) {
+        return res.render("pages/signup", { volunteerError: "Please fill in all fields!", selectedForm: "volunteer", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+      }
+      if (!agreeToPrivacyPolicy) {
+        return res.render("pages/signup", { volunteerError: "Please agree to the privacy policy.", selectedForm: "volunteer", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+      }
+      if (captchaMessage) {
+        return res.render("pages/signup", { volunteerError: captchaMessage, selectedForm: "volunteer", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+      }
+      await dbHelpers.createVolunteerApplication(database, req.body);
+      return res.render("pages/message", { title: "Success", message: "You have successfully applied to volunteer!\nWe will contact you as soon as we need the help." });
+    } catch (err) {
+      console.log(err);
+      return res.render("pages/signup", { volunteerError: err, selectedForm: "volunteer", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+    }
   };
 
   return this;
