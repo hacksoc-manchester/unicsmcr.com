@@ -14,28 +14,25 @@
         <section id="sign-up">
           <div class="container">
             
-            <div id="formSelectors" class="row justify-content-center">
-              <div id="volunteerFormSelector" class="col-md-3 form-selector smooth-transitions" onclick="showForm('volunteer')">
+            <div id="form-selectors" class="row justify-content-center">
+              <div id="volunteer-form-selector" class="col-md-3 form-selector smooth-transitions" onclick="showForm('volunteer')">
                 <h3>Volunteer</h3>
               </div>  
-              <div id="newsletterFormSelector" class="col-md-4" onclick="showForm('newsletter')">
+              <div id="newsletter-form-selector" class="col-md-4" onclick="showForm('newsletter')">
                 <h1>Newsletter</h1>
               </div>
-              <div id="committeeFormSelector" class="col-md-3 form-selector smooth-transitions" onclick="showForm('committee')">
+              <div id="committee-form-selector" class="col-md-3 form-selector smooth-transitions" onclick="showForm('committee')">
                 <h3>Committee</h3>
               </div>
             </div>
           </div>
           <br>
-          <div class="row justify-content-center">
-            <div id="volunteer-form" class="row justify-content-center" style="display:none">
-              <% include ../partials/volunteerForm.ejs %>
+          <div class="row justify-conntent-center">
+            <div id="application-form-container" class="row centered justify-content-center" style="display:none">
+              <% include ../partials/applicationForm.ejs %>
             </div>
-            <div id="newsletter-form" class="row justify-content-center">
+            <div id="newsletter-form-container" class="row centered justify-content-center">
               <% include ../partials/newsletterForm.ejs %>
-            </div>
-            <div id="committee-form" class="row justify-content-center" style="display:none">
-              <% include ../partials/committeeForm.ejs %>
             </div>
           </div>
         </section>

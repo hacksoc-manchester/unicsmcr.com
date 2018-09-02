@@ -5,18 +5,24 @@
 var forms = {
   newsletter: {
     name: "Newsletter",
-    id: "#newsletter-form",
-    selectorId: "#newsletterFormSelector"
+    id: "#newsletter-form-container",
+    selectorId: "#newsletter-form-selector"
   },
   volunteer: {
     name: "Volunteer",
-    id: "#volunteer-form",
-    selectorId: "#volunteerFormSelector"
+    id: "#application-form-container",
+    selectorId: "#volunteer-form-selector",
+    errorContainer: "#volunteer-error",
+    action: "/volunteer/application/create",
+    description: "<b>Help us organise our events by volunteering.<br>Just fill in this form and we'll contact you when we need help</b>"
   },
   committee: {
     name: "Committee",
-    id: "#committee-form",
-    selectorId: "#committeeFormSelector"
+    id: "#application-form-container",
+    selectorId: "#committee-form-selector",
+    errorContainer: "#committee-error",
+    action: "/committee/application/create",
+    description: "<b>Become a part of our committee.<br>Just fill in this form and we'll contact you when a position becomes available</b>"
   }
 };
 
@@ -28,11 +34,17 @@ var currentForm = forms[currentFormKey];
 function showForm(formKey) {
   // Hide currently selected form
   $(currentForm.id).fadeOut("fast", function () {
+    if (formKey != "newsletter") {
+      $("#application-form").prop("action", forms[formKey].action);
+      $("#form-description").html(forms[formKey].description);
+      $(".application-error").hide();
+      $(forms[formKey].errorContainer).show();
+    }
     // Show given form
     $(forms[formKey].id).fadeIn("fast");
   });
   // Hide form selectors and reorder them based on the given form
-  $("#formSelectors").fadeOut("fast", function () {
+  $("#form-selectors").fadeOut("fast", function () {
     // Reordering the form selectors
     $(currentForm.selectorId).html("<h1>" + forms[formKey].name + "</h1>");
     $(currentForm.selectorId).attr("onclick", "");
@@ -42,7 +54,7 @@ function showForm(formKey) {
     $(forms[formKey].selectorId).attr("id", currentForm.selectorId.slice(1));
     $("#tempId").attr("id", forms[formKey].selectorId.slice(1));
     // Showing the form selectors
-    $("#formSelectors").fadeIn("fast");
+    $("#form-selectors").fadeIn("fast");
     // Updating the currently selected form
     currentFormKey = formKey;
     currentForm = forms[currentFormKey];

@@ -1,14 +1,19 @@
 <div class="col-lg-12">
-  <link rel="stylesheet" href="/css/committeeForm.css">
-  <form method="post" action="/committee/application/create" class="needs-validation" novalidate>
-    <p><b>Become a part of our committee.<br>Just fill in this form and we'll contact you when a position becomes available</b></p>
+  <link rel="stylesheet" href="/css/applicationForm.css">
+  <form id="application-form" method="post" action="/committee/application/create" class="needs-validation" novalidate>
+    <p id="form-description"><b>Become a part of our committee.<br>Just fill in this form and we'll contact you when a position becomes available</b></p>
     <br>
     <% if (locals.committeeError) { %>
-      <div class="alert alert-danger">
+      <div id="committee-error" class="application-error alert alert-danger">
         <%= committeeError %>
       </div>
       <% } %>
-        <div class="user-details container">
+    <% if (locals.volunteerError) { %>
+      <div id="volunteer-error" class="application-error alert alert-danger">
+        <%= volunteerError %>
+      </div>
+      <% } %>
+      <div class="user-details container">
           <div class="row">
             <div class="col-sm-6">
               <div class="input-group user-first-name full-width">
@@ -69,10 +74,10 @@
               <p class="subscript">Collected only for demographic purposes</p>
             </div>
             <div class="col-sm-6">
-              <h6 class="align-left">Please specify why you want to join our committee</h6>
+              <h6 class="align-left">Please specify why you want to join us</h6>
               <textarea class="form-control" name="reasonToJoin" id="reason-textarea" cols="30" rows="5" required onkeyup="updateReasonToJoin()"></textarea>
               <div class="invalid-feedback">
-                Please specify why you want to join our committee.
+                  Please specify why you want to join us.
               </div>
               <p class="subscript">Max characters: 256</p>
             </div>
@@ -99,5 +104,5 @@
           </ul>
         </div>
   </form>
-  <script src="/js/committeeForm.js"></script>
+  <script src="/js/applicationForm.js"></script>
 </div>

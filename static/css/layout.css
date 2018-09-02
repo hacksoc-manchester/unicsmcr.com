@@ -188,3 +188,7 @@ footer #social-media img {
 .align-left {
     text-align: left !important;
 }
+
+.centered {
+    margin: 0 auto !important;
+}
