@@ -6,7 +6,7 @@ exports.handleOther = (err, req, res, next) => {
     return next(err);
   }
   console.error(err);
-  return res.redirect(`${req.protocol}://${req.get('host')}/message?title=${err.title}&message=${err.message}`);
+  res.status(500).render('pages/message', { title: err.title, message: err.message, showContact: true });
 };
 
 exports.handle500 = (err, req, res, next) => {
