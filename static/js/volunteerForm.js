@@ -21,14 +21,12 @@ function volunteerChooseGender(gender) {
   $(".selected-gender-button").removeClass("selected-gender-button");
   $(volunteerGenderSelectors[gender]).addClass("selected-gender-button");
   if (gender == "other") {
-    $("#volunteer-gender-input").val($("#volunteer-other-gender-input").val());
-    $("#volunteer-other-gender-input").val("");
-    $("#volunteer-other-gender-input").fadeIn("fast");
+    $("#volunteer-gender-input").val("");
+    $("#volunteer-gender-input").fadeIn("fast");
   } else {
-    $("#volunteer-other-gender-input").fadeOut("fast", function() {
-      $("#volunteer-other-gender-input").val(gender);
+    $("#volunteer-gender-input").fadeOut("fast", function() {
+      $("#volunteer-gender-input").val(gender);
     });
-    $("#volunteer-gender-input").val(gender);
   }
 }
 

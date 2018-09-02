@@ -55,7 +55,6 @@
             <div class="row top-buffer-20">
               <div class="col-sm-6">
                 <h6 class="align-left">Please specify your gender:</h6>
-                <input id="volunteer-gender-input" hidden class="form-control" type="text" name="gender" required>
                 <div class="invalid-feedback">
                   Please specify your gender.
                 </div>
@@ -65,8 +64,7 @@
                     <div id="volunteer-female-gender-selector" class="col-3 gender-button offset-1 smooth-transitions" onclick="volunteerChooseGender('female')">Female</div>
                     <div id="volunteer-other-gender-selector" class="col-3 gender-button offset-1 smooth-transitions" onclick="volunteerChooseGender('other')">Other</div>
                   </div>
-                  <input class="form-control" id="volunteer-other-gender-input" placeholder="Please enter your gender" style="display:none" type="text"
-                    onkeyup="$('#volunteer-gender-input').val(this.value)" required>
+                  <input class="form-control" id="volunteer-gender-input" placeholder="Please enter your gender" style="display:none" type="text" required>
                 </div>
                 <p class="subscript">Collected only for demographic purposes</p>
               </div>
