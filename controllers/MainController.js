@@ -124,14 +124,13 @@ module.exports = (database) => {
       }
       await subscriptionsService.createSubscriber(database, { firstName, lastName, email });
       return res.render("pages/message", { title: "Success", message: "Thank you for subscribing to our mailing list!" });
-      // return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Thank you for subscribing to our mailing list!`);
     } catch (err) {
       console.log(err);
       return res.render("pages/signup", { newsletterError: err, selectedForm: "committee", recaptchaKey: process.env.G_RECAPTCHA_KEY });
     }
   };
 
-  this.getRemoveSubscription = (req, res, next) => {
+  this.getRemoveSubscription = async (req, res, next) => {
     try {
       const { email, subscriptionId } = req.query;
 
@@ -142,16 +141,15 @@ module.exports = (database) => {
           message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
         });
       }
-      subscriptionsService.removeSubscriber(database, { email, subscriptionId }).then(() => {
-        return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Your subscription has been removed successfully!`);
-      });
+      await subscriptionsService.removeSubscriber(database, { email, subscriptionId });
+      return res.render("pages/message", { title: "Success", message: "Your subscription has been removed successfully!" });
     } catch (err) {
       console.log(err);
       return next(err);
     }
   };
 
-  this.deleteRemoveSubscription = (req, res, next) => { // REVIEW: code repetition
+  this.deleteRemoveSubscription = async (req, res, next) => { // REVIEW: code repetition
     try {
       const { email, subscriptionId } = req.body;
 
@@ -162,9 +160,8 @@ module.exports = (database) => {
           message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
         });
       }
-      subscriptionsService.removeSubscriber(database, { email, subscriptionId }).then(() => {
-        return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Your subscription has been removed successfully!`);
-      });
+      await subscriptionsService.removeSubscriber(database, { email, subscriptionId });
+      return res.render("pages/message", { title: "Success", message: "Your subscription has been removed successfully!" });
     } catch (err) {
       console.log(err);
       return next(err);
@@ -197,8 +194,7 @@ module.exports = (database) => {
           message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
         });
       }
-
-      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Thank you for subscribing to our mailing list!`);
+      return res.render("pages/message", { title: "Success", message: "Thank you for subscribing to our mailing list!" });
     } catch (err) {
       console.log(err);
       return next(err);
