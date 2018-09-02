@@ -6,7 +6,6 @@
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <title>Sign up | HackSoc</title>
     <link rel="stylesheet" type="text/css" href="/css/sign-up.css" />
-    <script src="js/signup.js"></script>
 </head>
 
 <body>
@@ -15,11 +14,7 @@
       <div id="body">
         <section id="sign-up">
           <div class="container">
-            <% if(locals.selectedForm) { %>
-              <script>
-                showForm(<%= selectedForm %>);
-              </script>
-            <% } %>
+            
             <div id="formSelectors" class="row justify-content-center">
               <div id="volunteerFormSelector" class="col-md-3 form-selector smooth-transitions" onclick="showForm('volunteer')">
                 <h3>Volunteer</h3>
@@ -50,7 +45,11 @@
   </div>
 </body>
 <footer>
+  <script src="/js/signup.js"></script>
   <script>
+    <% if(locals.selectedForm && selectedForm != "newsletter") { %>
+      showForm("<%= selectedForm %>");
+    <% } %>
     // Form validation
     (function () {
       'use strict';

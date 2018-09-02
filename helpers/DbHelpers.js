@@ -31,7 +31,7 @@ exports.createSubscriber = async (database, { firstName, lastName, email, subscr
     // Subscriber created, returning response
     return newSubscriber.dataValues;
   } catch (err) {
-    throw new Error(`Could not create subscriber: ${err}`);
+    throw new Error(err.message);
   }
 };
 

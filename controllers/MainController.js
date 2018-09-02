@@ -45,7 +45,11 @@ module.exports = (database) => {
 
   this.contactHackSoc = (req, res, next) => {
     try {
-      const { name, email, message } = req.body;
+      const { name, email, message, captchaMessage } = req.body;
+
+      if (captchaMessage) {
+        return res.render("pages/contact", { error: captchaMessage, recaptchaKey: process.env.G_RECAPTCHA_KEY });
+      }
       const sender = `${name || "Name not specified"}: ${email || "Email not specified"}`;
 
       emailService.contactHackSoc(sender, message);
@@ -105,23 +109,25 @@ module.exports = (database) => {
     }
   };
 
-  this.createSubscription = (req, res, next) => {
+  this.createSubscription = async (req, res, next) => {
     try {
-      const { firstName, lastName, email } = req.body;
+      const { firstName, lastName, email, agreeToPrivacyPolicy, captchaMessage } = req.body;
 
       if (!firstName || !lastName || !email) {
-        return next({
-          type: "message",
-          title: "Error",
-          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
-        });
+        return res.render("pages/signup", { newsletterError: "Please fill in all fields!", selectedForm: "newsletter", recaptchaKey: process.env.G_RECAPTCHA_KEY });
       }
-      subscriptionsService.createSubscriber(database, { firstName, lastName, email }).then(() => {
-        return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Thank you for subscribing to our mailing list!`);
-      });
+      if (!agreeToPrivacyPolicy) {
+        return res.render("pages/signup", { newsletterError: "Please fill in all fields!", selectedForm: "newsletter", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+      }
+      if (captchaMessage) {
+        return res.render("pages/signup", { newsletterError: captchaMessage, selectedForm: "newsletter", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+      }
+      await subscriptionsService.createSubscriber(database, { firstName, lastName, email });
+      return res.render("pages/message", { title: "Success", message: "Thank you for subscribing to our mailing list!" });
+      // return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Thank you for subscribing to our mailing list!`);
     } catch (err) {
       console.log(err);
-      return next(err);
+      return res.render("pages/signup", { newsletterError: err, selectedForm: "committee", recaptchaKey: process.env.G_RECAPTCHA_KEY });
     }
   };
 

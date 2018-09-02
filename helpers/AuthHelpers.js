@@ -12,9 +12,8 @@ exports.verifyReCAPTCHA = (req, res, next) => {
   request(verificationUrl, (err, verResponse, body) => { // Send verification request
     body = JSON.parse(body);
     if (err || body.success !== null && !body.success) { // Verification unsucessful
-      // REVIEW: helper should probably not render response
-      return res.render("pages/message", { title: "Contact", message: "Turing test failed. Please try again." });
+      req.body.captchaMessage = "Error: Turing test failed. Please try again.";
     }
-    next(); // Verification sucessful
+    next();
   });
 };

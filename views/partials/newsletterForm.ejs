@@ -2,20 +2,20 @@
   <form method="post" action="/subscription/create" class="needs-validation" novalidate>
     <p><b>Sign up to our newsletter to receive information about our events to your email account</b></p>
     <br>
-    <% if (locals.signUpError) { %>
+    <% if (locals.newsletterError) { %>
       <div class="alert alert-danger">
-        <%= signUpError %>
+        <%= newsletterError %>
       </div>
       <% } %>
         <div class="user-details">
           <div class="input-group user-first-name full-width">
-            <input class="form-control" type="text" name="first-name" placeholder="Your First Name" required>
+            <input class="form-control" type="text" name="firstName" placeholder="Your First Name" required>
             <div class="invalid-feedback">
               Please enter your first name.
             </div>
           </div>
           <div class="input-group user-last-name full-width">
-            <input class="form-control" type="text" name="last-name" placeholder="Your Last Name" required>
+            <input class="form-control" type="text" name="lastName" placeholder="Your Last Name" required>
             <div class="invalid-feedback">
               Please enter your last name.
             </div>

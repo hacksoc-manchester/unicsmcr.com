@@ -3,29 +3,34 @@
 
 <head>
   <% include ../partials/head.ejs %>
-  <script src='https://www.google.com/recaptcha/api.js'></script>
-  <title>Contact | HackSoc</title>
-  <link rel="stylesheet" type="text/css" href="/css/contact.css" />
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <title>Contact | HackSoc</title>
+    <link rel="stylesheet" type="text/css" href="/css/contact.css" />
 </head>
 
 <body>
   <div id="container">
     <% include ../partials/navbar.ejs %>
       <div id="body">
-          <section id="contact">
-              <h1>Contact</h1>
-              <div class="contact-form">
-                <form method="post" action="contact">
-                  <div class="user-details">
-                    <div class="user-name">
+        <section id="contact">
+          <h1>Contact</h1>
+          <div class="contact-form">
+            <form method="post" action="contact">
+              <% if (locals.error) { %>
+                <div class="alert alert-danger">
+                  <%= error %>
+                </div>
+                <% } %>
+                  <div class="user-details row">
+                    <div class="user-name col-md-6">
                       <input type="text" name="name" placeholder="Your Name (Optional)">
-                    </div><!--
-                    --><div class="user-email">
+                    </div>
+                    <div class="user-email col-md-6">
                       <input type="text" name="email" placeholder="Your Email (Optional)">
                     </div>
                   </div>
-                  <div class="message">
-                    <textarea name="message" placeholder="Message"></textarea>
+                  <div class="message row">
+                    <textarea style="width: 100%" name="message" placeholder="Message"></textarea>
                   </div>
                   <div class="actions">
                     <div class="g-recaptcha" data-sitekey="<%= recaptchaKey %>"></div>
@@ -38,9 +43,9 @@
                       </li>
                     </ul>
                   </div>
-                </form>
-              </div>
-            </section>
+            </form>
+          </div>
+        </section>
       </div>
       <% include ../partials/footer.ejs %>
   </div>
