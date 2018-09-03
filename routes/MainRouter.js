@@ -39,6 +39,8 @@ const MainRouter = (database) => {
   router.post('/committee/application/create', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.committeeApply);
   // Route for applying to volunteer
   router.post('/volunteer/application/create', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.volunteerApply);
+  // CV Bank login page
+  router.get('/cv/login', mainController.cvLogin);
 
   return router;
 };

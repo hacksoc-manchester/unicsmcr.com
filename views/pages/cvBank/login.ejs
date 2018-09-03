@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include ../../partials/head.ejs %>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <title>Sign up | HackSoc</title>
+    <link rel="stylesheet" type="text/css" href="/css/sign-up.css" />
+</head>
+<body>
+  <div id="container">
+    <% include ../../partials/navbar.ejs %>
+      <div id="body">
+        <section id="cv-bank-login">
+          <h1>CV Bank</h1>
+          <h3>Login</h3>
+          <br><br>
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-md-5">
+                <form method="post" action="/subscription/create" class="needs-validation" novalidate>
+                  <% if (locals.error) { %>
+                    <div class="alert alert-danger">
+                      <%= error %>
+                    </div>
+                    <% } %>
+                      <div class="user-details">
+                        <div class="input-group user-first-name full-width">
+                          <input class="form-control" type="text" name="firstName" placeholder="Your Email" required>
+                          <div class="invalid-feedback">
+                            Please enter your email.
+                          </div>
+                        </div>
+                        <div class="input-group user-last-name full-width">
+                          <input class="form-control" type="text" name="lastName" placeholder="Your Password" required>
+                          <div class="invalid-feedback">
+                            Please enter your password.
+                          </div>
+                        </div>
+                      </div>
+                      <a href="/cv/forgotpassword" class="subscript">Forgotten password?</a>
+                      <div class="actions">
+                            <input class="submit-button" type="submit" value="Subscribe">
+                      </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <% include ../../partials/footer.ejs %>
+  </div>
+</body>
+</html>

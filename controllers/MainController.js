@@ -280,5 +280,9 @@ module.exports = (database) => {
     }
   };
 
+  this.cvLogin = (req, res) => {
+    res.render("pages/cvBank/login");
+  };
+
   return this;
 };
