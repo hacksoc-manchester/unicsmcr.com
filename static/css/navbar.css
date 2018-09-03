@@ -1,0 +1,82 @@
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 60px;
+  transition: 0.5s;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #f1f1f1;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+#mobile-header-container {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background: #000;
+}
+
+#top-buffer {
+  width: 100%;
+  height: 50px;
+}
+
+#mobile-header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 20px;
+  color: #fff !important;
+  margin: 12px;
+  cursor: pointer;
+}
+
+#mobile-menu {
+  z-index: 2;
+}
+
+#mobile-menu-button {
+  color: #fff;
+  margin: 14px;
+  cursor: pointer;
+}
+
+#mobile-menu, #mobile-header-container, #top-buffer {
+  display: none;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+@media screen and (max-width: 435px) {
+  #widescreen-menu, #widescreen-header-container {
+    display: none;
+  }
+  #mobile-menu, #mobile-header-container, #top-buffer {
+    display: block;
+  }
+}
