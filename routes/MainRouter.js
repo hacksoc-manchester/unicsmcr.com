@@ -4,7 +4,7 @@ const express = require('express');
 
 const authHelpers = require('../helpers/AuthHelpers');
 
-const MainRouter = (database) => {
+const MainRouter = (database, passport) => {
   const router = express.Router();
 
   const mainController = require('../controllers/MainController')(database);
@@ -41,14 +41,22 @@ const MainRouter = (database) => {
   router.post('/volunteer/application/create', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.volunteerApply);
   // CV Bank login page
   router.get('/cv/login', mainController.cvLogin);
+  // Route for logging into the CV bank
+  router.post('/cv/login', passport.authenticate('local', { failureRedirect: '/cv/login', failureFlash: true }), mainController.cvSubmission);
+  // Route for logging out of the CV bank
+  router.post('/cv/logout', mainController.cvLogout);
   // CV Bank register page
   router.get('/cv/register', authHelpers.attachReCAPTCHAKey, mainController.cvRegister);
+  // Router for registering to the CV bank
+  router.post('/cv/register', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.cvCreateSubmission);
   // CV Bank password recovery page
   router.get('/cv/password/recovery', authHelpers.attachReCAPTCHAKey, mainController.cvPasswordRecovery);
   // CV Bank passwvord reset page
   router.get('/cv/password/reset', authHelpers.attachReCAPTCHAKey, mainController.cvPasswordReset);
   // CV Bank submission page
-  router.get('/cv/submission', mainController.cvSubmission);
+  router.get('/cv/submission', authHelpers.loggedInToCVBank, mainController.cvSubmission);
+  // Route to edit a cv submission
+  router.post('/cv/submission/edit', authHelpers.loggedInToCVBank, mainController.cvEditSubmission);
 
   return router;
 };

@@ -22,37 +22,35 @@
                 <p>This is your submission on our CV bank</p>
                 <hr>
                 <div id="submission-container" class="container">
-                  <% if (locals.error) { %>
-                    <div class="alert alert-danger">
-                      <%= error %>
-                    </div>
-                    <% } %>
+                    <div id="error-message" class="alert alert-danger"></div>
                     <div id="success-message" class="alert alert-success"></div>
                       <div class="row">
-                        <p><b>Status:</b> published</p>
+                        <p><b>Status:</b>
+                          <%= locals.user.submissionStatus == true ? "published" : "private" %>
+                        </p>
                       </div>
                       <div class="row">
                         <p><b>First name:</b>&nbsp;</p>
-                        <div class="static-field">Kristijonas</div>
-                        <div class="edit-field"><input type="text" value="Kristijonas" name="firstName" placeholder="Enter your first name"
+                        <div id="first-name" class="static-field"><%= locals.user.firstName %></div>
+                        <div class="edit-field"><input type="text" value="<%= locals.user.firstName %>" name="firstName" placeholder="Enter your first name"
                             required></div>
                       </div>
                       <div class="row">
                         <p><b>Last name:</b>&nbsp;</p>
-                        <div class="static-field">Zalys</div>
-                        <div class="edit-field"><input type="text" value="Zalys" name="lastName" placeholder="Enter your last name"
+                        <div id="last-name" class="static-field"><%= locals.user.lastName %></div>
+                        <div class="edit-field"><input type="text" value="<%= locals.user.lastName %>" name="lastName" placeholder="Enter your last name"
                             required></div>
                       </div>
                       <div class="row">
                         <p><b>Email:</b>&nbsp;</p>
-                        <div>kzalys@gmail.com</div>
+                        <div><%= locals.user.email %>></div>
                       </div>
                       <div class="row">
                         <p><b>Your CV:&nbsp;</b></p>
-                        <div class="cv-link static-field">
-                          <a href="https://drive.google.com/open?id=0B2wYZadkDYmJOGJuRHlMNHdsRlU" target="_blank" rel="noopener noreferrer">https://drive.google.com/open?id=0B2wYZadkDYmJOGJuRHlMNHdsRlU</a>
+                        <div id="cv-link" class="cv-link static-field">
+                          <a href="<%= locals.user.cvLink %>" target="_blank" rel="noopener noreferrer"><%= locals.user.cvLink %></a>
                         </div>
-                        <div class="edit-field"><input type="text" value="https://drive.google.com/open?id=0B2wYZadkDYmJOGJuRHlMNHdsRlU"
+                        <div class="edit-field"><input type="text" value="<%= locals.user.cvLink %>"
                             name="cvLink" placeholder="Enter the link to your CV" required></div>
                       </div>
                 </div>
@@ -67,6 +65,11 @@
                       </li>
                     </ul>
                   </div>
+                </div>
+                <div class="row justify-content-center">
+                  <form action="/cv/logout" method="post">
+                    <input id="logout-button" class="smooth-transitions" type="submit" value="Logout">
+                  </form>
                 </div>
               </div>
             </div>

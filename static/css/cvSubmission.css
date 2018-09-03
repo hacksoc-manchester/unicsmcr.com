@@ -67,6 +67,25 @@
   background-color: orange !important;
 }
 
-#success-message {
+#success-message, #error-message {
   display: none;
+}
+
+#logout-button {
+  height: 100%;
+  padding: 0 20px;
+  color: #c0c0c0;
+  cursor: pointer;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 15px;
+  margin-top: 10px;
+  background: transparent;
+  border: 0;
+}
+
+#logout-button:hover {
+  background: #9b9b9b;
+  color: #dedede
 }

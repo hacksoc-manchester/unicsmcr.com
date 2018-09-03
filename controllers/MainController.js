@@ -281,7 +281,15 @@ module.exports = (database) => {
   };
 
   this.cvLogin = (req, res) => {
-    res.render("pages/cvBank/login");
+    if (req.user) {
+      return res.redirect("/cv/submission");
+    }
+    res.render("pages/cvBank/login", req.flash());
+  };
+
+  this.cvLogout = (req, res) => {
+    req.logout();
+    res.redirect("/cv/login");
   };
 
   this.cvRegister = (req, res) => {
@@ -297,7 +305,50 @@ module.exports = (database) => {
   };
 
   this.cvSubmission = (req, res) => {
-    res.render("pages/cvBank/submission");
+    res.render("pages/cvBank/submission", { user: req.user });
+  };
+
+  this.cvCreateSubmission = async (req, res) => {
+    try {
+      const { firstName, lastName, email, password, passwordConfirmation, agreeToPrivacyPolicy, captchaMessage } = req.body;
+
+      // Checking if all parameters were provided
+      if (!firstName || !lastName || !email || !password) {
+        return res.render("pages/cvBank/register", { error: "Please fill in all fields!" });
+      }
+      if (password.length < 6) {
+        return res.render("pages/cvBank/register", { error: "Your password must contain at least 6 characters!" });
+      }
+      if (password !== passwordConfirmation) {
+        return res.render("pages/cvBank/register", { error: "The passwords do not match!" });
+      }
+      // Checking if user agreed to the privacy policy
+      if (!agreeToPrivacyPolicy) {
+        return res.render("pages/cvBank/register", { error: "Please agree to the privacy policy." });
+      }
+      // Checking if user passed the turing test
+      if (captchaMessage) {
+        return res.render("pages/cvBank/register", { error: captchaMessage });
+      }
+      // Creating application
+      await dbHelpers.createCVSubmission(database, req.body);
+      return res.render("pages/message", { title: "Success", message: "You have succesfully registered to our CV bank!<br><a href='/cv/submission'>Go to your submission</a>" });
+    } catch (err) {
+      console.log(err);
+      return res.render("pages/cvBank/register", { error: err });
+    }
+  };
+
+  this.cvEditSubmission = async (req, res) => {
+    const { firstName, lastName, cvLink } = req.body;
+
+    // Checking if all parameters were provided
+    if (!firstName || !lastName || !cvLink) {
+      return res.send({ err: "Please fill in all fields!" });
+    }
+    // Creating application
+    await dbHelpers.updateCVSubmission(database, req.body);
+    res.send({ err: false });
   };
 
   return this;
