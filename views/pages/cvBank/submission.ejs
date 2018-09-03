@@ -25,8 +25,10 @@
                     <div id="error-message" class="alert alert-danger"></div>
                     <div id="success-message" class="alert alert-success"></div>
                       <div class="row">
-                        <p><b>Status:</b>
-                          <%= locals.user.submissionStatus == true ? "published" : "private" %>
+                        <p><b>Status:</b>&nbsp;
+                          <div id="submission-status">
+                            <%= locals.user.submissionStatus == true ? "published" : "private" %>
+                          </div>
                         </p>
                       </div>
                       <div class="row">
@@ -43,7 +45,7 @@
                       </div>
                       <div class="row">
                         <p><b>Email:</b>&nbsp;</p>
-                        <div><%= locals.user.email %>></div>
+                        <div><%= locals.user.email %></div>
                       </div>
                       <div class="row">
                         <p><b>Your CV:&nbsp;</b></p>
@@ -58,7 +60,7 @@
                   <div class="actions">
                     <ul>
                       <li>
-                        <input id="publish-button" class="submit-button" type="button" value="Make Private">
+                        <input id="publish-button" class="submit-button" type="button" value=" <%= locals.user.submissionStatus == true ? 'Make Private' : 'Publish' %>" onclick="publish()">
                       </li>
                       <li>
                         <input id="edit-button" class="edit-button smooth-transitions" type="submit" value="Edit" onclick="editSubmission()">

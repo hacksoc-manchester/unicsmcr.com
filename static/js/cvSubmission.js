@@ -57,3 +57,31 @@ function saveSubmission() {
     }
   });
 }
+
+function publish() {
+  $("#success-message").fadeOut("fast");
+  $("#error-message").fadeOut("fast");
+  $("#publish-button").prop("disabled", true);
+  $.ajax({
+    type: "POST",
+    url: "/cv/submission/publish",
+    success: function (response) {
+      if (response.err) {
+        $("#error-message").html(response.message);
+        $("#error-message").fadeIn("slow");
+      } else {
+        $("#success-message").html(response.message);
+        $("#success-message").fadeIn("slow");
+      }
+      console.log(response);
+      if (response.submissionStatus == true) {
+        $("#publish-button").val("Make Private");
+        $("#submission-status").html("published");
+      } else {
+        $("#publish-button").val("Publish");
+        $("#submission-status").html("private");
+      }
+      $("#publish-button").prop("disabled", false);
+    }
+  });
+}

@@ -353,5 +353,14 @@ module.exports = (database) => {
     res.send({ err: false });
   };
 
+  this.cvPublishSubmission = async (req, res) => {
+    if (!req.user.cvLink) {
+      return res.send({ err: true, message: `Please provide a link to your CV before publishing you submission!` });
+    }
+    await dbHelpers.publishCVSubmission(database, req.user);
+    req.user.submissionStatus = !req.user.submissionStatus;
+    res.send({ err: false, message: `Your submission has been successfully made ${req.user.submissionStatus ? 'public' : 'private'}!`, submissionStatus: req.user.submissionStatus });
+  };
+
   return this;
 };

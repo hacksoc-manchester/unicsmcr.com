@@ -250,3 +250,18 @@ exports.updateCVSubmission = async (database, submission) => {
 
   return { err: false };
 };
+
+exports.publishCVSubmission = async (database, { submissionStatus, id }) => {
+  await database.models.cvsubmission.update(
+    {
+      submissionStatus: submissionStatus ? 0 : 1
+    },
+    {
+      where: {
+        id: id
+      }
+    }
+  );
+
+  return { err: false };
+};
