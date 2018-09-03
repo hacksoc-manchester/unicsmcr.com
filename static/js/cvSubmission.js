@@ -16,9 +16,9 @@ function editSubmission() {
 }
 
 function saveSubmission() {
-  $("#success-message").fadeOut("slow");
-  $("#error-message").fadeOut("slow");
-  $("#edit-button").attr("disabled", "true");
+  $("#success-message").fadeOut("fast");
+  $("#error-message").fadeOut("fast");
+  $("#edit-button").prop("disabled", true);
   var firstName = $("input[name='firstName'").val();
   var lastName = $("input[name='lastName'").val();
   var cvLink = $("input[name='cvLink'").val();
@@ -44,7 +44,6 @@ function saveSubmission() {
           $("#edit-button").addClass("edit-button");
           $("#edit-button").removeClass("submit-button");
           $("#edit-button").attr("onclick", "editSubmission()");
-          $("#edit-button").attr("disabled", "true");
           $(".actions").fadeIn("fast");
         });
         $(".edit-field").fadeOut("fast", function () {
@@ -54,6 +53,7 @@ function saveSubmission() {
           $(".static-field").fadeIn("fast");
         });
       }
+      $("#edit-button").prop("disabled", false);
     }
   });
 }

@@ -346,8 +346,10 @@ module.exports = (database) => {
     if (!firstName || !lastName || !cvLink) {
       return res.send({ err: "Please fill in all fields!" });
     }
-    // Creating application
-    await dbHelpers.updateCVSubmission(database, req.body);
+    req.user.firstName = firstName;
+    req.user.lastName = lastName;
+    req.user.cvLink = cvLink;
+    await dbHelpers.updateCVSubmission(database, req.user);
     res.send({ err: false });
   };
 
