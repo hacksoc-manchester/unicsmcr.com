@@ -29,8 +29,8 @@ function saveSubmission() {
       cvLink: cvLink
     },
     success: function() {
-      $("#successMessage").html("Your submission has been updated successfully!");
-      $("#successMessage").show("slow");
+      $("#success-message").html("Your submission has been updated successfully!");
+      $("#success-message").show("slow");
     }
   });
 

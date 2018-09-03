@@ -40,7 +40,7 @@
   white-space: nowrap;
 }
 
-#submissionContainer {
+#submission-container {
   padding: 0 35px;
 }
 
@@ -67,6 +67,6 @@
   background-color: orange !important;
 }
 
-#successMessage {
+#success-message {
   display: none;
 }
