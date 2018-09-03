@@ -284,5 +284,17 @@ module.exports = (database) => {
     res.render("pages/cvBank/login");
   };
 
+  this.cvRegister = (req, res) => {
+    res.render("pages/cvBank/register");
+  };
+
+  this.cvPasswordRecovery = (req, res) => {
+    res.render("pages/cvBank/passwordRecovery");
+  };
+
+  this.cvPasswordReset = (req, res) => {
+    res.render("pages/cvBank/passwordReset");
+  };
+
   return this;
 };

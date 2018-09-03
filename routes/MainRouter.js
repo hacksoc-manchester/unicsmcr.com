@@ -41,6 +41,12 @@ const MainRouter = (database) => {
   router.post('/volunteer/application/create', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.volunteerApply);
   // CV Bank login page
   router.get('/cv/login', mainController.cvLogin);
+  // CV Bank register page
+  router.get('/cv/register', authHelpers.attachReCAPTCHAKey, mainController.cvRegister);
+  // CV Bank password recovery page
+  router.get('/cv/password/recovery', authHelpers.attachReCAPTCHAKey, mainController.cvPasswordRecovery);
+  // CV Bank password reset page
+  router.get('/cv/password/reset', authHelpers.attachReCAPTCHAKey, mainController.cvPasswordReset);
 
   return router;
 };
