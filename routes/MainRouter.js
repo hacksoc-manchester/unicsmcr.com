@@ -45,8 +45,10 @@ const MainRouter = (database) => {
   router.get('/cv/register', authHelpers.attachReCAPTCHAKey, mainController.cvRegister);
   // CV Bank password recovery page
   router.get('/cv/password/recovery', authHelpers.attachReCAPTCHAKey, mainController.cvPasswordRecovery);
-  // CV Bank password reset page
+  // CV Bank passwvord reset page
   router.get('/cv/password/reset', authHelpers.attachReCAPTCHAKey, mainController.cvPasswordReset);
+  // CV Bank submission page
+  router.get('/cv/submission', mainController.cvSubmission);
 
   return router;
 };

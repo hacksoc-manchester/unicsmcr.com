@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include ../../partials/head.ejs %>
+    <title>CV Bank | HackSoc</title>
+    <link rel="stylesheet" type="text/css" href="/css/cvSubmission.css" />
+</head>
+
+<body>
+  <div id="container">
+    <% include ../../partials/navbar.ejs %>
+      <div id="body">
+        <section id="cv-bank-login">
+          <h1>CV Bank</h1>
+          <h3>Your Submission</h3>
+          <br><br>
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-md-6 align-left">
+                <h5>Hello Kristijonas!</h5>
+                <p>This is your submission on our CV bank</p>
+                <hr>
+                <div id="submissionContainer" class="container">
+                  <% if (locals.error) { %>
+                    <div class="alert alert-danger">
+                      <%= error %>
+                    </div>
+                    <% } %>
+                    <div id="successMessage" class="alert alert-success">
+
+                    </div>
+                      <div class="row">
+                        <p><b>Status:</b> published</p>
+                      </div>
+                      <div class="row">
+                        <p><b>First name:</b>&nbsp;</p>
+                        <div class="static-field">Kristijonas</div>
+                        <div class="edit-field"><input type="text" value="Kristijonas" name="firstName" placeholder="Enter your first name"
+                            required></div>
+                      </div>
+                      <div class="row">
+                        <p><b>Last name:</b>&nbsp;</p>
+                        <div class="static-field">Zalys</div>
+                        <div class="edit-field"><input type="text" value="Zalys" name="lastName" placeholder="Enter your last name"
+                            required></div>
+                      </div>
+                      <div class="row">
+                        <p><b>Email:</b>&nbsp;</p>
+                        <div>kzalys@gmail.com</div>
+                      </div>
+                      <div class="row">
+                        <p><b>Your CV:&nbsp;</b></p>
+                        <div class="cv-link static-field">
+                          <a href="https://drive.google.com/open?id=0B2wYZadkDYmJOGJuRHlMNHdsRlU" target="_blank" rel="noopener noreferrer">https://drive.google.com/open?id=0B2wYZadkDYmJOGJuRHlMNHdsRlU</a>
+                        </div>
+                        <div class="edit-field"><input type="text" value="https://drive.google.com/open?id=0B2wYZadkDYmJOGJuRHlMNHdsRlU"
+                            name="cvLink" placeholder="Enter the link to your CV" required></div>
+                      </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="actions">
+                    <ul>
+                      <li>
+                        <input id="publish-button" class="submit-button" type="button" value="Make Private">
+                      </li>
+                      <li>
+                        <input id="edit-button" class="edit-button smooth-transitions" type="submit" value="Edit" onclick="editSubmission()">
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <% include ../../partials/footer.ejs %>
+  </div>
+</body>
+<script src="/js/formValidation.js"></script>
+<script src="/js/cvSubmission.js"></script>
+
+</html>

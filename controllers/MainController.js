@@ -296,5 +296,9 @@ module.exports = (database) => {
     res.render("pages/cvBank/passwordReset");
   };
 
+  this.cvSubmission = (req, res) => {
+    res.render("pages/cvBank/submission");
+  };
+
   return this;
 };
