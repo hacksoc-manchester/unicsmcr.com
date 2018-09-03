@@ -57,16 +57,8 @@
                       </div>
                 </div>
                 <div class="row justify-content-center">
-                  <div class="actions">
-                    <ul>
-                      <li>
-                        <input id="publish-button" class="submit-button" type="button" value=" <%= locals.user.submissionStatus == true ? 'Make Private' : 'Publish' %>" onclick="publish()">
-                      </li>
-                      <li>
-                        <input id="edit-button" class="edit-button smooth-transitions" type="submit" value="Edit" onclick="editSubmission()">
-                      </li>
-                    </ul>
-                  </div>
+                  <input id="publish-button" class="submit-button smooth-transitions" type="button" value=" <%= locals.user.submissionStatus == true ? 'Make Private' : 'Publish' %>" onclick="publish()">
+                  <input id="edit-button" class="edit-button smooth-transitions" type="submit" value="Edit" onclick="editSubmission()">
                 </div>
                 <div class="row justify-content-center">
                   <form action="/cv/logout" method="post">
