@@ -72,7 +72,7 @@
   .sidenav a {font-size: 18px;}
 }
 
-@media screen and (max-width: 435px) {
+@media screen and (max-width: 450px) {
   #widescreen-menu, #widescreen-header-container {
     display: none;
   }

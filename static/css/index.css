@@ -39,9 +39,7 @@
 /* Mobile */
 
 @media screen and (max-width: 736px) {
-    #widescreen-large-header, #header{
-        display: none;
-    }
+
     #mobile-menu {
         background-color: #000;
         display: inherit;
@@ -73,5 +71,11 @@
         text-align: left;
         font-size: 16px;
         font-size: 5vw;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    #widescreen-large-header, #header{
+        display: none;
     }
 }
