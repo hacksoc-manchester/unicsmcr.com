@@ -149,7 +149,7 @@ module.exports = (database) => {
   };
 
   this.publishSubmission = async (req, res) => {
-    if (!req.user.Link) {
+    if (!req.user.cvLink) {
       return res.send({ err: true, message: `Please provide a link to your CV before publishing you submission!` });
     }
     await dbHelpers.publishCVSubmission(database, req.user);
