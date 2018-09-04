@@ -13,7 +13,7 @@ var forms = {
     id: "#application-form-container",
     selectorId: "#volunteer-form-selector",
     errorContainer: "#volunteer-error",
-    action: "/volunteer/application/create",
+    action: "/signup/volunteer/apply",
     description: "<b>Help us organise our events by volunteering.<br>Just fill in this form and we'll contact you when we need help</b>"
   },
   committee: {
@@ -21,7 +21,7 @@ var forms = {
     id: "#application-form-container",
     selectorId: "#committee-form-selector",
     errorContainer: "#committee-error",
-    action: "/committee/application/create",
+    action: "/signup/committee/apply",
     description: "<b>Become a part of our committee.<br>Just fill in this form and we'll contact you when a position becomes available</b>"
   }
 };

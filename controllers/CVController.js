@@ -3,6 +3,7 @@
 const emailService = require('../services/EmailService');
 
 const dbHelpers = require('../helpers/DbHelpers');
+const miscHelpers = require('../helpers/MiscHelpers');
 
 module.exports = (database) => {
   this.login = (req, res) => {
@@ -30,27 +31,18 @@ module.exports = (database) => {
 
     // Checking if all parameters were provided
     if (!email || !emailToken) {
-      return next({
-        type: "message",
-        title: "Error",
-        message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
-      });
+      return next(miscHelpers.invalidParamsResponse);
     }
 
     const submission = await dbHelpers.findCVSubmissionByEmailAndToken(database, req.query);
 
     if (!submission) {
-      return next({
-        type: "message",
-        title: "Error",
-        message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
-      });
+      return next(miscHelpers.invalidParamsResponse);
     }
     res.render("pages/cvBank/passwordReset", { email, emailToken });
   };
 
   this.submissionPasswordReset = async (req, res, next) => {
-    console.log(req.body);
     const { email, emailToken, password, passwordConfirmation } = req.body;
 
     // Checking if all parameters were provided
@@ -64,11 +56,7 @@ module.exports = (database) => {
     const updateResponse = await dbHelpers.resetPasswordForCVSubmission(database, { email, emailToken, password });
 
     if (updateResponse == 0) {
-      return next({
-        type: "message",
-        title: "Error",
-        message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
-      });
+      return next(miscHelpers.invalidParamsResponse);
     }
 
     res.render("pages/message", { title: "Success", message: `Password for ${email} has been reset.<br>You can now login <a href="/cv/login">here</a>` });
@@ -140,11 +128,7 @@ module.exports = (database) => {
     const updateResponse = await dbHelpers.updateCVSubmission(database, req.user, { firstName, lastName, cvLink });
 
     if (updateResponse == 0) {
-      return next({
-        type: "message",
-        title: "Error",
-        message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
-      });
+      return next(miscHelpers.invalidParamsResponse);
     }
     res.send({ err: false });
   };
@@ -154,20 +138,12 @@ module.exports = (database) => {
 
     // Checking if all parameters were provided
     if (!email || !emailToken) {
-      return next({
-        type: "message",
-        title: "Error",
-        message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
-      });
+      return next(miscHelpers.invalidParamsResponse);
     }
     const updateResponse = await dbHelpers.verifyCVSubmission(database, req.query);
 
     if (updateResponse == 0) { // The required cv submission could not be found
-      return next({
-        type: "message",
-        title: "Error",
-        message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
-      });
+      return next(miscHelpers.invalidParamsResponse);
     }
     res.render("pages/message", { title: "Success", message: "You have successfully verified your email for your CV Bank account<br>You can now <a href='/cv/login'>login</a>." });
   };

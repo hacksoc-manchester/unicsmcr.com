@@ -7,7 +7,7 @@ const authHelpers = require('../helpers/AuthHelpers');
 const MainRouter = (database, passport) => {
   const router = express.Router();
 
-  const mainController = require('../controllers/MainController')(database);
+  const mainController = require('../controllers/MainController')();
 
   // Home Page
   router.get('/', mainController.index);
@@ -23,27 +23,24 @@ const MainRouter = (database, passport) => {
   router.get('/partners', mainController.partners);
   // Gallery Page
   router.get('/gallery', mainController.gallery);
-  // Sign up Page
-  router.get('/signup', authHelpers.attachReCAPTCHAKey, mainController.signUp);
   // Privacy Page
   router.get('/privacy', mainController.privacy);
-  // Creating a new subscription
-  router.post('/subscription/create', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.createSubscription);
-  // Confirming a subscription
-  router.get('/subscription/confirm', mainController.confirmSubscription);
-  // Removing a subscription
-  router.delete('/subscription/remove', mainController.deleteRemoveSubscription);
-  // Route for unsubscribe links in emails
-  router.get('/subscription/remove', mainController.getRemoveSubscription);
-  // Route for applying to the committee
-  router.post('/committee/application/create', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.committeeApply);
-  // Route for applying to volunteer
-  router.post('/volunteer/application/create', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.volunteerApply);
+
 
   const cvRouter = require("./CVRouter");
 
   router.all("/cv/", (req, res) => res.redirect("/cv/"));
   router.use("/cv/", cvRouter(database, passport));
+
+  const singupRouter = require("./SignupRouter");
+
+  // TODO: test out
+  // Redirects for links in old emails
+  router.get("/subscription/confirm", (req, res) => res.redirect("/signup/subscription/confirm"));
+  router.get("/subscription/remove", (req, res) => res.redirect("/signup/subscription/remove"));
+
+  router.all("/signup/", (req, res) => res.redirect("/signup/"));
+  router.use("/signup/", singupRouter(database, passport));
 
   return router;
 };
