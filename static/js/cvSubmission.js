@@ -1,14 +1,14 @@
-/* globals $, window */
+/* globals $ */
 "use strict";
 
 function editSubmission() {
-  $(".actions").fadeOut("fast", function () {
+  $("#actions").fadeOut("fast", function () {
     $("#publish-button").hide();
     $("#edit-button").val("Save");
     $("#edit-button").removeClass("edit-button");
     $("#edit-button").addClass("submit-button");
     $("#edit-button").attr("onclick", "saveSubmission()");
-    $(".actions").fadeIn("fast");
+    $("#actions").fadeIn("fast");
   });
   $(".static-field").fadeOut("fast", function () {
     $(".edit-field").fadeIn("fast");
@@ -38,13 +38,13 @@ function saveSubmission() {
       } else {
         $("#success-message").html("Your submission has been updated successfully!");
         $("#success-message").fadeIn("slow");
-        $(".actions").fadeOut("fast", function () {
+        $("#actions").fadeOut("fast", function () {
           $("#publish-button").show();
           $("#edit-button").val("Edit");
           $("#edit-button").addClass("edit-button");
           $("#edit-button").removeClass("submit-button");
           $("#edit-button").attr("onclick", "editSubmission()");
-          $(".actions").fadeIn("fast");
+          $("#actions").fadeIn("fast");
         });
         $(".edit-field").fadeOut("fast", function () {
           $("#first-name").html(firstName);
@@ -73,7 +73,6 @@ function publish() {
         $("#success-message").html(response.message);
         $("#success-message").fadeIn("slow");
       }
-      console.log(response);
       if (response.submissionStatus == true) {
         $("#publish-button").val("Make Private");
         $("#submission-status").html("published");

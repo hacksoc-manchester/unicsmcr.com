@@ -214,7 +214,8 @@ exports.createCVSubmission = async (database, { email, password, firstName, last
     firstName,
     lastName,
     email,
-    password: miscHelpers.hashPassword(password)
+    password: miscHelpers.hashPassword(password),
+    emailToken: miscHelpers.MakeRandomString(15)
   });
 
   return newSubmission ? newSubmission.dataValues : null;
@@ -234,7 +235,8 @@ exports.findCVSubmissionByEmailAndPassword = async (database, { email, password 
   const submission = await database.models.cvsubmission.findOne({
     where: {
       email,
-      password
+      password,
+      emailVerified: true
     }
   });
 

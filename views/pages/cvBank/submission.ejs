@@ -56,7 +56,7 @@
                             name="cvLink" placeholder="Enter the link to your CV" required></div>
                       </div>
                 </div>
-                <div class="row justify-content-center">
+                <div id="actions"class="row justify-content-center">
                   <input id="publish-button" class="submit-button smooth-transitions" type="button" value=" <%= locals.user.submissionStatus == true ? 'Make Private' : 'Publish' %>" onclick="publish()">
                   <input id="edit-button" class="edit-button smooth-transitions" type="submit" value="Edit" onclick="editSubmission()">
                 </div>
