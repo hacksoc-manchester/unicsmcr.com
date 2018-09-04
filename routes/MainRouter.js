@@ -39,32 +39,11 @@ const MainRouter = (database, passport) => {
   router.post('/committee/application/create', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.committeeApply);
   // Route for applying to volunteer
   router.post('/volunteer/application/create', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.volunteerApply);
-  // CV Bank login page
-  router.get('/cv/login', mainController.cvLogin);
-  // Route for logging into the CV bank
-  router.post('/cv/login', passport.authenticate('local', { failureRedirect: '/cv/login', failureFlash: true }), mainController.cvSubmission);
-  // Route for logging out of the CV bank
-  router.post('/cv/logout', mainController.cvLogout);
-  // CV Bank register page
-  router.get('/cv/register', authHelpers.attachReCAPTCHAKey, mainController.cvRegister);
-  // Router for registering to the CV bank
-  router.post('/cv/register', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.cvCreateSubmission);
-  // CV Bank password reset page
-  router.get('/cv/passwordreset', authHelpers.attachReCAPTCHAKey, mainController.cvPasswordReset);
-  // Route to request a password reset for a cv submission
-  router.post('/cv/passwordreset', mainController.cvRequestPasswordReset);
-  // CV Bank submission page
-  router.get('/cv/submission', authHelpers.loggedInToCVBank, mainController.cvSubmission);
-  // CV Bank submission password reset page
-  router.get('/cv/submission/passwordreset', mainController.cvSubmissionPasswordResetPage);
-  // CV Bank submission password reset page
-  router.post('/cv/submission/passwordreset', mainController.cvSubmissionPasswordReset);
-  // Route to edit a cv submission
-  router.post('/cv/submission/edit', authHelpers.loggedInToCVBank, mainController.cvEditSubmission);
-  // Route to verify the email of a cv submission
-  router.get('/cv/submission/verify', mainController.cvVerifySubmission);
-  // Route to publish a cv submission
-  router.post('/cv/submission/publish', authHelpers.loggedInToCVBank, mainController.cvPublishSubmission);
+
+  const cvRouter = require("./CVRouter");
+
+  router.all("/cv/", (req, res) => res.redirect("/cv/"));
+  router.use("/cv/", cvRouter(database, passport));
 
   return router;
 };
