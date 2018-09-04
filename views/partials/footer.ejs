@@ -13,4 +13,7 @@
         </li>
       </ul>
     </div>
+    <% if (!locals.user) { %>
+      <% include ./cookieDisclaimer.ejs %>
+    <% } %>
   </footer>

@@ -29,7 +29,6 @@ const MainRouter = (database, passport) => {
 
   const cvRouter = require("./CVRouter");
 
-  router.all("/cv/", (req, res) => res.redirect("/cv/"));
   router.use("/cv/", cvRouter(database, passport));
 
   const singupRouter = require("./SignupRouter");
@@ -39,7 +38,6 @@ const MainRouter = (database, passport) => {
   router.get("/subscription/confirm", (req, res) => res.redirect("/signup/subscription/confirm"));
   router.get("/subscription/remove", (req, res) => res.redirect("/signup/subscription/remove"));
 
-  router.all("/signup/", (req, res) => res.redirect("/signup/"));
   router.use("/signup/", singupRouter(database, passport));
 
   return router;
