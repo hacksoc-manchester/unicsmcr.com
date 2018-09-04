@@ -57,6 +57,8 @@ const MainRouter = (database, passport) => {
   router.get('/cv/submission', authHelpers.loggedInToCVBank, mainController.cvSubmission);
   // Route to edit a cv submission
   router.post('/cv/submission/edit', authHelpers.loggedInToCVBank, mainController.cvEditSubmission);
+  // Route to verify the email of a cv submission
+  router.get('/cv/submission/verify', mainController.cvVerifySubmission);
   // Route to publish a cv submission
   router.post('/cv/submission/publish', authHelpers.loggedInToCVBank, mainController.cvPublishSubmission);
 

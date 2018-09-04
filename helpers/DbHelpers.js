@@ -253,6 +253,19 @@ exports.updateCVSubmission = async (database, submission) => {
   return { err: false };
 };
 
+exports.verifyCVSubmission = async (database, { email, emailToken }) => {
+  const updatedRows = await database.models.cvsubmission.update({
+    emailVerified: 1
+  }, {
+    where: {
+      email,
+      emailToken
+    }
+  });
+
+  return updatedRows;
+};
+
 exports.publishCVSubmission = async (database, { submissionStatus, id }) => {
   await database.models.cvsubmission.update(
     {

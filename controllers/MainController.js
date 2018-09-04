@@ -331,8 +331,13 @@ module.exports = (database) => {
         return res.render("pages/cvBank/register", { error: captchaMessage });
       }
       // Creating application
-      await dbHelpers.createCVSubmission(database, req.body);
-      return res.render("pages/message", { title: "Success", message: "You have succesfully registered to our CV bank!<br><a href='/cv/submission'>Go to your submission</a>" });
+      const submission = await dbHelpers.createCVSubmission(database, req.body);
+
+      if (!submission) {
+        throw new Error("Unkown error occured! Please contact us at contact@hacksoc.com");
+      }
+      emailService.sendCVBankEmailVerificationEmail(submission);
+      return res.render("pages/message", { title: "Success", message: "You have succesfully registered to our CV bank!<br>You will shortly receive an email with a link to verify your email address.<br>You must verify your email address <b>before</b> logging into the CV Bank." });
     } catch (err) {
       console.log(err);
       return res.render("pages/cvBank/register", { error: err });
@@ -351,6 +356,26 @@ module.exports = (database) => {
     req.user.cvLink = cvLink;
     await dbHelpers.updateCVSubmission(database, req.user);
     res.send({ err: false });
+  };
+
+  this.cvVerifySubmission = async (req, res, next) => {
+    console.log(req.query);
+    const { email, emailToken } = req.query;
+
+    // Checking if all parameters were provided
+    if (!email || !emailToken) {
+      return next();
+    }
+    const updateResponse = await dbHelpers.verifyCVSubmission(database, req.query);
+
+    if (updateResponse == 0) { // The required cv submission could not be found
+      return next({
+        type: "message",
+        title: "Error",
+        message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+      });
+    }
+    res.render("pages/message", { title: "Success", message: "You have successfully verified your email for your CV Bank account<br>You can now <a href='/cv/login'>login</a>." });
   };
 
   this.cvPublishSubmission = async (req, res) => {
