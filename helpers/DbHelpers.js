@@ -231,6 +231,29 @@ exports.findCVSubmission = async (database, id) => {
   return submission ? submission.dataValues : null;
 };
 
+exports.findCVSubmissionByEmail = async (database, { email }) => {
+  const submission = await database.models.cvsubmission.findOne({
+    where: {
+      email,
+      emailVerified: true
+    }
+  });
+
+  return submission ? submission.dataValues : null;
+};
+
+exports.findCVSubmissionByEmailAndToken = async (database, { email, emailToken }) => {
+  const submission = await database.models.cvsubmission.findOne({
+    where: {
+      email,
+      emailToken,
+      emailVerified: true
+    }
+  });
+
+  return submission ? submission.dataValues : null;
+};
+
 exports.findCVSubmissionByEmailAndPassword = async (database, { email, password }) => {
   const submission = await database.models.cvsubmission.findOne({
     where: {
@@ -251,6 +274,19 @@ exports.updateCVSubmission = async (database, submission) => {
   });
 
   return { err: false };
+};
+
+exports.resetPasswordForCVSubmission = async (database, { email, emailToken, password }) => {
+  const updatedRows = await database.models.cvsubmission.update({
+    password: miscHelpers.hashPassword(password)
+  }, {
+    where: {
+      email,
+      emailToken
+    }
+  });
+
+  return updatedRows;
 };
 
 exports.verifyCVSubmission = async (database, { email, emailToken }) => {

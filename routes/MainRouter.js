@@ -49,12 +49,16 @@ const MainRouter = (database, passport) => {
   router.get('/cv/register', authHelpers.attachReCAPTCHAKey, mainController.cvRegister);
   // Router for registering to the CV bank
   router.post('/cv/register', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.cvCreateSubmission);
-  // CV Bank password recovery page
-  router.get('/cv/password/recovery', authHelpers.attachReCAPTCHAKey, mainController.cvPasswordRecovery);
-  // CV Bank passwvord reset page
-  router.get('/cv/password/reset', authHelpers.attachReCAPTCHAKey, mainController.cvPasswordReset);
+  // CV Bank password reset page
+  router.get('/cv/passwordreset', authHelpers.attachReCAPTCHAKey, mainController.cvPasswordReset);
+  // Route to request a password reset for a cv submission
+  router.post('/cv/passwordreset', mainController.cvRequestPasswordReset);
   // CV Bank submission page
   router.get('/cv/submission', authHelpers.loggedInToCVBank, mainController.cvSubmission);
+  // CV Bank submission password reset page
+  router.get('/cv/submission/passwordreset', mainController.cvSubmissionPasswordResetPage);
+  // CV Bank submission password reset page
+  router.post('/cv/submission/passwordreset', mainController.cvSubmissionPasswordReset);
   // Route to edit a cv submission
   router.post('/cv/submission/edit', authHelpers.loggedInToCVBank, mainController.cvEditSubmission);
   // Route to verify the email of a cv submission

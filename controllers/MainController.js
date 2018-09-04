@@ -296,12 +296,72 @@ module.exports = (database) => {
     res.render("pages/cvBank/register");
   };
 
-  this.cvPasswordRecovery = (req, res) => {
-    res.render("pages/cvBank/passwordRecovery");
+  this.cvPasswordReset = (req, res) => {
+    res.render("pages/cvBank/passwordResetRequest");
   };
 
-  this.cvPasswordReset = (req, res) => {
-    res.render("pages/cvBank/passwordReset");
+  this.cvSubmissionPasswordResetPage = async (req, res, next) => {
+    const { email, emailToken } = req.query;
+
+    // Checking if all parameters were provided
+    if (!email || !emailToken) {
+      return next({
+        type: "message",
+        title: "Error",
+        message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+      });
+    }
+
+    const submission = await dbHelpers.findCVSubmissionByEmailAndToken(database, req.query);
+
+    if (!submission) {
+      return next({
+        type: "message",
+        title: "Error",
+        message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+      });
+    }
+    res.render("pages/cvBank/passwordReset", { email, emailToken });
+  };
+
+  this.cvSubmissionPasswordReset = async (req, res, next) => {
+    console.log(req.body);
+    const { email, emailToken, password, passwordConfirmation } = req.body;
+
+    // Checking if all parameters were provided
+    if (!email || !emailToken || !password || !passwordConfirmation) {
+      return res.render("pages/cvBank/passwordReset", { email, emailToken, error: "Please fill in all fields!" });
+    }
+    if (password != passwordConfirmation) {
+      return res.render("pages/cvBank/passwordReset", { email, emailToken, error: "Provided passwords don't match!" });
+    }
+
+    const updateResponse = await dbHelpers.resetPasswordForCVSubmission(database, { email, emailToken, password });
+
+    if (updateResponse == 0) {
+      return next({
+        type: "message",
+        title: "Error",
+        message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+      });
+    }
+
+    res.render("pages/message", { title: "Success", message: `Password for ${email} has been reset.<br>You can now login <a href="/cv/login">here</a>` });
+  };
+
+  this.cvRequestPasswordReset = async (req, res) => {
+    const email = req.body.email;
+
+    if (!email) {
+      res.render("pages/cvBank/passwordResetRequest", { error: "Please fill in all fields!", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+    }
+    const submission = await dbHelpers.findCVSubmissionByEmail(database, { email });
+
+    if (!submission) {
+      res.render("pages/cvBank/passwordResetRequest", { error: "Given email is not on our CV Bank!", recaptchaKey: process.env.G_RECAPTCHA_KEY });
+    }
+    emailService.sendCVBankPasswordResetEmail(submission);
+    res.render("pages/message", { title: "Success", message: `Further instructions have been sent to ${email}` });
   };
 
   this.cvSubmission = (req, res) => {
@@ -313,6 +373,7 @@ module.exports = (database) => {
       const { firstName, lastName, email, password, passwordConfirmation, agreeToPrivacyPolicy, captchaMessage } = req.body;
 
       // Checking if all parameters were provided
+      // FIXME: will throw an error because no recaptcha key is provided
       if (!firstName || !lastName || !email || !password) {
         return res.render("pages/cvBank/register", { error: "Please fill in all fields!" });
       }
@@ -359,12 +420,15 @@ module.exports = (database) => {
   };
 
   this.cvVerifySubmission = async (req, res, next) => {
-    console.log(req.query);
     const { email, emailToken } = req.query;
 
     // Checking if all parameters were provided
     if (!email || !emailToken) {
-      return next();
+      return next({
+        type: "message",
+        title: "Error",
+        message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+      });
     }
     const updateResponse = await dbHelpers.verifyCVSubmission(database, req.query);
 

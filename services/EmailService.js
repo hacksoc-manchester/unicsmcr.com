@@ -22,6 +22,16 @@ exports.sendCVBankEmailVerificationEmail = async (cvSubmission) => {
   return sendEmail("The HackSoc Team <noreply@hacksoc.com>", cvSubmission.email, "CV Bank email verification", content);
 };
 
+exports.sendCVBankPasswordResetEmail = async (cvSubmission) => {
+  const passwordResetLink = `https://www.hacksoc.com/cv/submission/passwordreset?email=${cvSubmission.email}&emailToken=${cvSubmission.emailToken}`;
+  // Generate the HTML for the email to be sent to the recipient
+  const content = await emailHelpers.generateEmail("./emailTemplates/CVBankPasswordReset.html", {
+    "#passwordResetLink": passwordResetLink
+  });
+
+  return sendEmail("The HackSoc Team <noreply@hacksoc.com>", cvSubmission.email, "CV Bank password reset", content);
+};
+
 // Sends an email to specified recipient with specified sender credentials and specified content
 const sendEmail = (sender, recipient, subject, content) => {
   const msg = {
