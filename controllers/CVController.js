@@ -130,17 +130,22 @@ module.exports = (database) => {
     }
   };
 
-  this.editSubmission = async (req, res) => {
+  this.editSubmission = async (req, res, next) => {
     const { firstName, lastName, cvLink } = req.body;
 
     // Checking if all parameters were provided
     if (!firstName || !lastName || !cvLink) {
       return res.send({ err: "Please fill in all fields!" });
     }
-    req.user.firstName = firstName;
-    req.user.lastName = lastName;
-    req.user.Link = cvLink;
-    await dbHelpers.updateCVSubmission(database, req.user);
+    const updateResponse = await dbHelpers.updateCVSubmission(database, req.user, { firstName, lastName, cvLink });
+
+    if (updateResponse == 0) {
+      return next({
+        type: "message",
+        title: "Error",
+        message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+      });
+    }
     res.send({ err: false });
   };
 

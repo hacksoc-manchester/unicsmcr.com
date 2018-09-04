@@ -266,14 +266,14 @@ exports.findCVSubmissionByEmailAndPassword = async (database, { email, password 
   return submission ? submission.dataValues : null;
 };
 
-exports.updateCVSubmission = async (database, submission) => {
-  await database.models.cvsubmission.update(submission, {
+exports.updateCVSubmission = async (database, submission, updatedValues) => {
+  const updatedRows = await database.models.cvsubmission.update(updatedValues, {
     where: {
       id: submission.id
     }
   });
 
-  return { err: false };
+  return updatedRows;
 };
 
 exports.resetPasswordForCVSubmission = async (database, { email, emailToken, password }) => {
@@ -303,7 +303,7 @@ exports.verifyCVSubmission = async (database, { email, emailToken }) => {
 };
 
 exports.publishCVSubmission = async (database, { submissionStatus, id }) => {
-  await database.models.cvsubmission.update(
+  const updatedRows = await database.models.cvsubmission.update(
     {
       submissionStatus: submissionStatus ? 0 : 1
     },
@@ -314,5 +314,5 @@ exports.publishCVSubmission = async (database, { submissionStatus, id }) => {
     }
   );
 
-  return { err: false };
+  return updatedRows;
 };
