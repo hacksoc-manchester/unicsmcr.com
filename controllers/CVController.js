@@ -154,7 +154,7 @@ module.exports = (database) => {
     }
     await dbHelpers.publishCVSubmission(database, req.user);
     req.user.submissionStatus = !req.user.submissionStatus;
-    res.send({ err: false, message: `Your submission has been successfully made ${req.user.submissionStatus ? 'public' : 'private'}!`, submissionStatus: req.user.submissionStatus });
+    res.send({ err: false, message: `Your submission has been successfully made ${req.user.submissionStatus ? 'public. It will now be sent out to our sponsors' : 'private'}!`, submissionStatus: req.user.submissionStatus });
   };
 
   return this;

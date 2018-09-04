@@ -1,4 +1,4 @@
-#publish-button, #edit-button {
+.publish-button, .edit-button {
   display: inline;
   margin: 10px 20px;
   position: relative;
@@ -11,17 +11,17 @@
   font-size: 13px;
 }
 
-#publish-button:hover {
+.publish-button:hover {
   background: #4f4f4f;
 }
 
-#edit-button  {
+.edit-button  {
   color: inherit;
   box-shadow: inset 0 0 0 1px #e1e1e1;
   background: none;
 }
 
-#edit-button:hover {
+.edit-button:hover {
   background: #fafafa;
 }
 

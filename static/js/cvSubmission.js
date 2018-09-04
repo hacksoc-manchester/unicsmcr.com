@@ -74,13 +74,21 @@ function publish() {
         $("#success-message").fadeIn("slow");
       }
       if (response.submissionStatus == true) {
+        $("#status-warning").fadeOut("slow");
         $("#publish-button").val("Make Private");
+        $("#publish-button").attr("onclick", "publish()");
         $("#submission-status").html("published");
+        $("#publish-modal").modal('hide');
       } else {
         $("#publish-button").val("Publish");
+        $("#publish-button").attr("onclick", "publishConfirm()");
         $("#submission-status").html("private");
       }
       $("#publish-button").prop("disabled", false);
     }
   });
+}
+
+function publishConfirm() {
+  $("#publish-modal").modal();
 }
