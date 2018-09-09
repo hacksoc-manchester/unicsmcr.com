@@ -163,6 +163,7 @@ exports.createCommitteeApplication = async (database, application) => {
     lastName: application.lastName,
     email: application.email,
     subjectOfStudy: application.subjectOfStudy,
+    yearOfStudy: application.yearOfStudy,
     gender: application.gender,
     teams: application.teams,
     reasonToJoin: application.reasonToJoin
@@ -189,6 +190,7 @@ exports.createVolunteerApplication = async (database, application) => {
     lastName: application.lastName,
     email: application.email,
     subjectOfStudy: application.subjectOfStudy,
+    yearOfStudy: application.yearOfStudy,
     gender: application.gender,
     teams: application.teams,
     reasonToJoin: application.reasonToJoin

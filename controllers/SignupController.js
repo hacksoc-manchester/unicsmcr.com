@@ -99,10 +99,10 @@ module.exports = (database) => {
   // Creates an application to the committee
   this.committeeApply = async (req, res) => {
     try {
-      const { firstName, lastName, email, subjectOfStudy, gender, teams, reasonToJoin, agreeToPrivacyPolicy, captchaMessage } = req.body;
+      const { firstName, lastName, email, teams, reasonToJoin, agreeToPrivacyPolicy, captchaMessage } = req.body;
 
       // Checking if all parameters were provided
-      if (!firstName || !lastName || !email || !subjectOfStudy || !gender || !teams || !reasonToJoin) {
+      if (!firstName || !lastName || !email || !teams || !reasonToJoin) {
         return res.render("pages/signup", { committeeError: "Please fill in all fields!", selectedForm: "committee" });
       }
       // Checking if user agreed to the privacy policy
@@ -125,10 +125,10 @@ module.exports = (database) => {
   // Creates an application to volunteer
   this.volunteerApply = async (req, res) => {
     try {
-      const { firstName, lastName, email, subjectOfStudy, gender, teams, reasonToJoin, agreeToPrivacyPolicy, captchaMessage } = req.body;
+      const { firstName, lastName, email, teams, reasonToJoin, agreeToPrivacyPolicy, captchaMessage } = req.body;
 
       // Checking if all parameters were provided
-      if (!firstName || !lastName || !email || !subjectOfStudy || !gender || !teams || !reasonToJoin) {
+      if (!firstName || !lastName || !email || !teams || !reasonToJoin) {
         return res.render("pages/signup", { volunteerError: "Please fill in all fields!", selectedForm: "volunteer" });
       }
       // Checking if user agreed to the privacy policy
