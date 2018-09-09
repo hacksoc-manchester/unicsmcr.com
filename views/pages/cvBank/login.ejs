@@ -5,18 +5,47 @@
   <% include ../../partials/head.ejs %>
     <title>CV Bank | HackSoc</title>
     <link rel="stylesheet" type="text/css" href="/css/sign-up.css" />
+    <link rel="stylesheet" type="text/css" href="/css/cvBankLogin.css" />
 </head>
+
 <body>
   <div id="container">
     <% include ../../partials/navbar.ejs %>
       <div id="body">
         <section id="cv-bank-login">
           <h1>CV Bank</h1>
-          <h3>Login</h3>
-          <br><br>
+          <br>
           <div class="container">
             <div class="row justify-content-center">
               <div class="col-md-5">
+                <h5>Upload a link to your CV on our CV bank and we will send it to our sponsors to check it out!</h5>
+                <br>
+                <p>Your CV will be sent out to these companies:</p>
+                <div class="row justify-content-center">
+                  <div class="col-lg-3">
+                    <a href="http://www.accenture.com" target="_blank" rel="noopener noreferrer">
+                      <img id="accenture-logo" class="sponsor-image" src="/images/sponsors/accenture.png" alt="Accenture">
+                    </a>
+                  </div>
+                  <div class="col-lg-3">
+                    <a href="http://www.bet365.com" target="_blank" rel="noopener noreferrer">
+                      <img id="bet365-logo" class="sponsor-image" src="/images/sponsors/bet365.png" alt="bet365">
+                    </a>
+                  </div>
+                  <div class="col-lg-3">
+                    <a href="http://www.goldmansachs.com" target="_blank" rel="noopener noreferrer">
+                      <img id="goldman-logo" class="sponsor-image" src="/images/sponsors/goldmansachs.png" alt="Accenture">
+                    </a>
+                  </div>
+                </div>
+                <div class="subscript">+ future sponsors</div>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-md-5">
+                <br><br>
+                <h3>Login</h3>
+                <br>
                 <form method="post" action="/cv/login" class="needs-validation" novalidate>
                   <% if (locals.error) { %>
                     <div class="alert alert-danger">
@@ -52,4 +81,5 @@
   </div>
 </body>
 <script src="/js/formValidation.js"></script>
+
 </html>
