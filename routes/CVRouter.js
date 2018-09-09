@@ -12,7 +12,7 @@ const CVRouter = (database, passport) => {
   // CV Bank login page
   router.get('/login', cvController.login);
   // Route for logging into the CV bank
-  router.post('/login', passport.authenticate('local', { failureRedirect: '/cv/login', failureFlash: true }), cvController.submission);
+  router.post('/login', passport.authenticate('local', { successRedirect: '/cv/submission/', failureRedirect: '/cv/login', failureFlash: true }));
   // Route for logging out of the CV bank
   router.post('/logout', cvController.logout);
   // CV Bank register page

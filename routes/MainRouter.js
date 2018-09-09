@@ -31,14 +31,19 @@ const MainRouter = (database, passport) => {
 
   router.use("/cv/", cvRouter(database, passport));
 
-  const singupRouter = require("./SignupRouter");
+  const singupRouter = require("./SignupRouter")(database, passport);
 
-  // TODO: test out
+  router.use("/signup/", singupRouter);
+
   // Redirects for links in old emails
-  router.get("/subscription/confirm", (req, res) => res.redirect("/signup/subscription/confirm"));
-  router.get("/subscription/remove", (req, res) => res.redirect("/signup/subscription/remove"));
+  router.get("/subscription/confirm", (req, res) => {
+    const { email, subscriptionId, firstName, lastName } = req.query;
 
-  router.use("/signup/", singupRouter(database, passport));
+    res.redirect(301, `/signup/subscription/confirm?email=${email}&subscriptionId=${subscriptionId}&firstName=${firstName}&lastName=${lastName}`);
+  });
+  router.get("/subscription/remove", (req, res) =>
+    res.redirect(301, `/signup/subscription/remove?email=${req.query.email}&subscriptionId=${req.query.subscriptionId}`));
+
 
   return router;
 };

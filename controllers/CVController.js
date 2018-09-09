@@ -8,14 +8,14 @@ const miscHelpers = require('../helpers/MiscHelpers');
 module.exports = (database) => {
   this.login = (req, res) => {
     if (req.user) {
-      return res.redirect("/cv/submission");
+      return res.redirect("/cv/submission/");
     }
     res.render("pages/cvBank/login", req.flash());
   };
 
   this.logout = (req, res) => {
     req.logout();
-    res.redirect("/cv/login");
+    res.redirect("/cv/login/");
   };
 
   this.register = (req, res) => {
@@ -34,7 +34,7 @@ module.exports = (database) => {
       return next(miscHelpers.invalidParamsResponse);
     }
 
-    const submission = await dbHelpers.findCVSubmissionByEmailAndToken(database, req.query);
+    const submission = await dbHelpers.findCVSubmissionByEmailAndToken(database, req.query.email, req.query.emailToken);
 
     if (!submission) {
       return next(miscHelpers.invalidParamsResponse);
@@ -53,7 +53,7 @@ module.exports = (database) => {
       return res.render("pages/cvBank/passwordReset", { email, emailToken, error: "Provided passwords don't match!" });
     }
 
-    const updateResponse = await dbHelpers.resetPasswordForCVSubmission(database, { email, emailToken, password });
+    const updateResponse = await dbHelpers.resetPasswordForCVSubmission(database, email, emailToken, password);
 
     if (updateResponse == 0) {
       return next(miscHelpers.invalidParamsResponse);
@@ -68,7 +68,7 @@ module.exports = (database) => {
     if (!email) {
       res.render("pages/cvBank/passwordResetRequest", { error: "Please fill in all fields!", recaptchaKey: process.env.G_RECAPTCHA_KEY });
     }
-    const submission = await dbHelpers.findCVSubmissionByEmail(database, { email });
+    const submission = await dbHelpers.findCVSubmissionByEmail(database, email);
 
     if (!submission) {
       res.render("pages/cvBank/passwordResetRequest", { error: "Given email is not on our CV Bank!", recaptchaKey: process.env.G_RECAPTCHA_KEY });

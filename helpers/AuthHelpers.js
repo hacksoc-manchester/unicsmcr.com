@@ -25,7 +25,7 @@ exports.attachReCAPTCHAKey = (req, res, next) => {
 
 exports.loggedInToCVBank = (req, res, next) => {
   if (!req.user) {
-    return res.redirect("/cv/login");
+    return res.redirect("/cv/login/");
   }
   next();
 };

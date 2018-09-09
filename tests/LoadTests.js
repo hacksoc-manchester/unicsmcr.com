@@ -48,21 +48,21 @@ module.exports = (mocha, app) => {
         });
     });
 
-    mocha.it("Should serve Sponsors page", (done) => {
-      chai.request(app)
-        .get("/sponsors")
-        .end((err, res) => {
-          return pageLoadedSuccessfully(err, res, done, "/sponsors");
-        });
-    });
+    // mocha.it("Should serve Sponsors page", (done) => {
+    //   chai.request(app)
+    //     .get("/sponsors")
+    //     .end((err, res) => {
+    //       return pageLoadedSuccessfully(err, res, done, "/sponsors");
+    //     });
+    // });
 
-    mocha.it("Should serve Events page", (done) => {
-      chai.request(app)
-        .get("/events")
-        .end((err, res) => {
-          return pageLoadedSuccessfully(err, res, done, "/events");
-        });
-    });
+    // mocha.it("Should serve Events page", (done) => {
+    //   chai.request(app)
+    //     .get("/events")
+    //     .end((err, res) => {
+    //       return pageLoadedSuccessfully(err, res, done, "/events");
+    //     });
+    // });
 
     mocha.it("Should serve Privacy page", (done) => {
       chai.request(app)
@@ -73,11 +73,35 @@ module.exports = (mocha, app) => {
     });
 
 
-    mocha.it("Should serve Jobs page", (done) => {
+    // mocha.it("Should serve Jobs page", (done) => {
+    //   chai.request(app)
+    //     .get("/jobs")
+    //     .end((err, res) => {
+    //       return pageLoadedSuccessfully(err, res, done, "/jobs");
+    //     });
+    // });
+
+    mocha.it("Should serve CV Bank login page", (done) => {
       chai.request(app)
-        .get("/jobs")
+        .get("/cv/login")
         .end((err, res) => {
-          return pageLoadedSuccessfully(err, res, done, "/jobs");
+          return pageLoadedSuccessfully(err, res, done, "/cv/login");
+        });
+    });
+
+    mocha.it("Should serve CV Bank register page", (done) => {
+      chai.request(app)
+        .get("/cv/register")
+        .end((err, res) => {
+          return pageLoadedSuccessfully(err, res, done, "/cv/register");
+        });
+    });
+
+    mocha.it("Should serve CV Bank password reset page", (done) => {
+      chai.request(app)
+        .get("/cv/passwordreset")
+        .end((err, res) => {
+          return pageLoadedSuccessfully(err, res, done, "/cv/passwordreset");
         });
     });
   });

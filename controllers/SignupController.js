@@ -46,7 +46,6 @@ module.exports = (database) => {
       let { email, subscriptionId } = req.query; // Params in get request
 
       if (!subscriptionId || !email) {
-        // TODO: test out
         ({ email, subscriptionId } = req.body); // Params in delete request
         if (!subscriptionId || !email) {
           return next(miscHelpers.invalidParamsResponse);

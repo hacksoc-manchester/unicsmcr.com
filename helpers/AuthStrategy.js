@@ -26,7 +26,7 @@ module.exports = (database) => {
     async (email, password, done) => {
       password = miscHelpers.hashPassword(password);
       try {
-        const submission = await dbHelpers.findCVSubmissionByEmailAndPassword(database, { email, password });
+        const submission = await dbHelpers.findCVSubmissionByEmailAndPassword(database, email, password);
 
         if (!submission) {
           return done(null, false, { message: 'Incorrect credentials!' });
