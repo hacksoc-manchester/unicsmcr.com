@@ -86,7 +86,6 @@ module.exports = (database) => {
       const { firstName, lastName, email, password, passwordConfirmation, agreeToPrivacyPolicy, captchaMessage } = req.body;
 
       // Checking if all parameters were provided
-      // FIXME: will throw an error because no recaptcha key is provided
       if (!firstName || !lastName || !email || !password) {
         return res.render("pages/cvBank/register", { error: "Please fill in all fields!" });
       }
@@ -119,13 +118,13 @@ module.exports = (database) => {
   };
 
   this.editSubmission = async (req, res, next) => {
-    const { firstName, lastName, cvLink } = req.body;
+    const { firstName, lastName, cvLink, github, linkedIn } = req.body;
 
     // Checking if all parameters were provided
     if (!firstName || !lastName || !cvLink) {
-      return res.send({ err: "Please fill in all fields!" });
+      return res.send({ err: "Please fill in all required fields!" });
     }
-    const updateResponse = await dbHelpers.updateCVSubmission(database, req.user, { firstName, lastName, cvLink });
+    const updateResponse = await dbHelpers.updateCVSubmission(database, req.user, { firstName, lastName, cvLink, github, linkedIn });
 
     if (updateResponse == 0) {
       return next(miscHelpers.invalidParamsResponse);

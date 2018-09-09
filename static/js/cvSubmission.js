@@ -6,7 +6,7 @@ function editSubmission() {
     $("#publish-button").hide();
     $("#edit-button").val("Save");
     $("#edit-button").removeClass("edit-button");
-    $("#edit-button").addClass("submit-button");
+    $("#edit-button").addClass("publish-button");
     $("#edit-button").attr("onclick", "saveSubmission()");
     $("#actions").fadeIn("fast");
   });
@@ -22,6 +22,8 @@ function saveSubmission() {
   var firstName = $("input[name='firstName'").val();
   var lastName = $("input[name='lastName'").val();
   var cvLink = $("input[name='cvLink'").val();
+  var github = $("input[name='github'").val();
+  var linkedIn = $("input[name='linkedIn'").val();
 
   $.ajax({
     type: "POST",
@@ -29,7 +31,9 @@ function saveSubmission() {
     data: {
       firstName: firstName,
       lastName: lastName,
-      cvLink: cvLink
+      cvLink: cvLink,
+      github: github,
+      linkedIn: linkedIn
     },
     success: function (response) {
       if (response.err) {
@@ -42,13 +46,15 @@ function saveSubmission() {
           $("#publish-button").show();
           $("#edit-button").val("Edit");
           $("#edit-button").addClass("edit-button");
-          $("#edit-button").removeClass("submit-button");
+          $("#edit-button").removeClass("publish-button");
           $("#edit-button").attr("onclick", "editSubmission()");
           $("#actions").fadeIn("fast");
         });
         $(".edit-field").fadeOut("fast", function () {
           $("#first-name").html(firstName);
           $("#last-name").html(lastName);
+          $("#github").html("<a href='" + github + "' target='_blank' rel='noopener noreferrer'>" + github + "</a>");
+          $("#linkedin").html("<a href='" + linkedIn + "' target='_blank' rel='noopener noreferrer'>" + linkedIn + "</a>");
           $("#cv-link").html("<a href='" + cvLink + "' target='_blank' rel='noopener noreferrer'>" + cvLink + "</a>");
           $(".static-field").fadeIn("fast");
         });

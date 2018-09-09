@@ -18,7 +18,9 @@
           <div class="container">
             <div class="row justify-content-center">
               <div class="col-md-6 align-left">
-                <h5>Hello <%= locals.user.firstName %>!</h5>
+                <h5>Hello
+                  <%= locals.user.firstName %>!
+                </h5>
                 <p>This is your submission on our CV bank</p>
                 <hr>
                 <div id="submission-container" class="container">
@@ -60,8 +62,22 @@
                         </div>
                       </div>
                       <div class="row">
+                        <p><b>GitHub:</b>&nbsp;</p>
+                        <div id="github" class="long-link static-field">
+                          <a href="<%= locals.user.github %>" target="_blank" rel="noopener noreferrer"><%= locals.user.github %></a>
+                        </div>
+                        <div class="edit-field"><input type="text" value="<%= locals.user.github %>" name="github" placeholder="Link to your GitHub account"></div>
+                      </div>
+                      <div class="row">
+                        <p><b>LinkedIn:</b>&nbsp;</p>
+                        <div id="linkedin" class="long-link static-field">
+                          <a href="<%= locals.user.linkedIn %>" target="_blank" rel="noopener noreferrer"><%= locals.user.linkedIn %></a>
+                        </div>
+                        <div class="edit-field"><input type="text" value="<%= locals.user.linkedIn %>" name="linkedIn" placeholder="Link to your LinkedIn account"></div>
+                      </div>
+                      <div class="row">
                         <p><b>Your CV:&nbsp;</b></p>
-                        <div id="cv-link" class="cv-link static-field">
+                        <div id="cv-link" class="long-link static-field">
                           <a href="<%= locals.user.cvLink %>" target="_blank" rel="noopener noreferrer"><%= locals.user.cvLink %></a>
                         </div>
                         <div class="edit-field"><input type="text" value="<%= locals.user.cvLink %>" name="cvLink" placeholder="Enter the link to your CV"
@@ -73,7 +89,7 @@
                     onclick="<%= locals.user.submissionStatus == true ? 'publish()' : 'publishConfirm()' %>">
                   <input id="edit-button" class="edit-button smooth-transitions" type="submit" value="Edit" onclick="editSubmission()">
                 </div>
-                  
+
                 <div class="modal fade" id="publish-modal" tabindex="-1" role="dialog" aria-labelledby="publish-modal-label" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">

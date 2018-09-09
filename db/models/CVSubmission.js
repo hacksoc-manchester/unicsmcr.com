@@ -28,6 +28,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    github: DataTypes.STRING,
+    linkedIn: DataTypes.STRING,
     cvLink: DataTypes.STRING,
     submissionStatus: {
       type: DataTypes.BOOLEAN,
