@@ -57,11 +57,11 @@ function selectTeam(team) {
   if (teamIndex >= 0) {
     // Given team is selected, deselecting it
     $(teamSelectors[team]).removeClass("selected-team-button");
-    selectedTeams = selectedTeams.replace((teamIndex > 1 ? "," : " ") + team, "");
+    selectedTeams = selectedTeams.replace((teamIndex > 1 ? "," : "") + team, "");
   } else {
     // Given team is not selected, selecting it
     $(teamSelectors[team]).addClass("selected-team-button");
-    selectedTeams += (selectedTeams.length > 0 ? "," : " ") + team;
+    selectedTeams += (selectedTeams.length > 0 ? "," : "") + team;
   }
   // Updating the selected teams
   $("#teams-input").val(selectedTeams);
