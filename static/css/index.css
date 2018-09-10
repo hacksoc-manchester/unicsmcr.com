@@ -59,6 +59,7 @@ section>.row {
 }
 
 .flex-horizontal {
+    display: -ms-flexbox;
     display: flex;
     flex-direction: row;
     justify-content: center;
