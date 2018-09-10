@@ -90,8 +90,7 @@ section>.row {
 }
 
 #bet365-logo {
-    position: relative;
-    top: 5px;
+    width: 166px;
 }
 
 #accenture-logo {
@@ -145,6 +144,10 @@ section>.row {
     .sponsor-img {
         width: 100px;
         margin-bottom: 20px !important;
+    }
+
+    #bet365-logo {
+        width: 75px;
     }
 
     #goldmansachs-logo, #americanexpress-logo {
