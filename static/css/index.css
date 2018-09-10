@@ -70,7 +70,7 @@ section>.row {
 }
 
 .sponsor-img {
-    width: 150px;
+    width: 250px;
 }
 
 #bet365-logo {
@@ -79,17 +79,16 @@ section>.row {
 }
 
 #accenture-logo, #bet365-logo, #oneplus-logo {
-    margin: 0 20px;
+    margin: 0 33px;
 }
 
 #goldmansachs-logo, #americanexpress-logo {
-    width: 100px;
-    margin: 0 30px;
+    width: 166px;
+    margin: 0 40px;
 }
 
 #giveagradago-logo, #morganstanley-logo {
-    margin: 0 30px;
-    width: 150px;
+    margin: 0 40px;
 }
 
 @media screen and (max-width: 1124px) {
