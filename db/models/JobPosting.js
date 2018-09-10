@@ -22,6 +22,10 @@ module.exports = function(sequelize, DataTypes) {
     applyLink: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    logoLink: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   });
 

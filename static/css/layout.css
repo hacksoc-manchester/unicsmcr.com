@@ -193,3 +193,8 @@ footer #social-media img {
 .centered {
     margin: 0 auto !important;
 }
+
+.no-side-buffers {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}

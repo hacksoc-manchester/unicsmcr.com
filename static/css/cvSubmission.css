@@ -55,10 +55,6 @@
   display: none;
 }
 
-.save-button {
-  background-color: orange !important;
-}
-
 #success-message, #error-message {
   display: none;
 }

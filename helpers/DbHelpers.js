@@ -320,14 +320,15 @@ exports.publishCVSubmission = async (database, { submissionStatus, id }) => {
 };
 
 
-exports.createJobPosting = async (database, { position, description, company, location, applyLink }) => {
+exports.createJobPosting = async (database, { position, description, company, location, applyLink, logoLink }) => {
   try {
     const newPosting = await database.models.jobposting.create({
       position,
       description,
       company,
       location,
-      applyLink
+      applyLink,
+      logoLink
     });
 
     return newPosting ? newPosting.dataValues : null;
