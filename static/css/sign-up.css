@@ -15,7 +15,7 @@ form {
     width: 100%;
 }
 
-.user-details input, .user-details textarea  {
+.user-details input, .user-details textarea {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -128,6 +128,27 @@ h3 {
     text-align: center;
 }
 
+#register-button {
+    display: inline;
+    margin: 10px 20px;
+    position: relative;
+    padding: 0.85em 3em;
+    border-radius: 0.25em;
+    cursor: pointer;
+    border: 0;
+    color: #fff;
+    font-size: 13px;
+    color: #000;
+    box-shadow: inset 0 0 0 1px #e1e1e1;
+    background: none;
+}
+
+#register-button:hover {
+    background: #3d3d3d;
+    color: white;
+    text-decoration: none;
+}
+
 /* Tablet */
 
 @media screen and (max-width: 1024px) {
@@ -135,6 +156,7 @@ h3 {
         font-size: 1.5em;
     }
 }
+
 /* Mobile */
 
 @media screen and (max-width: 736px) {
