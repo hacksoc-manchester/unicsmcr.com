@@ -202,3 +202,9 @@ footer #social-media img {
     margin-left: 0 !important;
     margin-right: 0 !important;
 }
+
+@media screen and (max-width: 768px) {
+    html, body, #body, #container {
+        background: #fff;
+    }
+}
