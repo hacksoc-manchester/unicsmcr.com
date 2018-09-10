@@ -1,0 +1,29 @@
+"use strict";
+
+module.exports = function(sequelize, DataTypes) {
+
+  const JobPosting = sequelize.define("jobposting", {
+    position: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    description: {
+      type: DataTypes.STRING(4096),
+      allowNull: false
+    },
+    company: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    location: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    applyLink: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
+  });
+
+  return JobPosting;
+};

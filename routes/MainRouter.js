@@ -27,9 +27,9 @@ const MainRouter = (database, passport) => {
   router.get('/privacy', mainController.privacy);
 
 
-  const cvRouter = require("./CVRouter");
+  const cvRouter = require("./CVRouter")(database, passport);
 
-  router.use("/cv/", cvRouter(database, passport));
+  router.use("/cv/", cvRouter);
 
   const singupRouter = require("./SignupRouter")(database, passport);
 
@@ -44,6 +44,9 @@ const MainRouter = (database, passport) => {
   router.get("/subscription/remove", (req, res) =>
     res.redirect(301, `/signup/subscription/remove?email=${req.query.email}&subscriptionId=${req.query.subscriptionId}`));
 
+  const jobsRouter = require("./JobsRouter")(database);
+
+  router.use("/jobs/", jobsRouter);
 
   return router;
 };
