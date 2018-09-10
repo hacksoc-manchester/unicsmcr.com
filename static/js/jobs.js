@@ -35,6 +35,7 @@ $(window).resize(function () {
     }
   }
 });
+$(window).trigger('resize');
 
 function selectJob(jobId) {
   selectedJob = findJobById(jobId);
