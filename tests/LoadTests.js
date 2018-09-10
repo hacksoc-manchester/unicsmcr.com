@@ -73,13 +73,13 @@ module.exports = (mocha, app) => {
     });
 
 
-    // mocha.it("Should serve Jobs page", (done) => {
-    //   chai.request(app)
-    //     .get("/jobs")
-    //     .end((err, res) => {
-    //       return pageLoadedSuccessfully(err, res, done, "/jobs");
-    //     });
-    // });
+    mocha.it("Should serve Jobs page", (done) => {
+      chai.request(app)
+        .get("/jobs")
+        .end((err, res) => {
+          return pageLoadedSuccessfully(err, res, done, "/jobs");
+        });
+    });
 
     mocha.it("Should serve CV Bank login page", (done) => {
       chai.request(app)
