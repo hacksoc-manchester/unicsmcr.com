@@ -18,25 +18,41 @@
         <br>
         <div class="row justify-content-center no-side-buffers">
           <div id="job-listings" class="col-lg-4">
-            <% jobs.forEach(job => { %>
-            <div id="<%= job.id %>" class="job-listing align-left row smooth-transitions">
-              <span class="selector hidden smooth-transitions"></span>
-              <div class="col-2 job-listing-logo" style="background-image: url('<%= job.logoLink %>')">
-              </div>
-              <div class="col-9 job-listing-info">
-                <div class="job-listing-title hide-overflow">
-                  <%= job.position %>
-                </div>
-                <div class="job-listing-details hide-overflow">
-                  <%= job.company %>
-                </div>
-                <div class="job-listing-details hide-overflow">
-                  <%= job.location %>
-                </div>
+            <div class="dropdown row">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false" class="smooth-transitions">
+                Filter
+              </button>
+              <div class="dropdown-menu" aria-labelledby="filterDropdown">
+                <a class="dropdown-item" onclick="filterByCompany('all')">
+                    All</a>
+                <% companies.forEach(company => { %>
+                <a class="dropdown-item" onclick="filterByCompany('<%= company %>')">
+                  <%= company %></a>
+                <% }) %>
               </div>
             </div>
-            <hr class="seperator">
-            <% }) %>
+            <div class="job-listings-container">
+              <% jobs.forEach(job => { %>
+              <div id="<%= job.id %>" class="job-listing align-left row smooth-transitions no-side-buffers" onclick="selectJob(<%= job.id %>)">
+                <span class="selector hidden smooth-transitions"></span>
+                <div class="col-2 job-listing-logo" style="background-image: url('<%= job.logoLink %>')">
+                </div>
+                <div class="col-9 job-listing-info">
+                  <div class="job-listing-title hide-overflow">
+                    <%= job.position %>
+                  </div>
+                  <div class="job-listing-details hide-overflow">
+                    <%= job.company %>
+                  </div>
+                  <div class="job-listing-details hide-overflow">
+                    <%= job.location %>
+                  </div>
+                </div>
+              </div>
+              <hr class="seperator">
+              <% }) %>
+            </div>
           </div>
           <div id="job-overview" class="col-lg-6">
             <div id="job-overview-header" class="row">
@@ -74,4 +90,5 @@
     initScript(<%- JSON.stringify(jobs) %>);
   </script>
 </footer>
+
 </html>

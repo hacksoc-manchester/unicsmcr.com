@@ -1,6 +1,7 @@
-#job-listings {
+.job-listings-container {
     max-height: 700px;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .job-listing {
@@ -13,6 +14,20 @@
     height: 80px;
     width: 5px;
     margin: -13px 0;
+}
+
+.dropdown {
+    width: 0;
+    margin: 20px 0;
+}
+
+#filterDropdown {
+    left: 0;
+    background: #3d3d3d;
+}
+
+#filterDropdown:hover {
+    background: #4f4f4f;
 }
 
 .job-listing:hover .selector, .job-listing.selected .selector {
@@ -122,18 +137,18 @@
     background: #fafafa;
 }
 
-#job-listings::-webkit-scrollbar-track {
+.job-listings-container::-webkit-scrollbar-track {
     border-radius: 10px;
     background-color: #dedede;
 }
 
-#job-listings::-webkit-scrollbar {
+.job-listings-container::-webkit-scrollbar {
     width: 8px;
     border-radius: 10px;
     background-color: #dedede;
 }
 
-#job-listings::-webkit-scrollbar-thumb {
+.job-listings-container::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: #555;
 }

@@ -6,8 +6,16 @@ module.exports = (database) => {
   this.index = async (req, res, next) => {
     try {
       const jobs = await jobsService.getJobs(database);
+      let companies = [];
 
-      res.render("pages/jobs", { jobs });
+      jobs.forEach(job => {
+        if (!companies.find(c => c == job.company)) {
+          companies.push(job.company);
+        }
+      });
+      companies = companies.sort((a, b) => a > b);
+
+      res.render("pages/jobs", { jobs, companies });
     } catch (err) {
       console.log(err);
       return next(err);

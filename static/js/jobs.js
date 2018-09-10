@@ -11,10 +11,6 @@ function initScript(_jobs) {
   }
 }
 
-$(".job-listing").click(function () {
-  selectJob($(this).attr('id'));
-});
-
 $(window).resize(function () {
   if (window.outerWidth > 992) {
     if ($("#job-listings").css("display") == "none") {
@@ -23,7 +19,7 @@ $(window).resize(function () {
     if ($("#job-overview").css("display") == "none") {
       $("#job-overview").fadeIn("fast");
     }
-    if (!selectedJob) {
+    if (!selectedJob && jobs && jobs.length > 0) {
       selectJob(jobs[0].id);
     }
   } else {
@@ -76,5 +72,40 @@ function closeJob() {
     $("#job-overview").fadeOut("fast", function () {
       $("#job-listings").fadeIn("fast");
     });
+  }
+}
+
+var jobListingTemplate = "<div id='#id' class='job-listing align-left row smooth-transitions no-side-buffers' onclick='selectJob(#id)'>" +
+  "<span class='selector hidden smooth-transitions'></span>" +
+  "<div class='col-2 job-listing-logo' style=\"background-image: url('#logoLink')\">" +
+  "</div><div class='col-9 job-listing-info'><div class='job-listing-title hide-overflow'>" +
+  "#position</div><div class='job-listing-details hide-overflow'>#company</div>" +
+  "<div class='job-listing-details hide-overflow'>#location</div>" +
+  "</div></div><hr class='seperator'>";
+
+function filterByCompany(company) {
+  var firstListing;
+
+  $(".job-listings-container").html("");
+  for (var index = 0; index < jobs.length; index++) {
+    var job = jobs[index];
+
+    if (job.company == company || company == "all") {
+      if (!firstListing) {
+        firstListing = job;
+      }
+      var listingString = jobListingTemplate
+        .replace(/#id/g, job.id)
+        .replace(/#logoLink/g, job.logoLink)
+        .replace(/#position/g, job.position)
+        .replace(/#company/g, job.company)
+        .replace(/#location/g, job.location)
+        .replace(/#location/g, job.location);
+
+        $(".job-listings-container").append(listingString);
+    }
+  }
+  if (firstListing) {
+    selectJob(firstListing.id);
   }
 }
