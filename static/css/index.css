@@ -115,6 +115,10 @@ section>.row {
     margin: 0 40px 0 0;
 }
 
+#morganstanley-logo, #giveagradago-logo {
+    padding-bottom: 100px;
+}
+
 #giveagradago-logo {
     margin: 0 40px 0 0;
 }
@@ -130,6 +134,10 @@ section>.row {
 }
 
 @media screen and (max-width: 620px) {
+    #about-us-image {
+        display: none;
+    }
+
     #sponsors-text {
         margin-bottom: 0px;
     }
@@ -144,9 +152,7 @@ section>.row {
         margin: 0 20px;
     }
 
-    #morganstanley-logo {
-        position: relative;
-        top: 10px;
-        margin-bottom: 50px !important;
+    #morganstanley-logo, #giveagradago-logo {
+        padding-bottom: 0;
     }
 }
