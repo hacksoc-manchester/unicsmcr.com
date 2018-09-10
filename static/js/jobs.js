@@ -33,19 +33,23 @@ $(window).resize(function () {
 });
 $(window).trigger('resize');
 
+// Selects given job
 function selectJob(jobId) {
   selectedJob = findJobById(jobId);
   if (!selectedJob) {
     return;
   }
+  // Updating the selected job in the list
   $(".selected").removeClass("selected");
   $("#" + selectedJob.id).addClass("selected");
+  // Updating the shown job in job overview
   $("#logo").css("background-image", "url('" + selectedJob.logoLink + "')");
   $("#title").html(selectedJob.position);
   $("#company").html(selectedJob.company);
   $("#location").html(selectedJob.location);
   $("#job-overview-description").html(selectedJob.description);
   if (window.outerWidth <= 992) {
+    // Showing only the job overview on a smaller screen
     $("#job-listings").fadeOut("fast", function () {
       $("#job-overview").fadeIn("fast");
     });
@@ -63,10 +67,12 @@ function findJobById(jobId) {
   return null;
 }
 
+// Opens new tab with the application to the job
 function apply() {
   window.open(selectedJob.applyLink, "_blank");
 }
 
+// Closes the job overview on smaller screens
 function closeJob() {
   if (window.outerWidth <= 992) {
     $("#job-overview").fadeOut("fast", function () {
@@ -75,6 +81,7 @@ function closeJob() {
   }
 }
 
+// Template to be used when rendering the jobs list
 var jobListingTemplate = "<div id='#id' class='job-listing align-left row smooth-transitions no-side-buffers' onclick='selectJob(#id)'>" +
   "<span class='selector hidden smooth-transitions'></span>" +
   "<div class='col-2 job-listing-logo' style=\"background-image: url('#logoLink')\">" +
@@ -83,6 +90,7 @@ var jobListingTemplate = "<div id='#id' class='job-listing align-left row smooth
   "<div class='job-listing-details hide-overflow'>#location</div>" +
   "</div></div><hr class='seperator'>";
 
+// Filters the jobs list by given company
 function filterByCompany(company) {
   var firstListing;
 
@@ -94,6 +102,7 @@ function filterByCompany(company) {
       if (!firstListing) {
         firstListing = job;
       }
+      // Generating string for the job from template
       var listingString = jobListingTemplate
         .replace(/#id/g, job.id)
         .replace(/#logoLink/g, job.logoLink)
@@ -102,10 +111,12 @@ function filterByCompany(company) {
         .replace(/#location/g, job.location)
         .replace(/#location/g, job.location);
 
-        $(".job-listings-container").append(listingString);
+      // Rendering new job
+      $(".job-listings-container").append(listingString);
     }
   }
   if (firstListing) {
+    // Selecting the first job on the list if possible
     selectJob(firstListing.id);
   }
 }

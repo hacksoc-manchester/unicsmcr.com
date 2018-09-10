@@ -319,7 +319,7 @@ exports.publishCVSubmission = async (database, { submissionStatus, id }) => {
   return updatedRows;
 };
 
-
+// Creates a new JobPosting
 exports.createJobPosting = async (database, { position, description, company, location, applyLink, logoLink }) => {
   try {
     const newPosting = await database.models.jobposting.create({
@@ -337,6 +337,7 @@ exports.createJobPosting = async (database, { position, description, company, lo
   }
 };
 
+// Gets all JobPostings from database
 exports.getJobs = async (database) => {
   try {
     const jobs = await database.models.jobposting.findAll();
