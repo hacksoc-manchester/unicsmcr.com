@@ -1,5 +1,12 @@
-#container, section {
+#container {
     height: 100%;
+    padding: 0;
+}
+
+section {
+    display: table;
+    height: inherit;
+    width: 100%;
     padding: 0;
 }
 
@@ -58,6 +65,14 @@ section>.row {
     background: #efefef;
 }
 
+.flex-vertical {
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .flex-horizontal {
     display: -ms-flexbox;
     display: flex;
@@ -79,17 +94,33 @@ section>.row {
     top: 5px;
 }
 
-#accenture-logo, #bet365-logo, #oneplus-logo {
-    margin: 0 33px;
+#accenture-logo {
+    margin: 0 33px 0 0;
+}
+
+#bet365-logo {
+    margin: 0 0 0 33px;
 }
 
 #goldmansachs-logo, #americanexpress-logo {
     width: 166px;
-    margin: 0 40px;
 }
 
-#giveagradago-logo, #morganstanley-logo {
-    margin: 0 40px;
+#americanexpress-logo {
+    margin: 0 0 0 40px;
+
+}
+
+#goldmansachs-logo {
+    margin: 0 40px 0 0;
+}
+
+#giveagradago-logo {
+    margin: 0 40px 0 0;
+}
+
+#morganstanley-logo {
+    margin: 0 0 0 40px;
 }
 
 @media screen and (max-width: 1124px) {
@@ -99,19 +130,23 @@ section>.row {
 }
 
 @media screen and (max-width: 620px) {
-    .flex-horizontal {
-        flex-direction: column;
-    }
-
     #sponsors-text {
-        margin-bottom: 20px;
+        margin-bottom: 0px;
     }
 
     .sponsor-img {
+        width: 100px;
         margin-bottom: 20px !important;
     }
 
+    #goldmansachs-logo, #americanexpress-logo {
+        width: 75px;
+        margin: 0 20px;
+    }
+
     #morganstanley-logo {
+        position: relative;
+        top: 10px;
         margin-bottom: 50px !important;
     }
 }
