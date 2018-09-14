@@ -5,6 +5,11 @@ const request = require('request');
 
 // Verifies the ReCAPTCHA key
 exports.verifyReCAPTCHA = (req, res, next) => {
+  // Disabling reCAPTCHA verification on dev environment
+  if (process.env.ENVIRONMENT == "dev") {
+    return next();
+  }
+
   const secretKey = process.env.G_RECAPTCHA_SECRET; // The secret key of the app
   // Verification URL for the verification request
   const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body['g-recaptcha-response']}&remoteip=${req.connection.remoteAddress}`;
