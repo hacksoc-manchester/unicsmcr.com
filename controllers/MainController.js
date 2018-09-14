@@ -104,7 +104,7 @@ module.exports = (database) => {
 
   this.signUp = (req, res, next) => {
     try {
-      res.render('pages/signup');
+      res.render('pages/signup', { courses: process.courses });
     } catch (err) {
       console.log(err);
       return next(err);

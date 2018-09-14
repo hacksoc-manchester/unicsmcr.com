@@ -36,13 +36,12 @@
                     </div>
                   </div>
                   <div class="input-group user-subject full-width top-buffer-20">
-                    <input class="form-control" type="text" name="subjectOfStudy" placeholder="Your Degree Title">
+                    <input id="subject-of-study-input" class="form-control" type="text" name="subjectOfStudy" placeholder="Your Degree Title" autocomplete="off">
                   </div>
                   <div class="input-group user-subject full-width">
-                    <input class="form-control" type="text" name="yearOfStudy" placeholder="Your Year of Study">
+                    <input class="form-control" type="text" name="yearOfStudy" placeholder="Your Year of Study" autocomplete="off">
                   </div>
                   <p class="subscript">Optional - for demographic purposes</p>
-
                 </div>
                 <div class="col-sm-6">
                   <h6 class="align-left">Please select the teams you are interested in joining</h6>
@@ -106,4 +105,9 @@
             </div>
   </form>
   <script src="/js/applicationForm.js"></script>
+  <script>
+    $( "#subject-of-study-input" ).autocomplete({
+      source: <%- JSON.stringify(courses) %>
+    });
+  </script>
 </div>
