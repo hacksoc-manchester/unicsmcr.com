@@ -1,0 +1,19 @@
+#accenture-logo {
+  max-width: 150px;
+  align-self: center;
+  margin: 0 auto;
+}
+
+.sponsor-header, .sponsor-profile {
+  margin: 0;
+}
+
+.sponsor-header {
+  background: #efefef;
+  height: 200px;
+}
+
+.sponsor-profile {
+  border: 3px solid #efefef;
+  padding: 50px 30px;
+}
