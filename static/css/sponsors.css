@@ -1,4 +1,4 @@
-#accenture-logo {
+.sponsor-logo {
   max-width: 150px;
   align-self: center;
   margin: 0 auto;
@@ -16,4 +16,5 @@
 .sponsor-profile {
   border: 3px solid #efefef;
   padding: 50px 30px;
+  text-align: left;
 }
