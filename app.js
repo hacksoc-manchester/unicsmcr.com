@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const path = require('path');
 const session = require('express-session');
 const flash = require('req-flash');
+const csv = require("fast-csv");
 
 const errorController = require('./controllers/ErrorController');
 const mainRouter = require('./routes/MainRouter');
@@ -59,6 +60,13 @@ app.use(errorController.handle404); // 404 Handler
 app.use(errorController.handleOther); // Error handler for expected errors
 app.use(errorController.handle500); // Error handler for unexpected errors
 
+// Loading the list of university courses
+process.courses = [];
+csv
+  .fromPath("externalData/courses.csv")
+  .on("data", data => {
+    process.courses.push(data[0]);
+  });
 
 const server = app.listen(port, () => {
   console.log(`App listening on port: ${port}`);
