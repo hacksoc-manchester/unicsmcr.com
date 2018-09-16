@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     description: {
-      type: DataTypes.STRING(4096),
+      type: DataTypes.STRING(10000),
       allowNull: false
     },
     company: {
