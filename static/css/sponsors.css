@@ -1,10 +1,9 @@
 .sponsor-logo {
-  min-width: 150px;
+  width: 150px !important;
   max-width: 150px;
   align-self: center;
   margin: 0 auto;
   height: auto;
-  width: auto;
 }
 
 .sponsor-header, .sponsor-profile {
