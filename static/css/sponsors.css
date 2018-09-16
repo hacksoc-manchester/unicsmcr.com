@@ -11,6 +11,7 @@
 }
 
 .sponsor-header {
+  cursor: pointer;
   margin-top: 20px;
   background: #efefef;
   height: 200px;
