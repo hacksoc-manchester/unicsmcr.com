@@ -31,7 +31,7 @@ exports.createSubscriber = async (database, { firstName, lastName, email, subscr
     // Subscriber created, returning response
     return newSubscriber.dataValues;
   } catch (err) {
-    throw new Error(`Could not create subscriber: ${err}`);
+    throw new Error(err.message);
   }
 };
 
@@ -143,4 +143,58 @@ exports.confirmSubscriptionRequest = async (database, { subscriptionId, subscrib
   } catch (err) {
     throw new Error(`Could not confirm subscription request: ${err}`);
   }
+};
+
+// Creates a new CommitteeApplication
+exports.createCommitteeApplication = async (database, application) => {
+  // Checking if the user already has a CommitteeApplication
+  const existingApplication = await database.models.committeeapplication.findOne({
+    where: {
+      email: application.email
+    }
+  });
+
+  if (existingApplication) {
+    throw new Error(`${application.email} has already applied to the committee`);
+  }
+  // Creating new CommitteeApplication
+  const newApplication = await database.models.committeeapplication.create({
+    firstName: application.firstName,
+    lastName: application.lastName,
+    email: application.email,
+    subjectOfStudy: application.subjectOfStudy,
+    yearOfStudy: application.yearOfStudy,
+    gender: application.gender,
+    teams: application.teams,
+    reasonToJoin: application.reasonToJoin
+  });
+
+  return newApplication.dataValues;
+};
+
+// Creates a new VolunteerApplication
+exports.createVolunteerApplication = async (database, application) => {
+  // Checking if the user already has a VolunteerApplication
+  const existingApplication = await database.models.volunteerapplication.findOne({
+    where: {
+      email: application.email
+    }
+  });
+
+  if (existingApplication) {
+    throw new Error(`${application.email} has already applied to volunteer`);
+  }
+  // Creating new VolunteerApplication
+  const newApplication = await database.models.volunteerapplication.create({
+    firstName: application.firstName,
+    lastName: application.lastName,
+    email: application.email,
+    subjectOfStudy: application.subjectOfStudy,
+    yearOfStudy: application.yearOfStudy,
+    gender: application.gender,
+    teams: application.teams,
+    reasonToJoin: application.reasonToJoin
+  });
+
+  return newApplication.dataValues;
 };

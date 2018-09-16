@@ -6,6 +6,7 @@ const galleryService = require('../services/GalleryService');
 const emailService = require('../services/EmailService');
 const subscriptionsService = require('../services/SubscriptionsService');
 
+const dbHelpers = require('../helpers/DbHelpers');
 
 module.exports = (database) => {
   this.index = (req, res, next) => {
@@ -19,7 +20,7 @@ module.exports = (database) => {
 
   this.contact = (req, res, next) => {
     try {
-      res.render('pages/contact', { recaptchaKey: process.env.G_RECAPTCHA_KEY });
+      res.render('pages/contact');
     } catch (err) {
       console.log(err);
       return next(err);
@@ -34,7 +35,7 @@ module.exports = (database) => {
         return next({
           type: "message",
           title: "Error",
-          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+          message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
         });
       }
       return res.render('pages/message', { title, message });
@@ -46,7 +47,11 @@ module.exports = (database) => {
 
   this.contactHackSoc = (req, res, next) => {
     try {
-      const { name, email, message } = req.body;
+      const { name, email, message, captchaMessage } = req.body;
+
+      if (captchaMessage) {
+        return res.render("pages/contact", { error: captchaMessage });
+      }
       const sender = `${name || "Name not specified"}: ${email || "Email not specified"}`;
 
       emailService.contactHackSoc(sender, message);
@@ -99,34 +104,40 @@ module.exports = (database) => {
 
   this.signUp = (req, res, next) => {
     try {
-      res.render('pages/sign-up');
+      res.render('pages/signup', { courses: process.courses });
     } catch (err) {
       console.log(err);
       return next(err);
     }
   };
 
-  this.createSubscription = (req, res, next) => {
+  // Creates a subscription to the newsletter
+  this.createSubscription = async (req, res) => {
     try {
-      const { firstName, lastName, email } = req.query;
+      const { firstName, lastName, email, agreeToPrivacyPolicy, captchaMessage } = req.body;
 
+      // Checking if all parameters were provided
       if (!firstName || !lastName || !email) {
-        return next({
-          type: "message",
-          title: "Error",
-          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
-        });
+        return res.render("pages/signup", { newsletterError: "Please fill in all fields!", selectedForm: "newsletter" });
       }
-      subscriptionsService.createSubscriber(database, { firstName, lastName, email }).then(() => {
-        return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Thank you for subscribing to our mailing list!`);
-      });
+      // Checking if user agreed to the privacy policy
+      if (!agreeToPrivacyPolicy) {
+        return res.render("pages/signup", { newsletterError: "Please agree to the privacy policy.", selectedForm: "newsletter" });
+      }
+      // Checking if user passed the turing test
+      if (captchaMessage) {
+        return res.render("pages/signup", { newsletterError: captchaMessage, selectedForm: "newsletter" });
+      }
+      // Creating application
+      await subscriptionsService.createSubscriber(database, { firstName, lastName, email });
+      return res.render("pages/message", { title: "Success", message: "Thank you for subscribing to our mailing list!" });
     } catch (err) {
       console.log(err);
-      return next(err);
+      return res.render("pages/signup", { newsletterError: err, selectedForm: "newsletter" });
     }
   };
 
-  this.removeSubscription = (req, res, next) => {
+  this.getRemoveSubscription = async (req, res, next) => {
     try {
       const { email, subscriptionId } = req.query;
 
@@ -134,12 +145,30 @@ module.exports = (database) => {
         return next({
           type: "message",
           title: "Error",
-          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+          message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
         });
       }
-      subscriptionsService.removeSubscriber(database, { email, subscriptionId }).then(() => {
-        return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Your subscription has been removed successfully!`);
-      });
+      await subscriptionsService.removeSubscriber(database, { email, subscriptionId });
+      return res.render("pages/message", { title: "Success", message: "Your subscription has been removed successfully!" });
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
+  this.deleteRemoveSubscription = async (req, res, next) => { // REVIEW: code repetition
+    try {
+      const { email, subscriptionId } = req.body;
+
+      if (!subscriptionId || !email) {
+        return next({
+          type: "message",
+          title: "Error",
+          message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+        });
+      }
+      await subscriptionsService.removeSubscriber(database, { email, subscriptionId });
+      return res.render("pages/message", { title: "Success", message: "Your subscription has been removed successfully!" });
     } catch (err) {
       console.log(err);
       return next(err);
@@ -154,7 +183,7 @@ module.exports = (database) => {
         return next({
           type: "message",
           title: "Error",
-          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+          message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
         });
       }
 
@@ -169,11 +198,10 @@ module.exports = (database) => {
         return next({
           type: "message",
           title: "Error",
-          message: "Invalid parameters provided.\nIf you believe this shouldn't have happened please contact us at contact@hacksoc.com"
+          message: "Invalid parameters provided.<br>If you believe this shouldn't have happened please contact us at contact@hacksoc.com"
         });
       }
-
-      return res.redirect(`${req.protocol}://${req.get('host')}/message?title=Success&message=Thank you for subscribing to our mailing list!`);
+      return res.render("pages/message", { title: "Success", message: "Thank you for subscribing to our mailing list!" });
     } catch (err) {
       console.log(err);
       return next(err);
@@ -188,6 +216,67 @@ module.exports = (database) => {
     } catch (err) {
       console.log(err);
       return next(err);
+    }
+  };
+
+  this.privacy = (req, res, next) => {
+    try {
+      res.render("pages/privacy");
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
+  // Creates an application to the committee
+  this.committeeApply = async (req, res) => {
+    try {
+      const { firstName, lastName, email, teams, reasonToJoin, agreeToPrivacyPolicy, captchaMessage } = req.body;
+
+      // Checking if all parameters were provided
+      if (!firstName || !lastName || !email || !teams || !reasonToJoin) {
+        return res.render("pages/signup", { committeeError: "Please fill in all required fields!", selectedForm: "committee" });
+      }
+      // Checking if user agreed to the privacy policy
+      if (!agreeToPrivacyPolicy) {
+        return res.render("pages/signup", { committeeError: "Please agree to the privacy policy.", selectedForm: "committee" });
+      }
+      // Checking if user passed the turing test
+      if (captchaMessage) {
+        return res.render("pages/signup", { committeeError: captchaMessage, selectedForm: "committee" });
+      }
+      // Creating application
+      await dbHelpers.createCommitteeApplication(database, req.body);
+      return res.render("pages/message", { title: "Success", message: "You have successfully applied to join our committee!<br>We will contact you as soon as a position becomes available." });
+    } catch (err) {
+      console.log(err);
+      return res.render("pages/signup", { committeeError: err, selectedForm: "committee" });
+    }
+  };
+
+  // Creates an application to volunteer
+  this.volunteerApply = async (req, res) => {
+    try {
+      const { firstName, lastName, email, teams, reasonToJoin, agreeToPrivacyPolicy, captchaMessage } = req.body;
+
+      // Checking if all parameters were provided
+      if (!firstName || !lastName || !email || !teams || !reasonToJoin) {
+        return res.render("pages/signup", { volunteerError: "Please fill in all required fields!", selectedForm: "volunteer" });
+      }
+      // Checking if user agreed to the privacy policy
+      if (!agreeToPrivacyPolicy) {
+        return res.render("pages/signup", { volunteerError: "Please agree to the privacy policy.", selectedForm: "volunteer" });
+      }
+      // Checking if user passed the turing test
+      if (captchaMessage) {
+        return res.render("pages/signup", { volunteerError: captchaMessage, selectedForm: "volunteer" });
+      }
+      // Creating application
+      await dbHelpers.createVolunteerApplication(database, req.body);
+      return res.render("pages/message", { title: "Success", message: "You have successfully applied to volunteer!<br>We will contact you as soon as we need your help." });
+    } catch (err) {
+      console.log(err);
+      return res.render("pages/signup", { volunteerError: err, selectedForm: "volunteer" });
     }
   };
 

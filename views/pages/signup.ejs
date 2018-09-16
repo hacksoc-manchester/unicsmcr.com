@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include ../partials/head.ejs %>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <title>Sign up | HackSoc</title>
+    <link rel="stylesheet" type="text/css" href="/css/sign-up.css" />
+</head>
+<body>
+  <div id="container">
+    <% include ../partials/navbar.ejs %>
+      <div id="body">
+        <section id="sign-up">
+          <div class="container">
+            
+            <div id="form-selectors" class="row justify-content-center">
+              <div id="volunteer-form-selector" class="col-md-3 form-selector smooth-transitions" onclick="showForm('volunteer')">
+                <h3>Volunteer</h3>
+              </div>  
+              <div id="newsletter-form-selector" class="col-md-4" onclick="showForm('newsletter')">
+                <h1>Newsletter</h1>
+              </div>
+              <div id="committee-form-selector" class="col-md-3 form-selector smooth-transitions" onclick="showForm('committee')">
+                <h3>Committee</h3>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row justify-conntent-center">
+            <div id="application-form-container" class="row centered justify-content-center" style="display:none">
+              <% include ../partials/applicationForm.ejs %>
+            </div>
+            <div id="newsletter-form-container" class="row centered justify-content-center">
+              <% include ../partials/newsletterForm.ejs %>
+            </div>
+          </div>
+        </section>
+      </div>
+      <% include ../partials/footer.ejs %>
+  </div>
+</body>
+<footer>
+  <script src="/js/signup.js"></script>
+  <script>
+    <% if(locals.selectedForm && selectedForm != "newsletter") { %>
+      showForm("<%= selectedForm %>");
+    <% } %>
+    // Form validation
+    (function () {
+      'use strict';
+      window.addEventListener('load', function () {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function (form) {
+          form.addEventListener('submit', function (event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+  </script>
+</footer>
+
+</html>

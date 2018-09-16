@@ -12,7 +12,11 @@ module.exports = (mocha) => {
   const testSubscriber = {
     firstName: "John",
     lastName: "Doe",
-    email: "johndoe@email.com"
+    email: "johndoe@email.com",
+    subjectOfStudy: "Testing Science",
+    gender: "tester",
+    teams: "testing",
+    reasonToJoin: "to test"
   };
 
   mocha.describe("Database tests:", () => {
@@ -129,7 +133,40 @@ module.exports = (mocha) => {
       // The test SubscriptionRequest should not be found since it should've been deleted when it was confirmed
       expect(foundSubRequest, "Subscription request should get deleted").to.be.undefined;
     });
+
+    mocha.it("Should create a new CommitteeApplication", async () => {
+      // Cleaning up database from previous tests
+      await database.query(`DELETE FROM committeeapplications WHERE email = '${testSubscriber.email}'`);
+      // Creating new application
+      const newApplication = await dbHelpers.createCommitteeApplication(database, testSubscriber);
+      // Finding the created application
+      const foundApplication = (await database.query(`SELECT * FROM committeeapplications WHERE email = '${testSubscriber.email}'`))[0][0];
+
+      // Checking if a correct application was created
+      expect(applicationsAreEqual(newApplication, testSubscriber), "Equal to original value").to.be.true;
+      expect(applicationsAreEqual(newApplication, foundApplication), "Equal to found value").to.be.true;
+
+      // Cleaning up
+      await database.query(`DELETE FROM committeeapplications WHERE email = '${testSubscriber.email}'`);
+    });
+
+    mocha.it("Should create a new VolunteerApplication", async () => {
+      // Cleaning up database from previous tests
+      await database.query(`DELETE FROM volunteerapplications WHERE email = '${testSubscriber.email}'`);
+      // Creating new application
+      const newApplication = await dbHelpers.createVolunteerApplication(database, testSubscriber);
+      // Finding the created application
+      const foundApplication = (await database.query(`SELECT * FROM volunteerapplications WHERE email = '${testSubscriber.email}'`))[0][0];
+
+      // Checking if a correct application was created
+      expect(applicationsAreEqual(newApplication, testSubscriber), "Equal to original value").to.be.true;
+      expect(applicationsAreEqual(newApplication, foundApplication), "Equal to found value").to.be.true;
+
+      // Cleaning up
+      await database.query(`DELETE FROM volunteerapplications WHERE email = '${testSubscriber.email}'`);
+    });
   });
+
 };
 
 const subscribersAreEqual = (subscriberA, subscriberB) => {
@@ -144,4 +181,14 @@ const subscriptionRequestsAreEqual = (requestA, requestB) => {
   return requestA.id == requestB.id &&
     requestA.email == requestB.email &&
     requestA.subsciptionId == requestB.subsciptionId;
+};
+
+const applicationsAreEqual = (applicationA, applicationB) => {
+  return applicationA.email == applicationB.email &&
+    applicationA.firstName == applicationB.firstName &&
+    applicationA.lastName == applicationB.lastName &&
+    applicationA.gender == applicationB.gender &&
+    applicationA.teams == applicationB.teams &&
+    applicationA.reasonToJoin == applicationB.reasonToJoin &&
+    applicationA.subjectOfStudy == applicationB.subjectOfStudy;
 };

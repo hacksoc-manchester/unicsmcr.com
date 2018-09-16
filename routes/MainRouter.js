@@ -12,9 +12,9 @@ const MainRouter = (database) => {
   // Home Page
   router.get('/', mainController.index);
   // Contact Page
-  router.get('/contact', mainController.contact);
+  router.get('/contact', authHelpers.attachReCAPTCHAKey, mainController.contact);
   // Contacting HackSoc
-  router.post('/contact', authHelpers.verifyReCAPTCHA, mainController.contactHackSoc);
+  router.post('/contact', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.contactHackSoc);
   // Message Page
   router.get('/message', mainController.message);
   // Team Page
@@ -23,14 +23,22 @@ const MainRouter = (database) => {
   router.get('/partners', mainController.partners);
   // Gallery Page
   router.get('/gallery', mainController.gallery);
-  // Sign up page Page
-  router.get('/signup', mainController.signUp);
+  // Sign up Page
+  router.get('/signup', authHelpers.attachReCAPTCHAKey, mainController.signUp);
+  // Privacy Page
+  router.get('/privacy', mainController.privacy);
   // Creating a new subscription
-  router.get('/subscription/create', mainController.createSubscription);
+  router.post('/subscription/create', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.createSubscription);
   // Confirming a subscription
   router.get('/subscription/confirm', mainController.confirmSubscription);
   // Removing a subscription
-  router.get('/subscription/remove', mainController.removeSubscription);
+  router.delete('/subscription/remove', mainController.deleteRemoveSubscription);
+  // Route for unsubscribe links in emails
+  router.get('/subscription/remove', mainController.getRemoveSubscription);
+  // Route for applying to the committee
+  router.post('/committee/application/create', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.committeeApply);
+  // Route for applying to volunteer
+  router.post('/volunteer/application/create', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.volunteerApply);
 
   return router;
 };
