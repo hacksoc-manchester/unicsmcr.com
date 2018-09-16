@@ -1,0 +1,37 @@
+.sponsor-image {
+  width: 100%;
+  max-width: 150px;
+}
+
+#accenture-logo {
+  padding-top: 20px;
+}
+
+#goldman-logo, #bet365-logo {
+  width: 80%;
+}
+
+/* Small laptop */
+
+@media screen and (max-width: 991px) {
+  .sponsor-image {
+    padding-top: 20px;
+  }
+
+  #goldman-logo {
+    width: 50%;
+  }
+}
+
+/* Tablet */
+
+@media screen and (max-width: 768px) {
+  .sponsor-image {
+    width: 80%;
+    padding-top: 20px;
+  }
+
+  #goldman-logo {
+    width: 100px;
+  }
+}

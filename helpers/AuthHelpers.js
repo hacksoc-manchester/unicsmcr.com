@@ -27,3 +27,10 @@ exports.attachReCAPTCHAKey = (req, res, next) => {
   res.locals.recaptchaKey = process.env.G_RECAPTCHA_KEY;
   next();
 };
+
+exports.loggedInToCVBank = (req, res, next) => {
+  if (!req.user) {
+    return res.redirect("/cv/login/");
+  }
+  next();
+};

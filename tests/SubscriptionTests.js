@@ -1,4 +1,4 @@
-// Tests to check if user-accessible subscription methods work properly
+// Tests to check if user-accessible subscription methods (without reCAPTCHA) work properly
 "use strict";
 
 const chai = require("chai");
@@ -22,7 +22,43 @@ module.exports = (mocha, app) => {
   };
 
   mocha.describe("Subscription tests:", () => {
-    mocha.it("Should remove Subscriber with GET request", async () => {
+    mocha.it("Should confirm Subsription with old GET request", async () => {
+      try {
+        const newSubscriptionRequest = await dbHelpers.createSubscriptionRequest(database, { subscriberEmail: testSubscriber.email });
+
+        await chai.request(app)
+          .get('/subscription/confirm')
+          .query({ ...testSubscriber, subscriptionId: newSubscriptionRequest.subscriptionId });
+        const foundSubscriber = await dbHelpers.findSubscriberByEmail(database, testSubscriber.email);
+        const foundSubscriptionRequest = (await database.query(`SELECT * FROM subscriptionrequests WHERE subscriberEmail='${testSubscriber.email}'`))[0];
+
+        expect(foundSubscriber).to.be.not.null;
+        expect(foundSubscriptionRequest).to.be.empty;
+        await dbHelpers.removeSubscriber(database, foundSubscriber);
+      } catch (err) {
+        expect(err).to.be.null;
+      }
+    });
+
+    mocha.it("Should confirm Subsription with new GET request", async () => {
+      try {
+        const newSubscriptionRequest = await dbHelpers.createSubscriptionRequest(database, { subscriberEmail: testSubscriber.email });
+
+        await chai.request(app)
+          .get('/signup/subscription/confirm')
+          .query({ ...testSubscriber, subscriptionId: newSubscriptionRequest.subscriptionId });
+        const foundSubscriber = await dbHelpers.findSubscriberByEmail(database, testSubscriber.email);
+        const foundSubscriptionRequest = (await database.query(`SELECT * FROM subscriptionrequests WHERE subscriberEmail='${testSubscriber.email}'`))[0];
+
+        expect(foundSubscriber).to.be.not.null;
+        expect(foundSubscriptionRequest).to.be.empty;
+        await dbHelpers.removeSubscriber(database, foundSubscriber);
+      } catch (err) {
+        expect(err).to.be.null;
+      }
+    });
+
+    mocha.it("Should remove Subscriber with old GET request", async () => {
       try {
         const newSubscriber = await dbHelpers.createSubscriber(database, testSubscriber);
 
@@ -37,12 +73,27 @@ module.exports = (mocha, app) => {
       }
     });
 
+    mocha.it("Should remove Subscriber with new GET request", async () => {
+      try {
+        const newSubscriber = await dbHelpers.createSubscriber(database, testSubscriber);
+
+        await chai.request(app)
+          .get('/signup/subscription/remove')
+          .query({ email: newSubscriber.email, subscriptionId: newSubscriber.subscriptionId });
+        const foundSubscriber = await dbHelpers.findSubscriberByEmail(database, testSubscriber.email);
+
+        expect(foundSubscriber).to.be.null;
+      } catch (err) {
+        expect(err).to.be.null;
+      }
+    });
+
     mocha.it("Should remove Subscriber with DELETE request", async () => {
       try {
         const newSubscriber = await dbHelpers.createSubscriber(database, testSubscriber);
 
         await chai.request(app)
-          .del("/subscription/remove")
+          .del("/signup/subscription/remove")
           .type('urlencoded')
           .send({
             _method: "delete",
@@ -59,7 +110,7 @@ module.exports = (mocha, app) => {
 
     mocha.it("Should create a new Subscriber", async () => {
       const response = await chai.request(app)
-        .post('/subscription/create')
+        .post('/signup/subscription/create')
         .send(testSubscriber);
       const foundSubscriber = await dbHelpers.findSubscriberByEmail(database, testSubscriber.email);
 
@@ -71,7 +122,7 @@ module.exports = (mocha, app) => {
 
     mocha.it("Should create a new VolunteerApplication", async () => {
       const response = await chai.request(app)
-        .post('/volunteer/application/create')
+        .post('/signup/volunteer/apply')
         .send(testSubscriber);
       const foundApplication = (await database.query(`SELECT * FROM volunteerapplications WHERE email ='${testSubscriber.email}'`))[0][0];
 
@@ -83,7 +134,7 @@ module.exports = (mocha, app) => {
 
     mocha.it("Should create a new CommitteeApplication", async () => {
       const response = await chai.request(app)
-        .post('/committee/application/create')
+        .post('/signup/committee/apply')
         .send(testSubscriber);
       const foundApplication = (await database.query(`SELECT * FROM committeeapplications WHERE email ='${testSubscriber.email}'`))[0][0];
 

@@ -165,6 +165,133 @@ module.exports = (mocha) => {
       // Cleaning up
       await database.query(`DELETE FROM volunteerapplications WHERE email = '${testSubscriber.email}'`);
     });
+
+    const miscHelpers = require("../helpers/MiscHelpers");
+    const testCVSubmission = {
+      firstName: "John",
+      lastName: "Doe",
+      email: "test@email.com",
+      password: "testtest"
+    };
+
+    mocha.it("Should create a new CVSubmission", async () => {
+      // Cleaning up database from previous tests
+      await database.query(`DELETE FROM cvsubmissions WHERE email = '${testCVSubmission.email}'`);
+      // Creating new submission
+      const newSubmission = await dbHelpers.createCVSubmission(database, testCVSubmission);
+      // Finding the created submission
+      const foundSubmission = (await database.query(`SELECT * FROM cvsubmissions WHERE email = '${testCVSubmission.email}'`))[0][0];
+
+      // Checking if a correct submission was created
+      expect(submissionsAreEqual(newSubmission, { ...testCVSubmission, password: miscHelpers.hashPassword(testCVSubmission.password) }), "Equal to original").to.be.true;
+      expect(submissionsAreEqual(newSubmission, foundSubmission), "Equal to found").to.be.true;
+      testCVSubmission.emailToken = newSubmission.emailToken;
+    });
+
+    mocha.it("Should find an existing CVSubmission by id", async () => {
+      // Finding the existing submission with a raw query
+      const foundSubmissionRaw = (await database.query(`SELECT * FROM cvsubmissions WHERE email = '${testCVSubmission.email}'`))[0][0];
+      // Finding the existing submission through dbHelpers
+      const foundSubmission = await dbHelpers.findCVSubmission(database, foundSubmissionRaw.id);
+
+      // Checking if the correct submission was found
+      expect(submissionsAreEqual(foundSubmission, { ...testCVSubmission, password: miscHelpers.hashPassword(testCVSubmission.password) }), "Equal to original").to.be.true;
+      expect(submissionsAreEqual(foundSubmissionRaw, foundSubmission), "Equal to found").to.be.true;
+      testCVSubmission.id = foundSubmission.id;
+    });
+
+    mocha.it("Should find an existing CVSubmission by email", async () => {
+      // Finding the existing submission through dbHelpers
+      const foundSubmission = await dbHelpers.findCVSubmissionByEmail(database, testCVSubmission.email, false);
+
+      // Checking if the correct submission was found
+      expect(submissionsAreEqual(foundSubmission, { ...testCVSubmission, password: miscHelpers.hashPassword(testCVSubmission.password) }), "Equal to original").to.be.true;
+    });
+
+    mocha.it("Should find an existing CVSubmission by email and token", async () => {
+      // Finding the existing submission through dbHelpers
+      const foundSubmission = await dbHelpers.findCVSubmissionByEmailAndToken(database, testCVSubmission.email, testCVSubmission.emailToken, false);
+
+      // Checking if the correct submission was found
+      expect(submissionsAreEqual(foundSubmission, { ...testCVSubmission, password: miscHelpers.hashPassword(testCVSubmission.password) }), "Equal to original").to.be.true;
+    });
+
+    mocha.it("Should find an existing CVSubmission by email and password", async () => {
+      // Finding the existing submission through dbHelpers
+      const foundSubmission = await dbHelpers.findCVSubmissionByEmailAndPassword(
+        database,
+        testCVSubmission.email,
+        miscHelpers.hashPassword(testCVSubmission.password),
+        false
+      );
+
+      // Checking if the correct submission was found
+      expect(submissionsAreEqual(foundSubmission, { ...testCVSubmission, password: miscHelpers.hashPassword(testCVSubmission.password) }), "Equal to original").to.be.true;
+    });
+
+
+    mocha.it("Should edit a CVSubmission", async () => {
+      testCVSubmission.cvLink = "test.com";
+      testCVSubmission.github = "github.com";
+      testCVSubmission.linkedIn = "linkedIn.com";
+      // Updating the submission
+      await dbHelpers.updateCVSubmission(database, testCVSubmission, { cvLink: "test.com", github: "github.com", linkedIn: "linkedIn.com" });
+      // Finding the updated submission
+      const foundSubmission = await dbHelpers.findCVSubmission(database, testCVSubmission.id);
+
+      // Checking if correct changes were made
+      expect(foundSubmission.cvLink).to.equal(testCVSubmission.cvLink);
+      expect(foundSubmission.github).to.equal(testCVSubmission.github);
+      expect(foundSubmission.linkedIn).to.equal(testCVSubmission.linkedIn);
+    });
+
+    mocha.it("Should reset the password of a CVSubmission", async () => {
+      testCVSubmission.password = "testtest1";
+      const { email, emailToken, password } = testCVSubmission;
+
+      // Resetting the password
+      await dbHelpers.resetPasswordForCVSubmission(database, email, emailToken, password);
+      // Finding the updated submission
+      const foundSubmission = await dbHelpers.findCVSubmission(database, testCVSubmission.id);
+
+      // Checking if correct changes were made
+      expect(submissionsAreEqual(foundSubmission, { ...testCVSubmission, password: miscHelpers.hashPassword(testCVSubmission.password) }), "Equal to original").to.be.true;
+    });
+
+    mocha.it("Should verify the email for a CVSubmission", async () => {
+      // Updating the submission
+      await dbHelpers.verifyCVSubmission(database, testCVSubmission);
+      // Finding the verified submission
+      const foundSubmission = await dbHelpers.findCVSubmissionByEmail(database, testCVSubmission.email);
+
+      // Checking if correct changes were made
+      expect(submissionsAreEqual(foundSubmission, { ...testCVSubmission, password: miscHelpers.hashPassword(testCVSubmission.password) }), "Equal to original").to.be.true;
+    });
+
+    mocha.it("Should publish a CVSubmission", async () => {
+      // Updating the submission
+      await dbHelpers.publishCVSubmission(database, testCVSubmission);
+      // Finding the verified submission
+      const foundSubmission = await dbHelpers.findCVSubmissionByEmail(database, testCVSubmission.email);
+
+      // Checking if correct changes were made
+      expect(submissionsAreEqual(foundSubmission, { ...testCVSubmission, password: miscHelpers.hashPassword(testCVSubmission.password) }), "Equal to original").to.be.true;
+      expect(foundSubmission.submissionStatus).to.equal(true);
+      testCVSubmission.submissionStatus = true;
+    });
+
+    mocha.it("Should make a CVSubmission private", async () => {
+      // Updating the submission
+      await dbHelpers.publishCVSubmission(database, testCVSubmission);
+      // Finding the verified submission
+      const foundSubmission = await dbHelpers.findCVSubmissionByEmail(database, testCVSubmission.email);
+
+      // Checking if correct changes were made
+      expect(submissionsAreEqual(foundSubmission, { ...testCVSubmission, password: miscHelpers.hashPassword(testCVSubmission.password) }), "Equal to original").to.be.true;
+      expect(foundSubmission.submissionStatus).to.equal(false);
+      // Cleaning up
+      await database.query(`DELETE FROM cvsubmissions WHERE email = '${testCVSubmission.email}'`);
+    });
   });
 
 };
@@ -191,4 +318,11 @@ const applicationsAreEqual = (applicationA, applicationB) => {
     applicationA.teams == applicationB.teams &&
     applicationA.reasonToJoin == applicationB.reasonToJoin &&
     applicationA.subjectOfStudy == applicationB.subjectOfStudy;
+};
+
+const submissionsAreEqual = (submissionA, submissionB) => {
+  return submissionA.email == submissionB.email &&
+    submissionA.password == submissionB.password &&
+    submissionA.firstName == submissionB.firstName &&
+    submissionA.lastName == submissionB.lastName;
 };

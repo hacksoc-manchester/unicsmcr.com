@@ -4,10 +4,10 @@ const express = require('express');
 
 const authHelpers = require('../helpers/AuthHelpers');
 
-const MainRouter = (database) => {
+const MainRouter = (database, passport) => {
   const router = express.Router();
 
-  const mainController = require('../controllers/MainController')(database);
+  const mainController = require('../controllers/MainController')();
 
   // Home Page
   router.get('/', mainController.index);
@@ -23,22 +23,27 @@ const MainRouter = (database) => {
   router.get('/partners', mainController.partners);
   // Gallery Page
   router.get('/gallery', mainController.gallery);
-  // Sign up Page
-  router.get('/signup', authHelpers.attachReCAPTCHAKey, mainController.signUp);
   // Privacy Page
   router.get('/privacy', mainController.privacy);
-  // Creating a new subscription
-  router.post('/subscription/create', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.createSubscription);
-  // Confirming a subscription
-  router.get('/subscription/confirm', mainController.confirmSubscription);
-  // Removing a subscription
-  router.delete('/subscription/remove', mainController.deleteRemoveSubscription);
-  // Route for unsubscribe links in emails
-  router.get('/subscription/remove', mainController.getRemoveSubscription);
-  // Route for applying to the committee
-  router.post('/committee/application/create', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.committeeApply);
-  // Route for applying to volunteer
-  router.post('/volunteer/application/create', authHelpers.verifyReCAPTCHA, authHelpers.attachReCAPTCHAKey, mainController.volunteerApply);
+
+
+  const cvRouter = require("./CVRouter");
+
+  router.use("/cv/", cvRouter(database, passport));
+
+  const singupRouter = require("./SignupRouter")(database, passport);
+
+  router.use("/signup/", singupRouter);
+
+  // Redirects for links in old emails
+  router.get("/subscription/confirm", (req, res) => {
+    const { email, subscriptionId, firstName, lastName } = req.query;
+
+    res.redirect(301, `/signup/subscription/confirm?email=${email}&subscriptionId=${subscriptionId}&firstName=${firstName}&lastName=${lastName}`);
+  });
+  router.get("/subscription/remove", (req, res) =>
+    res.redirect(301, `/signup/subscription/remove?email=${req.query.email}&subscriptionId=${req.query.subscriptionId}`));
+
 
   return router;
 };

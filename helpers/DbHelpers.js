@@ -29,7 +29,7 @@ exports.createSubscriber = async (database, { firstName, lastName, email, subscr
     });
 
     // Subscriber created, returning response
-    return newSubscriber.dataValues;
+    return newSubscriber ? newSubscriber.dataValues : null;
   } catch (err) {
     throw new Error(err.message);
   }
@@ -76,7 +76,7 @@ exports.getSubscribers = async (database) => {
     });
 
     // List of all subscribers received, returning response
-    return subscribers.map(s => s.dataValues);
+    return subscribers ? subscribers.map(s => s.dataValues) : null;
   } catch (err) {
     throw new Error(`Could not list subscribers: ${err}`);
   }
@@ -116,7 +116,7 @@ exports.createSubscriptionRequest = async (database, { subscriberEmail }) => {
     });
 
     // Subscription request created, returning response
-    return subRequest.dataValues;
+    return subRequest ? subRequest.dataValues : null;
   } catch (err) {
     throw new Error(`Could not create subscription request: ${err}`);
   }
@@ -169,7 +169,7 @@ exports.createCommitteeApplication = async (database, application) => {
     reasonToJoin: application.reasonToJoin
   });
 
-  return newApplication.dataValues;
+  return newApplication ? newApplication.dataValues : null;
 };
 
 // Creates a new VolunteerApplication
@@ -196,5 +196,125 @@ exports.createVolunteerApplication = async (database, application) => {
     reasonToJoin: application.reasonToJoin
   });
 
-  return newApplication.dataValues;
+  return newApplication ? newApplication.dataValues : null;
+};
+
+// Creates a new CVSubmission
+exports.createCVSubmission = async (database, { email, password, firstName, lastName }) => {
+  // Checking if the user already has a CVSubmission
+  const existingSubmission = await database.models.cvsubmission.findOne({
+    where: {
+      email
+    }
+  });
+
+  if (existingSubmission) {
+    throw new Error(`${email} is already taken`);
+  }
+  // Creating new VolunteerApplication
+  const newSubmission = await database.models.cvsubmission.create({
+    firstName,
+    lastName,
+    email,
+    password: miscHelpers.hashPassword(password),
+    emailToken: miscHelpers.MakeRandomString(15)
+  });
+
+  return newSubmission ? newSubmission.dataValues : null;
+};
+
+exports.findCVSubmission = async (database, id) => {
+  const submission = await database.models.cvsubmission.findOne({
+    where: {
+      id
+    }
+  });
+
+  return submission ? submission.dataValues : null;
+};
+
+exports.findCVSubmissionByEmail = async (database, email, emailVerified = true) => {
+  const submission = await database.models.cvsubmission.findOne({
+    where: {
+      email,
+      emailVerified
+    }
+  });
+
+  return submission ? submission.dataValues : null;
+};
+
+exports.findCVSubmissionByEmailAndToken = async (database, email, emailToken, emailVerified = true) => {
+  const submission = await database.models.cvsubmission.findOne({
+    where: {
+      email,
+      emailToken,
+      emailVerified
+    }
+  });
+
+  return submission ? submission.dataValues : null;
+};
+
+exports.findCVSubmissionByEmailAndPassword = async (database, email, password, emailVerified = true) => {
+  const submission = await database.models.cvsubmission.findOne({
+    where: {
+      email,
+      password,
+      emailVerified
+    }
+  });
+
+  return submission ? submission.dataValues : null;
+};
+
+exports.updateCVSubmission = async (database, submission, updatedValues) => {
+  const updatedRows = await database.models.cvsubmission.update(updatedValues, {
+    where: {
+      id: submission.id
+    }
+  });
+
+  return updatedRows;
+};
+
+exports.resetPasswordForCVSubmission = async (database, email, emailToken, password) => {
+  const updatedRows = await database.models.cvsubmission.update({
+    password: miscHelpers.hashPassword(password)
+  }, {
+    where: {
+      email,
+      emailToken
+    }
+  });
+
+  return updatedRows;
+};
+
+exports.verifyCVSubmission = async (database, { email, emailToken }) => {
+  const updatedRows = await database.models.cvsubmission.update({
+    emailVerified: 1
+  }, {
+    where: {
+      email,
+      emailToken
+    }
+  });
+
+  return updatedRows;
+};
+
+exports.publishCVSubmission = async (database, { submissionStatus, id }) => {
+  const updatedRows = await database.models.cvsubmission.update(
+    {
+      submissionStatus: submissionStatus ? 0 : 1
+    },
+    {
+      where: {
+        id: id
+      }
+    }
+  );
+
+  return updatedRows;
 };
