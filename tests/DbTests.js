@@ -292,6 +292,46 @@ module.exports = (mocha) => {
       // Cleaning up
       await database.query(`DELETE FROM cvsubmissions WHERE email = '${testCVSubmission.email}'`);
     });
+
+    const testJobListing = {
+      position: "Tester",
+      company: "Testing Inc.",
+      location: "Testchester",
+      description: "testing",
+      applyLink: "test.com/apply",
+      logoLink: "test.com/logo"
+    };
+
+    mocha.it("Should create a new JobPosting", async () => {
+      // Cleaning up database from previous tests
+      await database.query(`DELETE FROM jobpostings WHERE description = '${testJobListing.description}'`);
+
+      const newPosting = await dbHelpers.createJobPosting(database, testJobListing);
+      const foundPosting = (await database.query(`SELECT * FROM jobpostings where description = '${testJobListing.description}'`))[0][0];
+
+      expect(jobPostingsAreEqual(testJobListing, newPosting), "Equal to original").to.be.true;
+      expect(jobPostingsAreEqual(foundPosting, newPosting), "Equal to found").to.be.true;
+
+      // Cleaning up
+      await database.query(`DELETE FROM jobpostings WHERE description = '${testJobListing.description}'`);
+    });
+    mocha.it("Should get all JobPostings", async () => {
+      await dbHelpers.createJobPosting(database, testJobListing);
+
+      const foundPostingsSQL = (await database.query(`SELECT * FROM jobpostings`))[0];
+      const foundPostingsHelper = await dbHelpers.getJobs(database);
+
+      expect(foundPostingsSQL.length).to.equal(foundPostingsHelper.length);
+      foundPostingsSQL.forEach(posting => {
+        const correspondingPosting = foundPostingsHelper.find(p => p.id == posting.id);
+
+        expect(correspondingPosting).to.be.not.null;
+        expect(jobPostingsAreEqual(posting, correspondingPosting), "Equal to found").to.be.true;
+      });
+
+      // Cleaning up
+      await database.query(`DELETE FROM jobpostings WHERE description = '${testJobListing.description}'`);
+    });
   });
 
 };
@@ -325,4 +365,13 @@ const submissionsAreEqual = (submissionA, submissionB) => {
     submissionA.password == submissionB.password &&
     submissionA.firstName == submissionB.firstName &&
     submissionA.lastName == submissionB.lastName;
+};
+
+const jobPostingsAreEqual = (postingA, postingB) => {
+  return postingA.position == postingB.position &&
+    postingA.company == postingB.company &&
+    postingA.location == postingB.location &&
+    postingA.description == postingB.description &&
+    postingA.applyLink == postingB.applyLink &&
+    postingA.logoLink == postingB.logoLink;
 };

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include ../partials/head.ejs %>
+  <title>Jobs | HackSoc</title>
+  <link rel="stylesheet" type="text/css" href="css/jobs.css" />
+</head>
+
+<body>
+  <div id="container">
+    <% include ../partials/navbar.ejs %>
+    <div id="body">
+      <section id="jobs">
+        <h1>Jobs</h1>
+        <br>
+        <h5>Job opportunities from our sponsors</h5>
+        <br>
+        <div class="row justify-content-center no-side-buffers">
+          <div id="job-listings" class="col-lg-4">
+            <div class="dropdown row">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false" class="smooth-transitions">
+                Filter
+              </button>
+              <div class="dropdown-menu" aria-labelledby="filterDropdown">
+                <a class="dropdown-item" onclick="filterByCompany('all')">
+                    All</a>
+                <% companies.forEach(company => { %>
+                <a class="dropdown-item" onclick="filterByCompany('<%= company %>')">
+                  <%= company %></a>
+                <% }) %>
+              </div>
+            </div>
+            <div class="job-listings-container">
+              <% jobs.forEach(job => { %>
+              <div id="<%= job.id %>" class="job-listing align-left row smooth-transitions no-side-buffers" onclick="selectJob(<%= job.id %>)">
+                <span class="selector hidden smooth-transitions"></span>
+                <div class="col-2 job-listing-logo" style="background-image: url('<%= job.logoLink %>')">
+                </div>
+                <div class="col-9 job-listing-info">
+                  <div class="job-listing-title hide-overflow">
+                    <%= job.position %>
+                  </div>
+                  <div class="job-listing-details hide-overflow">
+                    <%= job.company %>
+                  </div>
+                  <div class="job-listing-details hide-overflow">
+                    <%= job.location %>
+                  </div>
+                </div>
+              </div>
+              <hr class="seperator">
+              <% }) %>
+            </div>
+          </div>
+          <div id="job-overview" class="col-lg-6">
+            <div id="job-overview-header" class="row">
+              <div id="logo" class="col-2"></div>
+              <div id="details" class="col-6 align-left">
+                <div id="title" class="title hide-overflow">
+                </div>
+                <div id="company" class="details hide-overflow">
+                </div>
+                <div id="location" class="details hide-overflow">
+                </div>
+              </div>
+              <div id="apply" class="col-2">
+                <div class="row">
+                  <button id="apply-button" class="centered smooth-transitions" onclick="apply()">Apply</button>
+                </div>
+                <div class="row">
+                  <button id="close-button" class="centered smooth-transitions" onclick="closeJob()">Close</button>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div id="job-overview-description" class="align-left">
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <% include ../partials/footer.ejs %>
+  </div>
+</body>
+<footer>
+  <script src="/js/jobs.js"></script>
+  <script>
+    initScript(<%- JSON.stringify(jobs) %>);
+  </script>
+</footer>
+
+</html>

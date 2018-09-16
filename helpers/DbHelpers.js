@@ -76,7 +76,7 @@ exports.getSubscribers = async (database) => {
     });
 
     // List of all subscribers received, returning response
-    return subscribers ? subscribers.map(s => s.dataValues) : null;
+    return subscribers ? subscribers.map(s => s.dataValues) : [];
   } catch (err) {
     throw new Error(`Could not list subscribers: ${err}`);
   }
@@ -317,4 +317,33 @@ exports.publishCVSubmission = async (database, { submissionStatus, id }) => {
   );
 
   return updatedRows;
+};
+
+// Creates a new JobPosting
+exports.createJobPosting = async (database, { position, description, company, location, applyLink, logoLink }) => {
+  try {
+    const newPosting = await database.models.jobposting.create({
+      position,
+      description,
+      company,
+      location,
+      applyLink,
+      logoLink
+    });
+
+    return newPosting ? newPosting.dataValues : null;
+  } catch (err) {
+    throw new Error(`Could not create a new job posting: ${err}`);
+  }
+};
+
+// Gets all JobPostings from database
+exports.getJobs = async (database) => {
+  try {
+    const jobs = await database.models.jobposting.findAll();
+
+    return jobs ? jobs.map(j => j.dataValues) : [];
+  } catch (err) {
+    throw new Error(`Could not list jobs: ${err}`);
+  }
 };

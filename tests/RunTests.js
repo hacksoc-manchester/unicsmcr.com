@@ -21,3 +21,4 @@ require('./LoadTests')(mocha, app);
 require('./DbTests')(mocha);
 require('./SubscriptionTests')(mocha, app);
 require('./CVBankTests')(mocha, app);
+require('./JobsTests')(mocha, app);
