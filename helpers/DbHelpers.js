@@ -193,7 +193,8 @@ exports.createVolunteerApplication = async (database, application) => {
     yearOfStudy: application.yearOfStudy,
     gender: application.gender,
     teams: application.teams,
-    reasonToJoin: application.reasonToJoin
+    reasonToJoin: application.reasonToJoin,
+    onlyAvailableAtEvent: application.onlyAvailableAtEvent == "on"
   });
 
   return newApplication ? newApplication.dataValues : null;

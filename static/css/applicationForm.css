@@ -20,3 +20,7 @@
 .application-error {
   display: none;
 }
+
+#availability-checkbox {
+  margin-top: 10px;
+}

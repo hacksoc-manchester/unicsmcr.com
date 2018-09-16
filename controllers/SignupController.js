@@ -126,6 +126,8 @@ module.exports = (database) => {
     try {
       const { firstName, lastName, email, teams, reasonToJoin, agreeToPrivacyPolicy, captchaMessage } = req.body;
 
+      console.log(req.body);
+      
       // Checking if all parameters were provided
       if (!firstName || !lastName || !email || !teams || !reasonToJoin) {
         return res.render("pages/signup", { volunteerError: "Please fill in all fields!", selectedForm: "volunteer", courses: process.courses });
