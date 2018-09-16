@@ -1,4 +1,5 @@
 .sponsor-logo {
+  display: block !important;
   width: 150px !important;
   max-width: 150px;
   align-self: center;
