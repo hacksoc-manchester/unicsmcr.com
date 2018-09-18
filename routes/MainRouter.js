@@ -25,6 +25,8 @@ const MainRouter = (database, passport) => {
   router.get('/gallery', mainController.gallery);
   // Privacy Page
   router.get('/privacy', mainController.privacy);
+  // Sponsors Page
+  router.get('/sponsors', mainController.sponsors);
 
 
   const cvRouter = require("./CVRouter")(database, passport);

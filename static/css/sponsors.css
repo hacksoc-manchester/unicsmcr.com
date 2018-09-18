@@ -1,0 +1,25 @@
+.sponsor-img {
+  display: block !important;
+  width: 150px !important;
+  max-width: 150px;
+  align-self: center;
+  margin: 0 auto;
+  height: auto;
+}
+
+.sponsor-header, .sponsor-profile {
+  margin: 0;
+}
+
+.sponsor-header {
+  cursor: pointer;
+  margin-top: 20px;
+  background: #efefef;
+  height: 200px;
+}
+
+.sponsor-profile {
+  border: 3px solid #efefef;
+  padding: 50px 30px;
+  text-align: left;
+}

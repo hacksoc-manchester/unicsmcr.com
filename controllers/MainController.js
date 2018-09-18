@@ -106,5 +106,14 @@ module.exports = () => {
     }
   };
 
+  this.sponsors = (req, res, next) => {
+    try {
+      res.render("pages/sponsors");
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
   return this;
 };
