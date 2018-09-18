@@ -36,8 +36,8 @@ module.exports = (database) => {
       if (!position || !description || !company || !location || !applyLink || !logoLink) {
         throw new Error("Please provide the following data: position, description, company, location, applyLink, logoLink");
       }
-      if (description.length > 4000) {
-        throw new Error("The description should not be longer than 4000 characters.");
+      if (description.length > 10000) {
+        throw new Error("The description should not be longer than 10000 characters.");
       }
       res.send(await jobsService.createJob(database, req.body));
     } catch (err) {

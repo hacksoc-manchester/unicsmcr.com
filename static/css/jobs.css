@@ -160,6 +160,7 @@
         background: #fff;
     }
     #close-button {
+        margin-top: 10px !important;
         display: block;
     }
     #apply-button, #close-button {
