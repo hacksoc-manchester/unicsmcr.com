@@ -42,6 +42,8 @@ function showForm(formKey) {
     }
     if (formKey != "volunteer") {
       $("#availability-checkbox-container").hide();
+    } else {
+      $("#availability-checkbox-container").show();
     }
     // Show given form
     $(forms[formKey].id).fadeIn("fast");
