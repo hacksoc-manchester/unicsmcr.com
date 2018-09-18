@@ -1,81 +1,174 @@
-/* Widescreen */
-#widescreen-header {
-    display: none;
+#container {
+    height: 100%;
+    padding: 0;
 }
 
-#widescreen-large-header {
-    padding: 372px 0;
-    padding: 38vh 0 30.5vh 0;
-    height: 170px;
-    height: 25vh;
-    text-align: center;
+section {
+    display: table;
+    height: inherit;
+    width: 100%;
+    padding: 0;
 }
 
-#widescreen-large-header h1 {
-    font-size: 36px;
-    line-height: 30px;
-    margin: 0 20px 20px 20px;
+#hero {
+    background: url(images/overlay.png), url(images/header.jpg);
+    background-size: auto, cover;
+    background-position: top left, center center;
+    background-repeat: repeat, no-repeat;
+    box-shadow: inset 0px 0px 0px 50vh rgba(17, 17, 17, 0.9);
+    background-color: #000;
+}
+
+#title {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+section>.row {
+    height: 100%;
+}
+
+#about-us-content, #sponsors-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 120px;
+    background: #fff;
+}
+
+#about-us-image {
+    width: 100%;
+    height: 100%;
+    background: url("/images/index/hackathon.jpg") center;
+    background-size: cover;
+}
+
+#about-us h2 {
+    font-weight: 500;
+}
+
+#sponsors-logos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: #efefef;
+}
+
+.flex-vertical {
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-horizontal {
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#sponsors-text {
+    margin-bottom: 50px;
+}
+
+.sponsor-img {
+    width: 250px;
+}
+
+#bet365-logo {
+    width: 166px;
+}
+
+#accenture-logo {
+    margin: 0 33px 0 0;
+}
+
+#bet365-logo {
+    margin: 0 0 0 33px;
+}
+
+#goldmansachs-logo, #americanexpress-logo {
+    width: 166px;
+}
+
+#americanexpress-logo {
+    margin: 0 0 0 40px;
+}
+
+#goldmansachs-logo {
+    margin: 0 40px 0 0;
+}
+
+#morganstanley-logo, #giveagradago-logo {
+    padding-bottom: 100px;
+}
+
+#giveagradago-logo {
+    margin: 0 40px 0 0;
+}
+
+#morganstanley-logo {
+    margin: 0 0 0 40px;
+}
+
+.button {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    background: #3d3d3d;
     color: #fff;
+    max-width: 90%;
+    margin: 15px auto;
+    padding: 0.85em 1em;
+    border: 0;
+    line-height: 1.25em;
+    cursor: pointer;
 }
 
-#widescreen-large-header h2 {
-    font-size: 25px;
-    margin: 10px;
-    color: #fff;
+.button:hover {
+    background: #4f4f4f;
 }
 
-#widescreen-large-header a {
-    display: inline-block;
-    margin: 20px 20px 0 20px;
-    font-size: 20px;
-    line-height: 24px;
-    color: #fff;
-}
-
-#mobile-menu {
-    display: none;
-}
-
-/* Mobile */
-
-@media screen and (max-width: 736px) {
-
-    #mobile-menu {
-        background-color: #000;
-        display: inherit;
-        padding: 6% 0;
-    }
-    #tiles {
-        padding: 1%;
-    }
-    #tiles a {
-        display: inline-block;
-        width: 48%;
-        height: 32%;
-        margin: 1%;
-        background-color: #222;
-        background-size: 50%;
-        background-position: 50% 30%;
-        background-repeat: no-repeat;
-    }
-    #tiles div {
-        height: 20%;
-        top: 80%;
-        background-color: #151515;
-        position: relative;
-    }
-    #tiles h2 {
-        margin: 0;
-        padding: 2% 0 0 10%;
-        color: #fff;
-        text-align: left;
-        font-size: 16px;
-        font-size: 5vw;
+@media screen and (max-width: 1124px) {
+    #about-us-content {
+        padding: 0 40px;
     }
 }
 
-@media screen and (max-width: 450px) {
-    #widescreen-large-header, #header{
+@media screen and (max-width: 620px) {
+    #about-us-image {
         display: none;
+    }
+    #sponsors-text {
+        margin-bottom: 0px;
+    }
+    .sponsor-img {
+        width: 100px;
+        margin-bottom: 20px !important;
+    }
+    #bet365-logo {
+        width: 75px;
+    }
+    #goldmansachs-logo, #americanexpress-logo {
+        width: 75px;
+        margin: 0 20px;
+    }
+    #morganstanley-logo, #giveagradago-logo {
+        padding-bottom: 0;
     }
 }
