@@ -1,112 +1,130 @@
 <div class="col-lg-12">
   <link rel="stylesheet" href="/css/applicationForm.css">
   <form id="application-form" method="post" action="/signup/committee/apply" class="needs-validation" novalidate>
-    <p id="form-description"><b>Become a part of our committee.<br>Just fill in this form and we'll contact you when a position becomes available</b></p>
+    <p id="form-description"><b>Become a part of our committee.<br>Just fill in this form and we'll contact you when a
+        position becomes available</b></p>
     <br>
     <% if (locals.committeeError) { %>
-      <div id="committee-error" class="application-error alert alert-danger">
-        <%= committeeError %>
-      </div>
-      <% } %>
-        <% if (locals.volunteerError) { %>
-          <div id="volunteer-error" class="application-error alert alert-danger">
-            <%= volunteerError %>
+    <div id="committee-error" class="application-error alert alert-danger">
+      <%= committeeError %>
+    </div>
+    <% } %>
+    <% if (locals.volunteerError) { %>
+    <div id="volunteer-error" class="application-error alert alert-danger">
+      <%= volunteerError %>
+    </div>
+    <% } %>
+    <div class="user-details container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="input-group user-first-name full-width">
+            <input class="form-control" type="text" name="firstName" placeholder="Your First Name" required
+              autocomplete="name">
+            <div class="invalid-feedback">
+              Please enter your first name.
+            </div>
           </div>
-          <% } %>
-            <div class="user-details container">
+          <div class="input-group user-last-name full-width">
+            <input class="form-control" type="text" name="lastName" placeholder="Your Last Name" required autocomplete="family-name">
+            <div class="invalid-feedback">
+              Please enter your last name.
+            </div>
+          </div>
+          <div class="input-group user-email full-width">
+            <input class="form-control" type="text" name="email" placeholder="Your Email" required autocomplete="email">
+            <div class="invalid-feedback">
+              Please enter your email.
+            </div>
+          </div>
+          <div class="input-group user-subject full-width top-buffer-20">
+            <input id="subject-of-study-input" class="form-control" type="text" name="subjectOfStudy" placeholder="Your Degree Title"
+              autocomplete="off">
+          </div>
+          <div class="input-group user-subject full-width">
+            <input class="form-control" type="text" name="yearOfStudy" placeholder="Your Year of Study" autocomplete="off">
+          </div>
+          <p class="subscript">Optional - for demographic purposes</p>
+        </div>
+        <div class="col-sm-6">
+          <h6 class="align-left">Please select the teams you are interested in joining</h6>
+          <input id="teams-input" hidden class="form-control" type="text" name="teams" required>
+          <div class="invalid-feedback">
+            Please select at least one team to join.
+          </div>
+          <div class="btn-group-vertical" style="width: 100%">
+            <div id="enterntainment-team-selector" class="team-button smooth-transitions" onclick="selectTeam('enterntainment')">Enterntainment</div>
+            <div id="events-team-selector" class="team-button smooth-transitions" onclick="selectTeam('events')">Events</div>
+            <div id="dev-team-selector" class="team-button smooth-transitions" onclick="selectTeam('dev')">Dev</div>
+            <div id="graphics-team-selector" class="team-button smooth-transitions" onclick="selectTeam('graphics')">Graphics</div>
+            <div id="pr-team-selector" class="team-button smooth-transitions" onclick="selectTeam('pr')">PR</div>
+          </div>
+          <div class="checkbox" id="availability-checkbox-container" onclick="toggleCheckbox('availability-checkbox')">
+            <div class="input-group">
               <div class="row">
-                <div class="col-sm-6">
-                  <div class="input-group user-first-name full-width">
-                    <input class="form-control" type="text" name="firstName" placeholder="Your First Name" required autocomplete="name">
-                    <div class="invalid-feedback">
-                      Please enter your first name.
-                    </div>
-                  </div>
-                  <div class="input-group user-last-name full-width">
-                    <input class="form-control" type="text" name="lastName" placeholder="Your Last Name" required autocomplete="family-name">
-                    <div class="invalid-feedback">
-                      Please enter your last name.
-                    </div>
-                  </div>
-                  <div class="input-group user-email full-width">
-                    <input class="form-control" type="text" name="email" placeholder="Your Email" required autocomplete="email">
-                    <div class="invalid-feedback">
-                      Please enter your email.
-                    </div>
-                  </div>
-                  <div class="input-group user-subject full-width top-buffer-20">
-                    <input id="subject-of-study-input" class="form-control" type="text" name="subjectOfStudy" placeholder="Your Degree Title" autocomplete="off">
-                  </div>
-                  <div class="input-group user-subject full-width">
-                    <input class="form-control" type="text" name="yearOfStudy" placeholder="Your Year of Study" autocomplete="off">
-                  </div>
-                  <p class="subscript">Optional - for demographic purposes</p>
+                <div class="col-1">
+                  <input class="form-check-input" id="availability-checkbox" type="checkbox" name="onlyAvailableAtEvent"
+                    onclick="toggleCheckbox('availability-checkbox')">
                 </div>
-                <div class="col-sm-6">
-                  <h6 class="align-left">Please select the teams you are interested in joining</h6>
-                  <input id="teams-input" hidden class="form-control" type="text" name="teams" required>
-                  <div class="invalid-feedback">
-                    Please select at least one team to join.
-                  </div>
-                  <div class="btn-group-vertical" style="width: 100%">
-                    <div id="enterntainment-team-selector" class="team-button smooth-transitions" onclick="selectTeam('enterntainment')">Enterntainment</div>
-                    <div id="events-team-selector" class="team-button smooth-transitions" onclick="selectTeam('events')">Events</div>
-                    <div id="dev-team-selector" class="team-button smooth-transitions" onclick="selectTeam('dev')">Dev</div>
-                    <div id="graphics-team-selector" class="team-button smooth-transitions" onclick="selectTeam('graphics')">Graphics</div>
-                    <div id="pr-team-selector" class="team-button smooth-transitions" onclick="selectTeam('pr')">PR</div>
-                  </div>
-                </div>
-              </div>
-              <div class="row justify-content-center top-buffer-20">
-                <div class="col-sm-6">
-                  <h6 class="align-left">Please specify your gender:</h6>
-                  <div class="container">
-                    <div class="row justify-content-center top-bottom-buffer-20">
-                      <div id="male-gender-selector" class="col-3 gender-button smooth-transitions" onclick="chooseGender('male')">Male</div>
-                      <div id="female-gender-selector" class="col-3 gender-button offset-1 smooth-transitions" onclick="chooseGender('female')">Female</div>
-                      <div id="other-gender-selector" class="col-3 gender-button offset-1 smooth-transitions" onclick="chooseGender('other')">Other</div>
-                    </div>
-                    <input class="form-control" id="gender-input" name="gender" placeholder="Please enter your gender" style="display:none" type="text">
-                  </div>
-                  <p class="subscript">Optional - for demographic purposes</p>
-                </div>
-              </div>
-              <div class="row top-buffer-20">
-                <div class="col-sm-12">
-                  <h6 class="align-left">Please specify why you want to join us</h6>
-                  <textarea class="form-control" name="reasonToJoin" id="reason-textarea" cols="40" rows="7" required onkeyup="updateReasonToJoin()"></textarea>
-                  <div class="invalid-feedback">
-                    Please specify why you want to join us.
-                  </div>
-                  <p class="subscript">Max characters: 256</p>
+                <div class="col-10">
+                  <div class="form-check-label">I would only be available on the day of the event</div>
                 </div>
               </div>
             </div>
-            <div class="checkboxes">
-              <div class="checkbox" onclick="toggleCheckbox('privacy-checkbox')">
-                <div class="input-group">
-                  <input class="form-check-input" id="privacy-checkbox" type="checkbox" name="agreeToPrivacyPolicy" checked onclick="toggleCheckbox('privacy-checkbox')"
-                    required>
-                  <div class="form-check-label">I agree to the <a href="/privacy" target="_blank" rel="noopener noreferrer">privacy policy</a></div>
-                  <div class="invalid-feedback">
-                    Please agree to our privacy policy.
-                  </div>
-                </div>
-              </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center top-buffer-20">
+        <div class="col-sm-6">
+          <h6 class="align-left">Please specify your gender:</h6>
+          <div class="container">
+            <div class="row justify-content-center top-bottom-buffer-20">
+              <div id="male-gender-selector" class="col-3 gender-button smooth-transitions" onclick="chooseGender('male')">Male</div>
+              <div id="female-gender-selector" class="col-3 gender-button offset-1 smooth-transitions" onclick="chooseGender('female')">Female</div>
+              <div id="other-gender-selector" class="col-3 gender-button offset-1 smooth-transitions" onclick="chooseGender('other')">Other</div>
             </div>
-            <div class="actions">
-              <div class="g-recaptcha" data-sitekey="<%= recaptchaKey %>"></div>
-              <ul>
-                <li>
-                  <input class="submit-button" type="submit" value="Apply">
-                </li>
-              </ul>
-            </div>
+            <input class="form-control" id="gender-input" name="gender" placeholder="Please enter your gender" style="display:none"
+              type="text">
+          </div>
+          <p class="subscript">Optional - for demographic purposes</p>
+        </div>
+      </div>
+      <div class="row top-buffer-20">
+        <div class="col-sm-12">
+          <h6 class="align-left">Please specify why you want to join us</h6>
+          <textarea class="form-control" name="reasonToJoin" id="reason-textarea" cols="40" rows="7" required onkeyup="updateReasonToJoin()"></textarea>
+          <div class="invalid-feedback">
+            Please specify why you want to join us.
+          </div>
+          <p class="subscript">Max characters: 256</p>
+        </div>
+      </div>
+    </div>
+    <div class="checkboxes">
+      <div class="checkbox" onclick="toggleCheckbox('privacy-checkbox')">
+        <div class="input-group">
+          <input class="form-check-input" id="privacy-checkbox" type="checkbox" name="agreeToPrivacyPolicy" checked
+            onclick="toggleCheckbox('privacy-checkbox')" required>
+          <div class="form-check-label">I agree to the <a href="/privacy" target="_blank" rel="noopener noreferrer">privacy
+              policy</a></div>
+          <div class="invalid-feedback">
+            Please agree to our privacy policy.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="g-recaptcha" data-sitekey="<%= recaptchaKey %>"></div>
+      <ul>
+        <li>
+          <input class="submit-button" type="submit" value="Apply">
+        </li>
+      </ul>
+    </div>
   </form>
   <script src="/js/applicationForm.js"></script>
   <script>
-    $( "#subject-of-study-input" ).autocomplete({
-      source: <%- JSON.stringify(courses) %>
+    $("#subject-of-study-input").autocomplete({
+      source: <% - JSON.stringify(courses || []) %>
     });
   </script>
 </div>

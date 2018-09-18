@@ -10,7 +10,8 @@ module.exports = function(sequelize, DataTypes) {
     yearOfStudy: DataTypes.STRING,
     gender: DataTypes.STRING,
     teams: DataTypes.STRING,
-    reasonToJoin: DataTypes.STRING
+    reasonToJoin: DataTypes.STRING,
+    onlyAvailableAtEvent: DataTypes.BOOLEAN
   });
 
   return VolunteerApplication;

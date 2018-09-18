@@ -40,6 +40,9 @@ function showForm(formKey) {
       $(".application-error").hide();
       $(forms[formKey].errorContainer).show();
     }
+    if (formKey != "volunteer") {
+      $("#availability-checkbox-container").hide();
+    }
     // Show given form
     $(forms[formKey].id).fadeIn("fast");
   });
