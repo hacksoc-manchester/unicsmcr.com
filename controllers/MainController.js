@@ -4,11 +4,12 @@ const teamService = require('../services/TeamService');
 const partnersService = require('../services/PartnersService');
 const galleryService = require('../services/GalleryService');
 const emailService = require('../services/EmailService');
+const eventsService = require('../services/EventsService');
 
 const miscHelpers = require('../helpers/MiscHelpers');
 
 module.exports = () => {
-  this.index = (req, res, next) => {
+  this.index = async (req, res, next) => {
     try {
       res.render('pages/index');
     } catch (err) {
@@ -109,6 +110,15 @@ module.exports = () => {
   this.sponsors = (req, res, next) => {
     try {
       res.render("pages/sponsors");
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
+  this.getEvents = async (req, res, next) => {
+    try {
+      res.send(await eventsService.getEvents());
     } catch (err) {
       console.log(err);
       return next(err);

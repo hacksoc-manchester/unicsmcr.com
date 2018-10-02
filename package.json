@@ -21,6 +21,7 @@
     "express-minify": "^1.0.0",
     "express-session": "^1.15.6",
     "fast-csv": "^2.4.1",
+    "fbgraph": "^1.4.4",
     "flickr-sdk": "^3.7.0",
     "got": "^9.1.0",
     "http-errors": "^1.6.3",
