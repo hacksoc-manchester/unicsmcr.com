@@ -1,8 +1,8 @@
-/* globals $ */
+/* globals $, window */
 'use strict';
 
 var maxEvents = 5;
-var eventTemplate = '<div class="event row"><div class="event-date col-3">' +
+var eventTemplate = '<div class="event row" onclick="openEvent(#id)"><div class="event-date col-3">' +
   '<div class="row event-month"><p>#month</p></div>' +
   '<div class="row event-day"><p>#day</p></div></div>' +
   '<div class="col-9"><div class="event-name row"><p>#name</p></div>' +
@@ -15,7 +15,9 @@ $.get("/events", function (events) {
   for (var index = 0; index < events.length; index++) {
     var event = events[index];
     var eventDate = new Date(event.start_time);
-    var eventString = eventTemplate.replace(/#month/g, months[eventDate.getMonth()])
+    var eventString = eventTemplate
+      .replace(/#id/g, event.id)
+      .replace(/#month/g, months[eventDate.getMonth()])
       .replace(/#day/g, eventDate.getDate())
       .replace(/#name/g, event.name)
       .replace(/#time/g, eventDate.getHours() + ":" + eventDate.getMinutes())
@@ -31,6 +33,10 @@ $.get("/events", function (events) {
     }
   }
 });
+
+function openEvent(id) {
+  window.open("https://www.facebook.com/events/" + id, "_blank");
+}
 
 function eventContainer(startTime, endTime) {
   if (endTime < Date.now()) {
