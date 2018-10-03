@@ -107,6 +107,7 @@ h5 {
 }
 
 .event-subset {
+    display: none;
     margin-bottom: 10px;
 }
 
