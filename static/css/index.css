@@ -44,6 +44,14 @@ section>.row {
     background: #fff;
 }
 
+.row {
+    width: 100%;
+}
+
+h5 {
+    text-align: left;
+}
+
 #about-us-image {
     width: 100%;
     height: 100%;
@@ -61,8 +69,7 @@ section>.row {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100%;
-    background: #efefef;
+    height: 80%;
 }
 
 .flex-vertical {
@@ -79,6 +86,70 @@ section>.row {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+
+.section-title {
+    margin: 100px auto 25px auto;
+}
+
+#sponsors-events {
+    background: #efefef;
+}
+
+#events-section {
+    height: 80%;
+}
+
+#events-list {
+    width: 100%;
+    background: #fff;
+    padding: 20px;
+}
+
+.event-subset {
+    margin-bottom: 10px;
+}
+
+.event-subset-separator {
+    margin: 2px 0;
+}
+
+.event {
+    cursor: pointer;
+    width: 100%;
+    margin: 5px 0r;
+    padding: 5px 0;
+    text-align: left;
+}
+
+.event-month, .event-day {
+    margin: 0;
+}
+
+.event-month>p, .event-day>p {
+    margin: 0 auto;
+}
+
+.event-month>p {
+    font-size: 12px;
+}
+
+.event-day>p {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.event-name>p, .event-details>p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
+}
+
+.event-name>p {
+    font-size: 18px;
+    font-weight: 600;
+    margin: -3px 0 0 0;
 }
 
 #sponsors-text {
@@ -144,9 +215,35 @@ section>.row {
     background: #4f4f4f;
 }
 
+@media screen and (max-width: 1248px) {
+    .sponsor-img {
+        width: 150px;
+    }
+    #bet365-logo {
+        width: 130px;
+    }
+    #goldmansachs-logo, #americanexpress-logo {
+        width: 130px;
+        margin: 0 20px;
+    }
+}
+
 @media screen and (max-width: 1124px) {
     #about-us-content {
         padding: 0 40px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #about-us-image {
+        display: none;
+    }
+    .section-title {
+        margin: 50px auto 25px auto;
+    }
+    #sponsors-logos {
+        height: auto;
+        margin-bottom: 50px;
     }
 }
 
