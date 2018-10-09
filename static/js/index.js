@@ -15,7 +15,9 @@ $.get("/events", function (events) {
 
   for (var index = 0; index < events.length; index++) {
     var event = events[index];
-    var eventDate = new Date(event.start_time);
+
+    var formattedEventStartTime = event.start_time.slice(0, -5);
+    var eventDate = new Date(formattedEventStartTime);
     var minutes = (eventDate.getMinutes() < 10 ? "0" : "") + eventDate.getMinutes();
     var startTime = days[eventDate.getDay()] + " " + eventDate.getHours() + ":" + minutes;
     var eventString = eventTemplate
@@ -26,7 +28,8 @@ $.get("/events", function (events) {
       .replace(/#time/g, startTime)
       .replace(/#place/g, event.place);
 
-    var container = eventContainer(eventDate, new Date(event.end_time));
+    var formattedEventEndTime = event.end_time.slice(0, -5);
+    var container = eventContainer(eventDate, new Date(formattedEventEndTime));
 
     container.parent().show();
     container.append(eventString);
