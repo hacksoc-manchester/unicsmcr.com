@@ -7,7 +7,7 @@ const miscHelpers = require('../helpers/MiscHelpers');
 exports.createSubscriber = async (database, { firstName, lastName, email, subscriptionId }) => {
   try {
     if (!subscriptionId) { // If no subscriptionId is provided, generate a subscriptionId
-      subscriptionId = miscHelpers.MakeRandomString(process.env.SUBSCRIPTION_ID_LENGTH);
+      subscriptionId = miscHelpers.MakeRandomString(process.env.SUBSCRIPTION_ID_LENGTH || 15);
     }
     // Check if a subscriber with given email exists
     const existingSubscriber = await database.models.subscriber.findOne({
@@ -107,7 +107,7 @@ exports.createSubscriptionRequest = async (database, { subscriberEmail }) => {
       throw new Error(`Subscriber ${subscriberEmail} already exists!`);
     }
     // No form of preexisting subscription found, creating new subscription request
-    const subscriptionId = miscHelpers.MakeRandomString(process.env.SUBSCRIPTION_ID_LENGTH);
+    const subscriptionId = miscHelpers.MakeRandomString(process.env.SUBSCRIPTION_ID_LENGTH || 15);
 
     // Create subscription request
     const subRequest = await database.models.subscriptionrequest.create({
