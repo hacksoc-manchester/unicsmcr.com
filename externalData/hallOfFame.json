@@ -73,6 +73,11 @@
             "description": "Hackathon Director"
         },
         {
+            "id": "igor-wodiany",
+            "name": "Igor Wodiany",
+            "description": "Hackathon Director"
+        },
+        {
             "id": "andrei-belcin",
             "name": "Andrei Belcin",
             "description": "Hackathon Organizer"
@@ -84,7 +89,7 @@
         },
         {
             "id": "julio-evega",
-            "name": "Julio EVega",
+            "name": "Julio Evega",
             "description": "Hackathon Organizer"
         },
         {
