@@ -30,6 +30,8 @@ const MainRouter = (database, passport) => {
   // The list of all events
   router.get('/events', mainController.getEvents);
 
+  router.get('/qr', mainController.qr);
+
 
   const cvRouter = require("./CVRouter")(database, passport);
 

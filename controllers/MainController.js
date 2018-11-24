@@ -125,5 +125,14 @@ module.exports = () => {
     }
   };
 
+  this.qr = (req, res, next) => {
+    try {
+      res.redirect("/");
+    } catch (err) {
+      console.log(err);
+      return next(err);
+    }
+  };
+
   return this;
 };
