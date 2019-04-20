@@ -107,7 +107,7 @@ module.exports = (database) => {
       const submission = await dbHelpers.createCVSubmission(database, req.body);
 
       if (!submission) {
-        throw new Error("Unkown error occured! Please contact us at contact@hacksoc.com");
+        throw new Error("Unkown error occured! Please contact us at contact@unicsmcr.com");
       }
       emailService.sendCVBankEmailVerificationEmail(submission);
       return res.render("pages/message", { title: "Success", message: "You have succesfully registered to our CV bank!<br>You will shortly receive an email with a link to verify your email address.<br>You must verify your email address <b>before</b> logging into the CV Bank." });
