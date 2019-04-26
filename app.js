@@ -2,7 +2,7 @@
 
 require('dotenv').load();
 const express = require('express');
-const morgan = require('morgan');
+// const morgan = require('morgan');
 const path = require('path');
 const session = require('express-session');
 const flash = require('req-flash');
@@ -27,7 +27,7 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '/static')));
-app.use(morgan(process.env.ENVIRONMENT));
+// app.use(morgan(process.env.ENVIRONMENT));
 
 // Setting up sessions middleware
 const sess = {

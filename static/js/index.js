@@ -28,7 +28,12 @@ $.get("/events", function (events) {
       .replace(/#time/g, startTime)
       .replace(/#place/g, event.place);
 
-    var formattedEventEndTime = event.end_time.slice(0, -5);
+    var formattedEventEndTime = formattedEventStartTime;
+
+    if (typeof event.end_time !== 'undefined') {
+      formattedEventEndTime = event.end_time.slice(0, -5);
+    }
+
     var container = eventContainer(eventDate, new Date(formattedEventEndTime));
 
     container.parent().show();
