@@ -196,6 +196,10 @@ h5 {
     margin: 0 0 0 40px;
 }
 
+#blush-logo {
+    margin: -5em 0 0 0;
+}
+
 .button {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -267,5 +271,8 @@ h5 {
     }
     #morganstanley-logo, #giveagradago-logo {
         padding-bottom: 0;
+    }
+    #blush-logo {
+        margin: 0;
     }
 }
