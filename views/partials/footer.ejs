@@ -16,4 +16,19 @@
     <% if (!locals.user) { %>
       <% include ./cookieDisclaimer.ejs %>
     <% } %>
+
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@id": "https://www.unicsmcr.com/#organization",
+        "@type": "Organization",
+        "name": "UniCS",
+        "url": "https://www.unicsmcr.com/",
+        "logo": "http://unicsmcr.com/images/logo.png",
+        "sameAs": [
+          "https://www.facebook.com/unicsmanchester/",
+          "https://www.instagram.com/unics_uom"
+        ]
+      }
+    </script>
   </footer>
