@@ -6,7 +6,7 @@ FB.setAccessToken(process.env.FB_API_TOKEN);
 
 exports.getEvents = async () => {
   return new Promise(resolve => {
-    FB.get("/unics-manchester/events?fields=name,start_time,end_time,place",
+    FB.get("/unicsmanchester/events?fields=name,start_time,end_time,place",
       (err, res) => {
         if (err) {
           throw new Error("Could not retrieve events");
