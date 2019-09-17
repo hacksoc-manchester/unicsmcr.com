@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include ../partials/head.ejs %>
+  <title>Jobs | UniCS</title>
+  <link rel="stylesheet" type="text/css" href="css/jobs.css" />
+  <link rel="stylesheet" type="text/css" href="css/sponsors.css" />
+</head>
+
+<body>
+  <div id="container">
+    <% include ../partials/navbar.ejs %>
+    <% include ../partials/header.ejs %>
+    <div id="body">
+      <section id="jobs">
+        <h1>Jobs</h1>
+        <br>
+        <div class="row justify-content-center no-side-buffers">
+          <div class="col-md-5">
+            <div class="row sponsor-header" onclick="redirectToSponsor('https://gradtou.ch/7m0nt')">
+                <img class="sponsor-img" src="/images/sponsors/gradtouch.png" alt="Gradtouch Logo">
+            </div>
+            <div class="row sponsor-profile">
+              Gradtouch is fantasic service that who are sponsoring UniCS this year! They don't just advertise companies, they do their best to get as much out of them as possible to ensure you know they're the right employer for you. Find out more by visiting their website on the link below!
+              <a href="https://gradtou.ch/7m0nt" target="_blank" rel="noopener noreferrer">gradtouch.com</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <% include ../partials/footer.ejs %>
+  </div>
+</body>
+
+</html>
