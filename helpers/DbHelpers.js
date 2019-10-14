@@ -1,13 +1,19 @@
 // Helper functions for communication with the database
 "use strict";
 
-const miscHelpers = require('../helpers/MiscHelpers');
+const miscHelpers = require("../helpers/MiscHelpers");
 
 // Creates a new subscriber
-exports.createSubscriber = async (database, { firstName, lastName, email, subscriptionId }) => {
+exports.createSubscriber = async (
+  database,
+  { firstName, lastName, email, subscriptionId }
+) => {
   try {
-    if (!subscriptionId) { // If no subscriptionId is provided, generate a subscriptionId
-      subscriptionId = miscHelpers.MakeRandomString(process.env.SUBSCRIPTION_ID_LENGTH || 15);
+    if (!subscriptionId) {
+      // If no subscriptionId is provided, generate a subscriptionId
+      subscriptionId = miscHelpers.MakeRandomString(
+        process.env.SUBSCRIPTION_ID_LENGTH || 15
+      );
     }
     // Check if a subscriber with given email exists
     const existingSubscriber = await database.models.subscriber.findOne({
@@ -16,7 +22,8 @@ exports.createSubscriber = async (database, { firstName, lastName, email, subscr
       }
     });
 
-    if (existingSubscriber) { // If the given email is already taken, a new subscriber cannot be created
+    if (existingSubscriber) {
+      // If the given email is already taken, a new subscriber cannot be created
       throw new Error(`${email} is already taken`);
     }
 
@@ -68,11 +75,11 @@ exports.removeSubscriber = async (database, { email, subscriptionId }) => {
 };
 
 // Gets a list of all subscribers (admin use only)
-exports.getSubscribers = async (database) => {
+exports.getSubscribers = async database => {
   try {
     // Get the list of all subscribers
     const subscribers = await database.models.subscriber.findAll({
-      attributes: ['firstName', 'lastName', 'email', 'subscriptionId']
+      attributes: ["firstName", "lastName", "email", "subscriptionId"]
     });
 
     // List of all subscribers received, returning response
@@ -87,11 +94,13 @@ exports.createSubscriptionRequest = async (database, { subscriberEmail }) => {
   try {
     // Check if a subscription/subscription request already exist for the given email
     // if it does, use the existing subscriptionId
-    const existingSubscriptionRequest = await database.models.subscriptionrequest.findOne({
-      where: {
-        subscriberEmail
+    const existingSubscriptionRequest = await database.models.subscriptionrequest.findOne(
+      {
+        where: {
+          subscriberEmail
+        }
       }
-    });
+    );
 
     if (existingSubscriptionRequest) {
       // Subsription request already exists, returning
@@ -107,7 +116,9 @@ exports.createSubscriptionRequest = async (database, { subscriberEmail }) => {
       throw new Error(`Subscriber ${subscriberEmail} already exists!`);
     }
     // No form of preexisting subscription found, creating new subscription request
-    const subscriptionId = miscHelpers.MakeRandomString(process.env.SUBSCRIPTION_ID_LENGTH || 15);
+    const subscriptionId = miscHelpers.MakeRandomString(
+      process.env.SUBSCRIPTION_ID_LENGTH || 15
+    );
 
     // Create subscription request
     const subRequest = await database.models.subscriptionrequest.create({
@@ -123,7 +134,10 @@ exports.createSubscriptionRequest = async (database, { subscriberEmail }) => {
 };
 
 // Confirms a subscription request
-exports.confirmSubscriptionRequest = async (database, { subscriptionId, subscriberEmail }) => {
+exports.confirmSubscriptionRequest = async (
+  database,
+  { subscriptionId, subscriberEmail }
+) => {
   try {
     // Find the subscription request in question
     const subRequest = await database.models.subscriptionrequest.findOne({
@@ -133,7 +147,8 @@ exports.confirmSubscriptionRequest = async (database, { subscriptionId, subscrib
       }
     });
 
-    if (!subRequest) { // Specified subscription request does not exist
+    if (!subRequest) {
+      // Specified subscription request does not exist
       throw new Error(`Subscription request for ${subscriberEmail} not found!`);
     }
     // Subscrition request has been confirmed and can now be removed from the database
@@ -148,14 +163,18 @@ exports.confirmSubscriptionRequest = async (database, { subscriptionId, subscrib
 // Creates a new CommitteeApplication
 exports.createCommitteeApplication = async (database, application) => {
   // Checking if the user already has a CommitteeApplication
-  const existingApplication = await database.models.committeeapplication.findOne({
-    where: {
-      email: application.email
+  const existingApplication = await database.models.committeeapplication.findOne(
+    {
+      where: {
+        email: application.email
+      }
     }
-  });
+  );
 
   if (existingApplication) {
-    throw new Error(`${application.email} has already applied to the committee`);
+    throw new Error(
+      `${application.email} has already applied to the committee`
+    );
   }
   // Creating new CommitteeApplication
   const newApplication = await database.models.committeeapplication.create({
@@ -175,11 +194,13 @@ exports.createCommitteeApplication = async (database, application) => {
 // Creates a new VolunteerApplication
 exports.createVolunteerApplication = async (database, application) => {
   // Checking if the user already has a VolunteerApplication
-  const existingApplication = await database.models.volunteerapplication.findOne({
-    where: {
-      email: application.email
+  const existingApplication = await database.models.volunteerapplication.findOne(
+    {
+      where: {
+        email: application.email
+      }
     }
-  });
+  );
 
   if (existingApplication) {
     throw new Error(`${application.email} has already applied to volunteer`);
@@ -201,7 +222,10 @@ exports.createVolunteerApplication = async (database, application) => {
 };
 
 // Creates a new CVSubmission
-exports.createCVSubmission = async (database, { email, password, firstName, lastName }) => {
+exports.createCVSubmission = async (
+  database,
+  { email, password, firstName, lastName }
+) => {
   // Checking if the user already has a CVSubmission
   const existingSubmission = await database.models.cvsubmission.findOne({
     where: {
@@ -234,7 +258,11 @@ exports.findCVSubmission = async (database, id) => {
   return submission ? submission.dataValues : null;
 };
 
-exports.findCVSubmissionByEmail = async (database, email, emailVerified = true) => {
+exports.findCVSubmissionByEmail = async (
+  database,
+  email,
+  emailVerified = true
+) => {
   const submission = await database.models.cvsubmission.findOne({
     where: {
       email,
@@ -245,7 +273,12 @@ exports.findCVSubmissionByEmail = async (database, email, emailVerified = true) 
   return submission ? submission.dataValues : null;
 };
 
-exports.findCVSubmissionByEmailAndToken = async (database, email, emailToken, emailVerified = true) => {
+exports.findCVSubmissionByEmailAndToken = async (
+  database,
+  email,
+  emailToken,
+  emailVerified = true
+) => {
   const submission = await database.models.cvsubmission.findOne({
     where: {
       email,
@@ -257,7 +290,12 @@ exports.findCVSubmissionByEmailAndToken = async (database, email, emailToken, em
   return submission ? submission.dataValues : null;
 };
 
-exports.findCVSubmissionByEmailAndPassword = async (database, email, password, emailVerified = true) => {
+exports.findCVSubmissionByEmailAndPassword = async (
+  database,
+  email,
+  password,
+  emailVerified = true
+) => {
   const submission = await database.models.cvsubmission.findOne({
     where: {
       email,
@@ -279,28 +317,39 @@ exports.updateCVSubmission = async (database, submission, updatedValues) => {
   return updatedRows;
 };
 
-exports.resetPasswordForCVSubmission = async (database, email, emailToken, password) => {
-  const updatedRows = await database.models.cvsubmission.update({
-    password: miscHelpers.hashPassword(password)
-  }, {
-    where: {
-      email,
-      emailToken
+exports.resetPasswordForCVSubmission = async (
+  database,
+  email,
+  emailToken,
+  password
+) => {
+  const updatedRows = await database.models.cvsubmission.update(
+    {
+      password: miscHelpers.hashPassword(password)
+    },
+    {
+      where: {
+        email,
+        emailToken
+      }
     }
-  });
+  );
 
   return updatedRows;
 };
 
 exports.verifyCVSubmission = async (database, { email, emailToken }) => {
-  const updatedRows = await database.models.cvsubmission.update({
-    emailVerified: 1
-  }, {
-    where: {
-      email,
-      emailToken
+  const updatedRows = await database.models.cvsubmission.update(
+    {
+      emailVerified: 1
+    },
+    {
+      where: {
+        email,
+        emailToken
+      }
     }
-  });
+  );
 
   return updatedRows;
 };
@@ -321,7 +370,10 @@ exports.publishCVSubmission = async (database, { submissionStatus, id }) => {
 };
 
 // Creates a new JobPosting
-exports.createJobPosting = async (database, { position, description, company, location, applyLink, logoLink }) => {
+exports.createJobPosting = async (
+  database,
+  { position, description, company, location, applyLink, logoLink }
+) => {
   try {
     const newPosting = await database.models.jobposting.create({
       position,
@@ -339,12 +391,44 @@ exports.createJobPosting = async (database, { position, description, company, lo
 };
 
 // Gets all JobPostings from database
-exports.getJobs = async (database) => {
+exports.getJobs = async database => {
   try {
     const jobs = await database.models.jobposting.findAll();
 
     return jobs ? jobs.map(j => j.dataValues) : [];
   } catch (err) {
     throw new Error(`Could not list jobs: ${err}`);
+  }
+};
+
+// Creates a new ArticlePosting
+exports.createArticlePosting = async (
+  database,
+  { title, content, photoLink }
+) => {
+  try {
+    const newPosting = await database.models.articleposting.create({
+      title,
+      content,
+      date,
+      photoLink
+    });
+
+    return newPosting ? newPosting.dataValues : null;
+  } catch (err) {
+    throw new Error(`Could not create a new article posting: ${err}`);
+  }
+};
+
+// Gets all ArticlePostings from database
+exports.getArticles = async database => {
+  try {
+    const articles = await database.models.articleposting.findAll({
+      order: [["date", "DESC"]]
+    });
+
+    return articles ? articles.map(a => a.dataValues) : [];
+  } catch (err) {
+    throw new Error(`Could not list articles: ${err}`);
   }
 };

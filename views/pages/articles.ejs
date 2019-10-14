@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en_GB">
+  <head>
+    <% include ../partials/head.ejs %>
+    <title>Articles | UniCS</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <!--May need new css for articles page later-->
+  </head>
+
+  <body>
+    <div class="container">
+      <script>
+        var a1 = "<%- JSON.stringify(articles) || null %>";
+      </script>
+      <% articles.forEach((article) => { %>
+      <h2><%= article.title %></h2>
+      <h4><%= article.date %></h4>
+      <p><%= article.content %></p>
+      <img src="<%- article.photolink %>" />
+      <% }) %>
+    </div>
+
+    <% include ../partials/footer.ejs %>
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@id": "https://www.unicsmcr.com/#webpage",
+        "@type": "WebPage",
+        "url": "https://www.unicsmcr.com/",
+        "name": "UniCS"
+      }
+    </script>
+    <!-- <script src="js/articles.js"></script> -->
+    <!--May need to create articles.js later-->
+  </body>
+</html>
