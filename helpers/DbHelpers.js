@@ -404,7 +404,7 @@ exports.getJobs = async database => {
 // Creates a new ArticlePosting
 exports.createArticlePosting = async (
   database,
-  { title, content, photoLink }
+  { title, content, date, photoLink }
 ) => {
   try {
     const newPosting = await database.models.articleposting.create({

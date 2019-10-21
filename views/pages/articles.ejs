@@ -1,27 +1,38 @@
 <!DOCTYPE html>
-<html lang="en_GB">
-  <head>
-    <% include ../partials/head.ejs %>
-    <title>Articles | UniCS</title>
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
-    <!--May need new css for articles page later-->
-  </head>
+<html lang="en">
 
-  <body>
-    <div class="container">
-      <script>
-        var a1 = "<%- JSON.stringify(articles) || null %>";
-      </script>
-      <% articles.forEach((article) => { %>
-      <h2><%= article.title %></h2>
-      <h4><%= article.date %></h4>
-      <p><%= article.content %></p>
-      <img src="<%- article.photolink %>" />
-      <% }) %>
-    </div>
+<head>
+  <% include ../partials/head.ejs %>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <title>Contact | UniCS</title>
+    <link rel="stylesheet" type="text/css" href="/css/articles.css" />
+</head>
 
-    <% include ../partials/footer.ejs %>
-    <script type="application/ld+json">
+<body>
+  <div id="container">
+    <% include ../partials/navbar.ejs %>
+    <% include ../partials/header.ejs %>
+      <div id="body">
+        <section id="articles">
+          <div>
+            <script>
+              var a1 = <%- JSON.stringify(articles) || null %>;
+            </script>
+            <% articles.forEach((article) => { %>
+              <div class="article-container">
+                <h2 class="article-title"><%= article.title %></h2>
+                <p class="article-date"><%= new Date(article.date).toLocaleDateString("en-GB") %></p>
+                <figure>
+                  <img class="article-image" src="<%- article.photoLink %>"/>
+                </figure>
+                <p class="article-content"><%= article.content %></p>
+              </div>
+            <% }) %>
+          </div>
+        </section>
+      </div>
+      <% include ../partials/footer.ejs %>
+      <script type="application/ld+json">
       {
         "@context": "http://schema.org",
         "@id": "https://www.unicsmcr.com/#webpage",
@@ -29,8 +40,10 @@
         "url": "https://www.unicsmcr.com/",
         "name": "UniCS"
       }
-    </script>
-    <!-- <script src="js/articles.js"></script> -->
-    <!--May need to create articles.js later-->
-  </body>
+      </script>
+  </div>
+  <!-- <script src="js/articles.js"></script> -->
+  <!--May need to create articles.js later-->
+</body>
+
 </html>

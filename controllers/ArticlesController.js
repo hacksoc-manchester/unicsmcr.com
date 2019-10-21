@@ -1,12 +1,13 @@
 "use strict";
 
-const articlesService = require("../services/articlesService");
+const articlesService = require("../services/ArticlesService");
 
 module.exports = database => {
-  //renders the articles page
+  // renders the articles page
   this.index = async (req, res, next) => {
     try {
       const allArticles = await articlesService.getArticles(database);
+
       res.render("pages/articles", { articles: allArticles });
     } catch (err) {
       console.log(err);
@@ -14,7 +15,7 @@ module.exports = database => {
     }
   };
 
-  //creates a new article
+  // creates a new article
   this.addArticle = async (req, res) => {
     try {
       const { title, content, photoLink, date } = req.body;
