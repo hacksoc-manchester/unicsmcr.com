@@ -1,44 +1,59 @@
 {
     "Current": [
         {
-            "id": "luke-beamish",
-            "name": "Luke Beamish",
-            "description": "President"
+            "id": "sara-cb",
+            "name": "Sara Caballero Bruno",
+            "description": "Co-Chair"
         },
         {
-            "id": "aayush-chadha",
-            "name": "Aayush Chadha",
-            "description": "VP & Treasurer"
+            "id": "raluca-lazarescu",
+            "name": "Raluca Lăzărescu",
+            "description": "Co-Chair"
         },
         {
-            "id": "ioana-dumitrescu",
-            "name": "Ioana Dumitrescu",
-            "description": "Event Director"
+            "id": "aakash-k",
+            "name": "Aakash Kalantre",
+            "description": "Treasurer"
         },
         {
-            "id": "kristijonas-zalys",
-            "name": "Kristijonas Zalys",
-            "description": "Dev Officer"
+            "id": "joana-cruz",
+            "name": "Joana Cruz",
+            "description": "Secretary"
         },
         {
-            "id": "surya-prasad",
-            "name": "Surya Prasad",
-            "description": "PR Officer"
+            "id": "theodore-ao",
+            "name": "Theodore AAron-Obelley",
+            "description": "Game Dev Officer"
         },
         {
-            "id": "sara-cabru",
-            "name": "Sara Cabru",
+            "id": "jess-xue",
+            "name": "Jess Xue",
             "description": "Graphics Officer"
         },
         {
-            "id": "catalina-maria-vlad",
-            "name": "Catalina Maria Vlad",
-            "description": "Hackathon Director"
+            "id": "smitha-k",
+            "name": "Smitha Kariapuram",
+            "description": "May Ball Officer"
         },
         {
-            "id": "igor-wodiany",
-            "name": "Igor Wodiany",
-            "description": "Hackathon Director"
+            "id": "nora-tuta",
+            "name": "Nora Tuta",
+            "description": "PR Officer"
+        },
+        {
+            "id": "simas-k",
+            "name": "Simas Kuprelis",
+            "description": "Events Officer"
+        },
+        {
+            "id": "sean-p",
+            "name": "Sean Parker",
+            "description": "Dev Officer"
+        },
+        {
+            "id": "mohammed-a",
+            "name": "Mohammed Anees",
+            "description": "Procurement Officer"
         }
     ],
     "Past": [
