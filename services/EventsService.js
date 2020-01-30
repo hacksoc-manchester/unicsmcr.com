@@ -9,7 +9,8 @@ exports.getEvents = async () => {
     FB.get("/unicsmanchester/events?fields=name,start_time,end_time,place",
       (err, res) => {
         if (err) {
-          throw new Error("Could not retrieve events");
+          console.error("Could not retrieve events");
+          return resolve({});
         }
         const events = res.data.map(event => {
           return {
