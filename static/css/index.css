@@ -4,9 +4,12 @@
 }
 
 section {
-    height: inherit;
     width: 100%;
     padding: 0;
+}
+
+#about-us {
+    height: 100%;
 }
 
 #hero {
