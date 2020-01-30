@@ -189,11 +189,11 @@ h5 {
 }
 
 #morganstanley-logo {
-    margin: 0 0 0 40px;
+    margin: 5em 2em 0 40px;
 }
 
 #blush-logo {
-    margin: -5em 0 0 0;
+    margin: -1em 0 0 0;
 }
 
 .button {
@@ -224,7 +224,6 @@ h5 {
     }
     #goldmansachs-logo, #americanexpress-logo {
         width: 130px;
-        margin: 0 20px;
     }
 }
 
