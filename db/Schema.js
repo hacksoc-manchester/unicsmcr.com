@@ -2,11 +2,24 @@
 
 module.exports = function(sequelize, DataTypes) {
   const Subscriber = require("./models/Subscriber")(sequelize, DataTypes);
-  const SubscriptionRequest = require("./models/SubscriptionRequest")(sequelize, DataTypes);
-  const CommitteeApplication = require("./models/CommitteeApplication")(sequelize, DataTypes);
-  const VolunteerApplication = require("./models/VolunteerApplication")(sequelize, DataTypes);
+  const SubscriptionRequest = require("./models/SubscriptionRequest")(
+    sequelize,
+    DataTypes
+  );
+  const CommitteeApplication = require("./models/CommitteeApplication")(
+    sequelize,
+    DataTypes
+  );
+  const VolunteerApplication = require("./models/VolunteerApplication")(
+    sequelize,
+    DataTypes
+  );
   const CVSubmission = require("./models/CVSubmission")(sequelize, DataTypes);
   const JobPosting = require("./models/JobPosting")(sequelize, DataTypes);
+  const ArticlePosting = require("./models/ArticlePosting")(
+    sequelize,
+    DataTypes
+  );
 
   return {
     Subscriber,
@@ -14,6 +27,7 @@ module.exports = function(sequelize, DataTypes) {
     CommitteeApplication,
     VolunteerApplication,
     CVSubmission,
-    JobPosting
+    JobPosting,
+    ArticlePosting
   };
 };

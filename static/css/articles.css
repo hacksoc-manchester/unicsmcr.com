@@ -1,0 +1,23 @@
+.article-container {
+  max-width: 75%;
+  margin: 0 auto;
+  margin-bottom: 50px;
+
+}
+
+.article-title {
+  font-size: 3em;
+}
+
+.article-image {
+  vertical-align: bottom;
+  height: auto;
+  width: auto;
+  max-width: 100%;
+}
+
+.article-content {
+  text-indent: 5%;
+  text-align: justify;
+  text-justify: inter-word;
+}

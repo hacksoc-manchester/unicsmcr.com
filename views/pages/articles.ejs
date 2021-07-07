@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include ../partials/head.ejs %>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <title>Contact | UniCS</title>
+    <link rel="stylesheet" type="text/css" href="/css/articles.css" />
+</head>
+
+<body>
+  <div id="container">
+    <% include ../partials/navbar.ejs %>
+    <% include ../partials/header.ejs %>
+      <div id="body">
+        <section id="articles">
+          <div>
+            <script>
+              var a1 = <%- JSON.stringify(articles) || null %>;
+            </script>
+            <% articles.forEach((article) => { %>
+              <div class="article-container">
+                <h2 class="article-title"><%= article.title %></h2>
+                <p class="article-date"><%= new Date(article.date).toLocaleDateString("en-GB") %></p>
+                <figure>
+                  <img class="article-image" src="<%- article.photoLink %>"/>
+                </figure>
+                <p class="article-content"><%= article.content %></p>
+              </div>
+            <% }) %>
+          </div>
+        </section>
+      </div>
+      <% include ../partials/footer.ejs %>
+      <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@id": "https://www.unicsmcr.com/#webpage",
+        "@type": "WebPage",
+        "url": "https://www.unicsmcr.com/",
+        "name": "UniCS"
+      }
+      </script>
+  </div>
+  <!-- <script src="js/articles.js"></script> -->
+  <!--May need to create articles.js later-->
+</body>
+
+</html>
